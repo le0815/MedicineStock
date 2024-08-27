@@ -1,8 +1,136 @@
-﻿@{
-    ViewData["Title"] = "Home HJGHHHGJPage";
+﻿@* @model IEnumerable<MedicineStock.Models.DashboardViewModel> *@
+@model MedicineStock.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<!-- display number of "medicine", 'prescription', 'manufacturer' -->
+<div class="row">
+
+    <!-- medicines-->
+    <div class="col-lg-3 col-sm-6 col-12 d-flex">
+        <div class="dash-count">
+            <div class="dash-counts">
+                <h4>@Model.quantity_medicines</h4>
+                <h5>Medicines</h5>
+            </div>
+            <div class="dash-imgs">
+                <i data-feather="user"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- presciption-->
+    <div class="col-lg-3 col-sm-6 col-12 d-flex">
+        <div class="dash-count das1">
+            <div class="dash-counts">
+                <h4>@Model.quantity_prescriptions</h4>
+                <h5>Prescriptions</h5>
+            </div>
+            <div class="dash-imgs">
+                <i data-feather="user-check"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- manufacturer-->
+    <div class="col-lg-3 col-sm-6 col-12 d-flex">
+        <div class="dash-count das2">
+            <div class="dash-counts">
+                <h4>@Model.quantity_manufacturer</h4>
+                <h5>Manufacturer</h5>
+            </div>
+            <div class="dash-imgs">
+                <i data-feather="file-text"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- diplay the recent added product. -->
+<div class="card mb-0">
+    <div class="card-body">
+        <h4 class="card-title">Recently Added Products</h4>
+        <div class="table-responsive dataview">
+            <table class="table datatable ">
+                <thead>
+                    <tr>
+                        <th>SNo</th>
+                        <th>Product Code</th>
+                        <th>Product Name</th>
+                        <th>Manufacturer</th>
+                        <th>Expiry Date</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Desccription</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{  int count = 1;
+                        foreach (var item in Model.medicines)
+                        {
+                            <tr>
+                                <td>@count</td>
+                                <td>@item.MedicineId</td>
+                                <td class="productimgname">@item.Name</td>
+                                <td>@item.Manufacturer.Name</td>
+                                <td>@item.ExpiryDate</td>
+                                <td>@item.Price</td>
+                                <td>@item.Quantiy</td>
+                                <td>@item.Description</td>
+                            </tr>
+                            count++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- diplay the Expired product. -->
+<div class="card mb-0">
+    <div class="card-body">
+        <h4 class="card-title">Expired Products</h4>
+        <div class="table-responsive dataview">
+            <table class="table datatable ">
+                <thead>
+                    <tr>
+                        <th>SNo</th>
+                        <th>Product Code</th>
+                        <th>Product Name</th>
+                        <th>Manufacturer</th>
+                        <th>Expiry Date</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Desccription</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int count_1 = 1;
+                        foreach (var item in Model.medicines)
+                        {
+                            if (DateOnly.FromDateTime(DateTime.Now) >= item.ExpiryDate)
+                            {
+                                Console.WriteLine(item.ExpiryDate + " " + DateOnly.FromDateTime(DateTime.Now));
+                                <tr>
+                                    <td>@count_1</td>
+                                    <td>@item.MedicineId</td>
+                                    <td class="productimgname">@item.Name</td>
+                                    <td>@item.Manufacturer.Name</td>
+                                    <td>@item.ExpiryDate</td>
+                                    <td>@item.Price</td>
+                                    <td>@item.Quantiy</td>
+                                    <td>@item.Description</td>
+                                </tr>
+                                count_1++;
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

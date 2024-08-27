@@ -21,7 +21,7 @@ public partial class Medicine
 
     public decimal? Quantiy { get; set; }
 
-    public virtual Manufacturer Manufacturer { get; set; } = null!;
+    public virtual Manufacturer? Manufacturer { get; set; } = null!;
 
-    public virtual ICollection<PrescriptionDetail> PrescriptionDetails { get; set; } = new List<PrescriptionDetail>();
+    public virtual ICollection<PrescriptionDetail>? PrescriptionDetails { get; set; } = new List<PrescriptionDetail>();
 }

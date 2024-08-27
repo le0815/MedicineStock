@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<MedicineStockContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MedicineStock")));
+builder.Services.AddDbContext<MedicineStockContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MedicineStock"), sqlServerOptions => sqlServerOptions.CommandTimeout(15000)));
 
 var app = builder.Build();
 

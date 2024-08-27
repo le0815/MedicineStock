@@ -1,21 +1,43 @@
+using MedicineStock.Data;
 using MedicineStock.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace MedicineStock.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        //private readonly ILogger<HomeController> _logger;
+        private readonly MedicineStockContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(MedicineStockContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var medicines = await _context.Medicines.Include(m => m.Manufacturer).ToListAsync();
+            var prescriptions = await _context.Prescriptions.ToListAsync();
+            var manufacturers = await _context.Manufacturers.ToListAsync();            
+
+
+            var model = new DashboardViewModel
+            {
+                quantity_medicines = medicines.Count,
+                quantity_prescriptions = prescriptions.Count,
+                quantity_manufacturer = manufacturers.Count,
+                medicines = medicines,
+                //manufacturers = manufacturers
+            };
+
+            return View(model);
         }
 
         public IActionResult Privacy()
