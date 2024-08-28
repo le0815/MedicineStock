@@ -4,11 +4,16 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<!-- header -->
+<div class="page-header">
+    <div class="page-title">
+        <h2>Medicines Edit</h2>
+        <h6>Edit your products</h6>
+    </div>
+</div>
 
-<h4>Medicine</h4>
-<hr />
-<div class="row">
+<!--
+    <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -54,11 +59,71 @@
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+-->
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">                
+                <input type="hidden" asp-for="MedicineId" />
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="Name">Name</label>
+                        <input type="text" asp-for="Name">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="ManufacturerId">Manufacturer</label>
+                        <select asp-for="ManufacturerId" class="form-control" asp-items="ViewBag.ManufacturerId"></select>
+                        <span asp-validation-for="ManufacturerId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="Origin">Origin</label>
+                        <input asp-for="Origin" type="text">
+                        <span asp-validation-for="Origin" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>Expiry Date</label>
+                        <input asp-for="ExpiryDate" type="date" id="birthdaytime">
+                        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input asp-for="Price" type="number">
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input asp-for="Quantiy" type="number">
+                        <span asp-validation-for="Quantiy" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <input type="submit" value="Edit" class="btn btn-submit me-2" />
+                        <a asp-action="Index" class="btn btn-cancel">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+

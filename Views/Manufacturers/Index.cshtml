@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MedicineStock.Data.Medicine>
+﻿@model IEnumerable<MedicineStock.Data.Manufacturer>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,8 +7,8 @@
 <!-- header -->
 <div class="page-header">
     <div class="page-title">
-        <h2>Medicines List</h2>
-        <h6>Manage your products</h6>
+        <h2>Manufacturer List</h2>
+        <h6>Manage your Manufacturer</h6>
     </div>
     <div class="page-btn">
         <a class="btn btn-added" asp-action="Create"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add New</a>
@@ -25,12 +25,11 @@
                 <div class="form-group">
                     <input type="submit" value="Find" class="btn btn-primary" />
                 </div>
-                </form>
+            </form>
         </div>
     </div>
 </div>
 
-<!-- display data -->
 <table class="table">
     <thead>
         <tr>
@@ -39,21 +38,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Origin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExpiryDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantiy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manufacturer)
             </th>
             <th></th>
         </tr>
@@ -68,24 +52,9 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Origin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpiryDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantiy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacturer.Name)
-            </td>
-            <td>
-                    <a asp-action="Edit" asp-route-id="@item.MedicineId" class="btn btn-primary">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.MedicineId" class="btn btn-primary">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.MedicineId" class="btn btn-primary">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ManufacturerId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ManufacturerId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ManufacturerId">Delete</a>
             </td>
         </tr>
 }

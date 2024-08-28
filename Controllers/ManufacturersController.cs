@@ -9,28 +9,28 @@ using MedicineStock.Data;
 
 namespace MedicineStock.Controllers
 {
-    public class MedicinesController : Controller
+    public class ManufacturersController : Controller
     {
         private readonly MedicineStockContext _context;
 
-        public MedicinesController(MedicineStockContext context)
+        public ManufacturersController(MedicineStockContext context)
         {
             _context = context;
         }
 
-        // GET: Medicines
+        // GET: Manufacturers
         public async Task<IActionResult> Index(string searchPhrase = null)
-        {   
+        {
             if (string.IsNullOrEmpty(searchPhrase))
             {
-                var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer);
-                return View(await medicineStockContext1.ToListAsync());
+                var manufacturerStockContext1 = _context.Manufacturers;
+                return View(await manufacturerStockContext1.ToListAsync());
             }
-            var medicineStockContext = _context.Medicines.Include(m => m.Manufacturer).Where(j => j.Name.Contains(searchPhrase));
-            return View(await medicineStockContext.ToListAsync());
+            var manufacturerStockContext = _context.Manufacturers.Where(j => j.Name.Contains(searchPhrase));
+            return View(await manufacturerStockContext.ToListAsync());
         }
 
-        // GET: Medicines/Details/5
+        // GET: Manufacturers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,42 +38,39 @@ namespace MedicineStock.Controllers
                 return NotFound();
             }
 
-            var medicine = await _context.Medicines
-                .Include(m => m.Manufacturer)
-                .FirstOrDefaultAsync(m => m.MedicineId == id);
-            if (medicine == null)
+            var manufacturer = await _context.Manufacturers
+                .FirstOrDefaultAsync(m => m.ManufacturerId == id);
+            if (manufacturer == null)
             {
                 return NotFound();
             }
 
-            return View(medicine);
+            return View(manufacturer);
         }
 
-        // GET: Medicines/Create
+        // GET: Manufacturers/Create
         public IActionResult Create()
         {
-            ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name");
             return View();
         }
 
-        // POST: Medicines/Create
+        // POST: Manufacturers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ManufacturerId,Name,Description,Origin,ExpiryDate,Price,Quantiy")] Medicine medicine)
+        public async Task<IActionResult> Create([Bind("ManufacturerId,Name,Description")] Manufacturer manufacturer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(medicine);
+                _context.Add(manufacturer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name", medicine.ManufacturerId);
-            return View(medicine);
+            return View(manufacturer);
         }
 
-        // GET: Medicines/Edit/5
+        // GET: Manufacturers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,23 +78,22 @@ namespace MedicineStock.Controllers
                 return NotFound();
             }
 
-            var medicine = await _context.Medicines.FindAsync(id);
-            if (medicine == null)
+            var manufacturer = await _context.Manufacturers.FindAsync(id);
+            if (manufacturer == null)
             {
                 return NotFound();
             }
-            ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name", medicine.ManufacturerId);
-            return View(medicine);
+            return View(manufacturer);
         }
 
-        // POST: Medicines/Edit/5
+        // POST: Manufacturers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MedicineId,ManufacturerId,Name,Description,Origin,ExpiryDate,Price,Quantiy")] Medicine medicine)
+        public async Task<IActionResult> Edit(int id, [Bind("ManufacturerId,Name,Description")] Manufacturer manufacturer)
         {
-            if (id != medicine.MedicineId)
+            if (id != manufacturer.ManufacturerId)
             {
                 return NotFound();
             }
@@ -106,12 +102,12 @@ namespace MedicineStock.Controllers
             {
                 try
                 {
-                    _context.Update(medicine);
+                    _context.Update(manufacturer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MedicineExists(medicine.MedicineId))
+                    if (!ManufacturerExists(manufacturer.ManufacturerId))
                     {
                         return NotFound();
                     }
@@ -122,12 +118,10 @@ namespace MedicineStock.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name", medicine.ManufacturerId);
-            return View(medicine);
-            //return await Index();
+            return View(manufacturer);
         }
 
-        // GET: Medicines/Delete/5
+        // GET: Manufacturers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,35 +129,34 @@ namespace MedicineStock.Controllers
                 return NotFound();
             }
 
-            var medicine = await _context.Medicines
-                .Include(m => m.Manufacturer)
-                .FirstOrDefaultAsync(m => m.MedicineId == id);
-            if (medicine == null)
+            var manufacturer = await _context.Manufacturers
+                .FirstOrDefaultAsync(m => m.ManufacturerId == id);
+            if (manufacturer == null)
             {
                 return NotFound();
             }
 
-            return View(medicine);
+            return View(manufacturer);
         }
 
-        // POST: Medicines/Delete/5
+        // POST: Manufacturers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var medicine = await _context.Medicines.FindAsync(id);
-            if (medicine != null)
+            var manufacturer = await _context.Manufacturers.FindAsync(id);
+            if (manufacturer != null)
             {
-                _context.Medicines.Remove(medicine);
+                _context.Manufacturers.Remove(manufacturer);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MedicineExists(int id)
+        private bool ManufacturerExists(int id)
         {
-            return _context.Medicines.Any(e => e.MedicineId == id);
+            return _context.Manufacturers.Any(e => e.ManufacturerId == id);
         }
     }
 }
