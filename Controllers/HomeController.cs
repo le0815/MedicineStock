@@ -23,7 +23,7 @@ namespace MedicineStock.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var medicines = await _context.Medicines.Include(m => m.Manufacturer).ToListAsync();
+            var medicines = await _context.Medicines.Include(m => m.Manufacturer).Include(j => j.MedicineType).ToListAsync();
             var prescriptions = await _context.Prescriptions.ToListAsync();
             var manufacturers = await _context.Manufacturers.ToListAsync();            
 
@@ -31,7 +31,7 @@ namespace MedicineStock.Controllers
             var model = new DashboardViewModel
             {
                 quantity_medicines = medicines.Count,
-                quantity_prescriptions = prescriptions.Count,
+                quantity_prescriptions = prescriptions.Count,  
                 quantity_manufacturer = manufacturers.Count,
                 medicines = medicines,
                 //manufacturers = manufacturers

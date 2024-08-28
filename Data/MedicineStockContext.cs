@@ -15,11 +15,15 @@ public partial class MedicineStockContext : DbContext
     {
     }
 
+    public virtual DbSet<Admin> Admins { get; set; }
+
     public virtual DbSet<Doctor> Doctors { get; set; }
 
     public virtual DbSet<Manufacturer> Manufacturers { get; set; }
 
     public virtual DbSet<Medicine> Medicines { get; set; }
+
+    public virtual DbSet<MedicineType> MedicineTypes { get; set; }
 
     public virtual DbSet<Patient> Patients { get; set; }
 
@@ -33,6 +37,17 @@ public partial class MedicineStockContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Admin>(entity =>
+        {
+            entity.HasKey(e => e.AdminId).HasName("PK__Admin__719FE488AE453A15");
+
+            entity.ToTable("Admin");
+
+            entity.Property(e => e.Password).HasMaxLength(100);
+            entity.Property(e => e.Permission).HasDefaultValue(1);
+            entity.Property(e => e.UserName).HasMaxLength(100);
+        });
+
         modelBuilder.Entity<Doctor>(entity =>
         {
             entity.HasKey(e => e.DoctorId).HasName("PK__Doctors__2DC00EDF8B680F96");
@@ -71,6 +86,17 @@ public partial class MedicineStockContext : DbContext
                 .HasForeignKey(d => d.ManufacturerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Medicines__Manuf__3D5E1FD2");
+
+            entity.HasOne(d => d.MedicineType).WithMany(p => p.Medicines)
+                .HasForeignKey(d => d.MedicineTypeId)
+                .HasConstraintName("FK");
+        });
+
+        modelBuilder.Entity<MedicineType>(entity =>
+        {
+            entity.HasKey(e => e.MedicineTypeId).HasName("PK__Mdeicine__DCEA67A32E7EF3F3");
+
+            entity.Property(e => e.Type).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Patient>(entity =>

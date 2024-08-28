@@ -343,27 +343,30 @@
                                 <li><a asp-controller="Manufacturers" asp-action="Create">Add Manufacturer</a></li>
                             </ul>
                         </li>
+
+                        <!-- Medicine Type Manager -->
                         <li class="submenu">
                             <a href="javascript:void(0);">
                                 <img src="~/assets/img/icons/expense1.svg" alt="img"><span>
-                                    Expense
+                                    Medicine Type Manager
                                 </span> <span class="menu-arrow"></span>
                             </a>
                             <ul>
-                                <li><a href="expenselist.html">Expense List</a></li>
-                                <li><a href="createexpense.html">Add Expense</a></li>
-                                <li><a href="expensecategory.html">Expense Category</a></li>
+                                <li><a asp-controller="MedicineTypes" asp-action="Index">Medicine Type List</a></li>
+                                <li><a asp-controller="MedicineTypes" asp-action="Create">Medicine Type Create</a></li>
                             </ul>
                         </li>
+
+                        <!-- Doctor -->
                         <li class="submenu">
                             <a href="javascript:void(0);">
                                 <img src="~/assets/img/icons/quotation1.svg" alt="img"><span>
-                                    Quotation
+                                    Doctor Manager
                                 </span> <span class="menu-arrow"></span>
                             </a>
                             <ul>
-                                <li><a href="quotationList.html">Quotation List</a></li>
-                                <li><a href="addquotation.html">Add Quotation</a></li>
+                                <li><a asp-controller="Doctors" asp-action="Index">Doctors List</a></li>
+                                <li><a asp-controller="Doctors" asp-action="Create">Doctors Create</a></li>
                             </ul>
                         </li>
                         <li class="submenu">

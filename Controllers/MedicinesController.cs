@@ -23,7 +23,7 @@ namespace MedicineStock.Controllers
         {   
             if (string.IsNullOrEmpty(searchPhrase))
             {
-                var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer);
+                var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer).Include(m => m.MedicineType);
                 return View(await medicineStockContext1.ToListAsync());
             }
             var medicineStockContext = _context.Medicines.Include(m => m.Manufacturer).Where(j => j.Name.Contains(searchPhrase));
@@ -53,6 +53,7 @@ namespace MedicineStock.Controllers
         public IActionResult Create()
         {
             ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name");
+            ViewData["MedicineTypeId"] = new SelectList(_context.MedicineTypes, "MedicineTypeId", "Type");
             return View();
         }
 
@@ -61,7 +62,7 @@ namespace MedicineStock.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ManufacturerId,Name,Description,Origin,ExpiryDate,Price,Quantiy")] Medicine medicine)
+        public async Task<IActionResult> Create([Bind("ManufacturerId,Name,Description,Origin,ExpiryDate,Price,Quantiy,MedicineTypeId")] Medicine medicine)
         {
             if (ModelState.IsValid)
             {
@@ -70,6 +71,7 @@ namespace MedicineStock.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name", medicine.ManufacturerId);
+            ViewData["MedicineTypeId"] = new SelectList(_context.MedicineTypes, "MedicineTypeId", "Type", medicine.MedicineTypeId);
             return View(medicine);
         }
 
@@ -87,6 +89,7 @@ namespace MedicineStock.Controllers
                 return NotFound();
             }
             ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name", medicine.ManufacturerId);
+            ViewData["MedicineTypeId"] = new SelectList(_context.MedicineTypes, "MedicineTypeId", "Type", medicine.MedicineTypeId);
             return View(medicine);
         }
 
@@ -95,7 +98,7 @@ namespace MedicineStock.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MedicineId,ManufacturerId,Name,Description,Origin,ExpiryDate,Price,Quantiy")] Medicine medicine)
+        public async Task<IActionResult> Edit(int id, [Bind("MedicineId,ManufacturerId,Name,Description,Origin,ExpiryDate,Price,Quantiy,MedicineTypeId")] Medicine medicine)
         {
             if (id != medicine.MedicineId)
             {
@@ -123,6 +126,7 @@ namespace MedicineStock.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name", medicine.ManufacturerId);
+            ViewData["MedicineTypeId"] = new SelectList(_context.MedicineTypes, "MedicineTypeId", "Type", medicine.MedicineTypeId);
             return View(medicine);
             //return await Index();
         }

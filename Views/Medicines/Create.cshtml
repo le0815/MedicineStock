@@ -73,6 +73,13 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
+                        <label asp-for="MedicineTypeId">Medicine Type</label>
+                        <select asp-for="MedicineTypeId" class="form-control" asp-items="ViewBag.MedicineTypeId"></select>
+                        <span asp-validation-for="MedicineTypeId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
                         <label asp-for="ManufacturerId">Manufacturer</label>
                         <select asp-for="ManufacturerId" class="form-control" asp-items="ViewBag.ManufacturerId"></select>
                         <span asp-validation-for="ManufacturerId" class="text-danger"></span>

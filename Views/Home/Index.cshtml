@@ -59,6 +59,7 @@
                         <th>SNo</th>
                         <th>Product Code</th>
                         <th>Product Name</th>
+                        <th>Product Type</th>
                         <th>Manufacturer</th>
                         <th>Expiry Date</th>
                         <th>Price</th>
@@ -74,7 +75,8 @@
                                 <td>@count</td>
                                 <td>@item.MedicineId</td>
                                 <td class="productimgname">@item.Name</td>
-                                <td>@item.Manufacturer.Name</td>
+                                <td>@(item.MedicineType?.Type ?? "Not Found")</td>
+                                <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
                                 <td>@item.ExpiryDate</td>
                                 <td>@item.Price</td>
                                 <td>@item.Quantiy</td>
@@ -100,6 +102,7 @@
                         <th>SNo</th>
                         <th>Product Code</th>
                         <th>Product Name</th>
+                        <th>Product Type</th>
                         <th>Manufacturer</th>
                         <th>Expiry Date</th>
                         <th>Price</th>
@@ -119,7 +122,8 @@
                                     <td>@count_1</td>
                                     <td>@item.MedicineId</td>
                                     <td class="productimgname">@item.Name</td>
-                                    <td>@item.Manufacturer.Name</td>
+                                    <td>@(item.MedicineType?.Type ?? "Not Found")</td>
+                                    <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
                                     <td>@item.ExpiryDate</td>
                                     <td>@item.Price</td>
                                     <td>@item.Quantiy</td>
