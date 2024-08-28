@@ -4,11 +4,33 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<!-- header -->
+<div class="page-header">
+    <div class="page-title">
+        <h2>Doctor List</h2>
+        <h6>Manage Doctor</h6>
+    </div>
+    
+    <div class="page-btn">
+        <hr />
+        <a class="btn btn-added" asp-action="Create"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add New</a>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<!-- search bar -->
+<div class="table-top">
+    <div class="search-set">
+        <div class="search-input">
+            <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
+            <form asp-action="Index">
+                <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." aria-controls="DataTables_Table_0">
+                <div class="form-group">
+                    <input type="submit" value="Find" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>

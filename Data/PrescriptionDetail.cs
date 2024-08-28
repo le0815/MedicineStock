@@ -11,11 +11,7 @@ public partial class PrescriptionDetail
 
     public int? MedicineId { get; set; }
 
-    public int ManufacturerId { get; set; }
-
     public int? Quantity { get; set; }
-
-    public virtual Manufacturer Manufacturer { get; set; } = null!;
 
     public virtual Medicine? Medicine { get; set; }
 

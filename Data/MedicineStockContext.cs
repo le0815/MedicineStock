@@ -133,14 +133,8 @@ public partial class MedicineStockContext : DbContext
             entity.HasKey(e => e.PrescriptionDetailId).HasName("PK__Prescrip__6DB7668A0275DDFF");
 
             entity.Property(e => e.PrescriptionDetailId).HasColumnName("PrescriptionDetailID");
-            entity.Property(e => e.ManufacturerId).HasColumnName("ManufacturerID");
             entity.Property(e => e.MedicineId).HasColumnName("MedicineID");
             entity.Property(e => e.PrescriptionId).HasColumnName("PrescriptionID");
-
-            entity.HasOne(d => d.Manufacturer).WithMany(p => p.PrescriptionDetails)
-                .HasForeignKey(d => d.ManufacturerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Prescript__Manuf__45F365D3");
 
             entity.HasOne(d => d.Medicine).WithMany(p => p.PrescriptionDetails)
                 .HasForeignKey(d => d.MedicineId)

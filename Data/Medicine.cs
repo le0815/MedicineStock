@@ -23,7 +23,7 @@ public partial class Medicine
 
     public int? MedicineTypeId { get; set; }
 
-    public virtual Manufacturer? Manufacturer { get; set; } = null!;
+    public virtual Manufacturer Manufacturer { get; set; } = null!;
 
     public virtual MedicineType? MedicineType { get; set; }
 

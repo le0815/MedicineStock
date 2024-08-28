@@ -9,5 +9,5 @@ public partial class MedicineType
 
     public string? Type { get; set; }
 
-    public virtual ICollection<Medicine>? Medicines { get; set; } = new List<Medicine>();
+    public virtual ICollection<Medicine> Medicines { get; set; } = new List<Medicine>();
 }

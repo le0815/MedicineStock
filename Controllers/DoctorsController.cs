@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MedicineStock.Data;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace MedicineStock.Controllers
 {
@@ -19,9 +20,17 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Doctors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchPhrase = null)
         {
-            return View(await _context.Doctors.ToListAsync());
+            var medicineStockContext = _context.Doctors;
+
+            if (!string.IsNullOrEmpty(searchPhrase))
+            {
+                var temp = medicineStockContext.Where(q => (q.LastName + " " + q.FirstName).Contains(searchPhrase));
+                return View(await temp.ToListAsync());
+            }
+
+            return View(await medicineStockContext.ToListAsync());
         }
 
         // GET: Doctors/Details/5
