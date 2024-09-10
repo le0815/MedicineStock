@@ -7,6 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Admin.cs" />
+    <Compile Remove="Data\Doctor.cs" />
+    <Compile Remove="Data\Manufacturer.cs" />
+    <Compile Remove="Data\Medicine.cs" />
+    <Compile Remove="Data\MedicineStockContext.cs" />
+    <Compile Remove="Data\MedicineType.cs" />
+    <Compile Remove="Data\Patient.cs" />
+    <Compile Remove="Data\Prescription.cs" />
+    <Compile Remove="Data\PrescriptionDetail.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Prescriptions\Create.cshtml" />
+    <Content Remove="Views\Prescriptions\Delete.cshtml" />
+    <Content Remove="Views\Prescriptions\Edit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
@@ -14,6 +32,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>

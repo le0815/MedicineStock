@@ -1,6 +1,6 @@
-using MedicineStock.Data;
 using MedicineStock.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
@@ -23,9 +23,11 @@ namespace MedicineStock.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var medicines = await _context.Medicines.Include(m => m.Manufacturer).Include(j => j.MedicineType).ToListAsync();
+            //var medicines = await _context.Medicines.Include(m => m.Manufacturer).Include(j => j.MedicineType).ToListAsync();
+            var medicines = await _context.Medicines.ToListAsync();
+            var manufacturingBatch = await _context.ManufacturingBatches.Include(q => q.Medicine).Include(q => q.Manufacturer).ToListAsync();
             var prescriptions = await _context.Prescriptions.ToListAsync();
-            var manufacturers = await _context.Manufacturers.ToListAsync();            
+            var manufacturers = await _context.Manufacturers.ToListAsync();
 
 
             var model = new DashboardViewModel
@@ -33,10 +35,11 @@ namespace MedicineStock.Controllers
                 quantity_medicines = medicines.Count,
                 quantity_prescriptions = prescriptions.Count,  
                 quantity_manufacturer = manufacturers.Count,
-                medicines = medicines,
+                manufacturingBatch = manufacturingBatch,
                 //manufacturers = manufacturers
             };
 
+            ViewData["MedicineTypes"] = await _context.MedicineTypes.ToListAsync();
             return View(model);
         }
 

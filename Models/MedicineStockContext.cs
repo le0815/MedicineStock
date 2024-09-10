@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace MedicineStock.Data;
+namespace MedicineStock.Models;
 
 public partial class MedicineStockContext : DbContext
 {
@@ -17,9 +17,9 @@ public partial class MedicineStockContext : DbContext
 
     public virtual DbSet<Admin> Admins { get; set; }
 
-    public virtual DbSet<Doctor> Doctors { get; set; }
-
     public virtual DbSet<Manufacturer> Manufacturers { get; set; }
+
+    public virtual DbSet<ManufacturingBatch> ManufacturingBatches { get; set; }
 
     public virtual DbSet<Medicine> Medicines { get; set; }
 
@@ -48,16 +48,6 @@ public partial class MedicineStockContext : DbContext
             entity.Property(e => e.UserName).HasMaxLength(100);
         });
 
-        modelBuilder.Entity<Doctor>(entity =>
-        {
-            entity.HasKey(e => e.DoctorId).HasName("PK__Doctors__2DC00EDF8B680F96");
-
-            entity.Property(e => e.DoctorId).HasColumnName("DoctorID");
-            entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.PhoneNumber).HasMaxLength(15);
-            entity.Property(e => e.Specialization).HasMaxLength(50);
-        });
-
         modelBuilder.Entity<Manufacturer>(entity =>
         {
             entity.HasKey(e => e.ManufacturerId).HasName("PK__Manufact__357E5CA126C08D24");
@@ -69,22 +59,35 @@ public partial class MedicineStockContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(100);
         });
 
+        modelBuilder.Entity<ManufacturingBatch>(entity =>
+        {
+            entity.HasKey(e => e.ManufacturingBatchId).HasName("PK__Manufact__7A7B35D930869CC6");
+
+            entity.ToTable("ManufacturingBatch");
+
+            entity.Property(e => e.Description).HasMaxLength(100);
+            entity.Property(e => e.ManufacturerId).HasColumnName("ManufacturerID");
+            entity.Property(e => e.MedicineId).HasColumnName("MedicineID");
+            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Origin).HasMaxLength(100);
+
+            entity.HasOne(d => d.Manufacturer).WithMany(p => p.ManufacturingBatches)
+                .HasForeignKey(d => d.ManufacturerId)
+                .HasConstraintName("FK__Manufactu__Manuf__72C60C4A");
+
+            entity.HasOne(d => d.Medicine).WithMany(p => p.ManufacturingBatches)
+                .HasForeignKey(d => d.MedicineId)
+                .HasConstraintName("FK__Manufactu__Medic__73BA3083");
+        });
+
         modelBuilder.Entity<Medicine>(entity =>
         {
             entity.HasKey(e => e.MedicineId).HasName("PK__Medicine__4F2128F0FF93573B");
 
             entity.Property(e => e.MedicineId).HasColumnName("MedicineID");
             entity.Property(e => e.Description).HasMaxLength(255);
-            entity.Property(e => e.ManufacturerId).HasColumnName("ManufacturerID");
             entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.Origin).HasMaxLength(100);
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Quantiy).HasColumnType("decimal(10, 0)");
-
-            entity.HasOne(d => d.Manufacturer).WithMany(p => p.Medicines)
-                .HasForeignKey(d => d.ManufacturerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Medicines__Manuf__3D5E1FD2");
 
             entity.HasOne(d => d.MedicineType).WithMany(p => p.Medicines)
                 .HasForeignKey(d => d.MedicineTypeId)
@@ -114,16 +117,7 @@ public partial class MedicineStockContext : DbContext
             entity.HasKey(e => e.PrescriptionId).HasName("PK__Prescrip__4013081204D6CC6D");
 
             entity.Property(e => e.PrescriptionId).HasColumnName("PrescriptionID");
-            entity.Property(e => e.DoctorId).HasColumnName("DoctorID");
-            entity.Property(e => e.PatientId).HasColumnName("PatientID");
-
-            entity.HasOne(d => d.Doctor).WithMany(p => p.Prescriptions)
-                .HasForeignKey(d => d.DoctorId)
-                .HasConstraintName("FK__Prescript__Docto__403A8C7D");
-
-            entity.HasOne(d => d.Patient).WithMany(p => p.Prescriptions)
-                .HasForeignKey(d => d.PatientId)
-                .HasConstraintName("FK__Prescript__Patie__412EB0B6");
+            entity.Property(e => e.PrescriptionDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<PrescriptionDetail>(entity =>
@@ -131,6 +125,7 @@ public partial class MedicineStockContext : DbContext
             entity.HasKey(e => e.PrescriptionDetailId).HasName("PK__Prescrip__6DB7668A0275DDFF");
 
             entity.Property(e => e.PrescriptionDetailId).HasColumnName("PrescriptionDetailID");
+            entity.Property(e => e.Description).HasMaxLength(100);
             entity.Property(e => e.MedicineId).HasColumnName("MedicineID");
             entity.Property(e => e.PrescriptionId).HasColumnName("PrescriptionID");
 

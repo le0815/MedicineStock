@@ -1,0 +1,93 @@
+﻿@model MedicineStock.Models.PrescriptionViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Prescription</h4>
+<hr />
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Prescription.PrescriptionId" />
+            <div class="row">
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="@Model.Prescription.PatientId" class="control-label"></label>
+                        <select asp-for="@Model.Prescription.PatientId" class="form-control" asp-items="ViewBag.PatientId"></select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="@Model.Prescription.PrescriptionDate" class="control-label"></label>
+                        <input asp-for="@Model.Prescription.PrescriptionDate" class="form-control" type="date" value=""/>
+                        <span asp-validation-for="@Model.Prescription.PrescriptionDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- select medicine-->
+            <div class="table-responsive dataview">
+                <table class="table datatable ">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Product Name</th>
+                            <th>Origin</th>
+                            <th>Manufacturer</th>
+                            <th>Expiry Date</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Desccription</th>
+                            <th>Medicine Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int index = 0;
+
+                            foreach( var item in Model.prescriptionDetail)
+                            {
+                                <td><input type="hidden" name="prescriptionDetail[@index].PrescriptionDetailId" value="@item.PrescriptionDetailId" /></td>
+                                <td><input type="hidden" name="prescriptionDetail[@index].MedicineId" value="@item.MedicineId" /></td>
+                                index++;
+                            }
+                            index = 0;
+                            foreach (var item in Model.Medicines)
+                            {
+                                Console.WriteLine($"medicine id in edit view presciption controller: {item.MedicineId} - {Model.prescriptionDetail.Any(pd => pd.MedicineId == item.MedicineId)}");
+
+                                <tr>                                                                      
+                                    <td><input type="checkbox" name="selectedItems" value="@item.MedicineId" @(Model.prescriptionDetail.Any(pd => pd.MedicineId == item.MedicineId) ? "checked=\"\"" : "") /></td>
+                                    <td class="productimgname">@item.Name</td>
+                                    <td>@item.Origin</td>
+                                    <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
+                                    <td>@item.ExpiryDate</td>
+                                    <td>@item.Price</td>
+                                    <td asp-for="@item.Quantiy">@item.Quantiy</td>
+                                    <td>@(item.Description ?? "Not Found")</td>
+                                    <td>@(item.MedicineType?.Type ?? "Not Found")</td>
+                                </tr>
+                                index++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-submit me-2" />
+                    <a asp-controller="Prescriptions" asp-action="Index" class="btn btn-cancel">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

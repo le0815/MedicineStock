@@ -1,4 +1,4 @@
-﻿@model MedicineStock.Data.Medicine
+﻿@model MedicineStock.Models.Medicine
 
 @{
     ViewData["Title"] = "Edit";
@@ -80,27 +80,7 @@
                         <span asp-validation-for="MedicineTypeId" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label asp-for="ManufacturerId">Manufacturer</label>
-                        <select asp-for="ManufacturerId" class="form-control" asp-items="ViewBag.ManufacturerId"></select>
-                        <span asp-validation-for="ManufacturerId" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label asp-for="Origin">Origin</label>
-                        <input asp-for="Origin" type="text">
-                        <span asp-validation-for="Origin" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label>Expiry Date</label>
-                        <input asp-for="ExpiryDate" type="date" id="birthdaytime">
-                        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
-                    </div>
-                </div>
+
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
                         <label>Price</label>
@@ -108,13 +88,7 @@
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label>Quantity</label>
-                        <input asp-for="Quantiy" type="number">
-                        <span asp-validation-for="Quantiy" class="text-danger"></span>
-                    </div>
-                </div>
+
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label>Description</label>

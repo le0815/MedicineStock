@@ -1,4 +1,4 @@
-using MedicineStock.Data;
+using MedicineStock.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

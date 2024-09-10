@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MedicineStock.Data;
+using MedicineStock.Models;
 
 namespace MedicineStock.Controllers
 {
@@ -23,10 +23,12 @@ namespace MedicineStock.Controllers
         {   
             if (string.IsNullOrEmpty(searchPhrase))
             {
-                var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer).Include(m => m.MedicineType);
+                //var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer).Include(m => m.MedicineType);
+                var medicineStockContext1 = _context.Medicines.Include(m => m.MedicineType);
                 return View(await medicineStockContext1.ToListAsync());
             }
-            var medicineStockContext = _context.Medicines.Include(m => m.Manufacturer).Where(j => j.Name.Contains(searchPhrase));
+            //var medicineStockContext = _context.Medicines.Include(m => m.Manufacturer).Where(j => j.Name.Contains(searchPhrase));
+            var medicineStockContext = _context.Medicines.Where(j => j.Name.Contains(searchPhrase));
             return View(await medicineStockContext.ToListAsync());
         }
 
@@ -39,13 +41,12 @@ namespace MedicineStock.Controllers
             }
 
             var medicine = await _context.Medicines
-                .Include(m => m.Manufacturer)
                 .FirstOrDefaultAsync(m => m.MedicineId == id);
             if (medicine == null)
             {
                 return NotFound();
             }
-
+            
             return View(medicine);
         }
 
@@ -62,7 +63,7 @@ namespace MedicineStock.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ManufacturerId,Name,Description,Origin,ExpiryDate,Price,Quantiy,MedicineTypeId")] Medicine medicine)
+        public async Task<IActionResult> Create([Bind("ManufacturerId,Name,Description,Price,MedicineTypeId")] Medicine medicine)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +71,7 @@ namespace MedicineStock.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name", medicine.ManufacturerId);
+            
             ViewData["MedicineTypeId"] = new SelectList(_context.MedicineTypes, "MedicineTypeId", "Type", medicine.MedicineTypeId);
             return View(medicine);
         }
@@ -88,7 +89,7 @@ namespace MedicineStock.Controllers
             {
                 return NotFound();
             }
-            ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name", medicine.ManufacturerId);
+            
             ViewData["MedicineTypeId"] = new SelectList(_context.MedicineTypes, "MedicineTypeId", "Type", medicine.MedicineTypeId);
             return View(medicine);
         }
@@ -125,7 +126,7 @@ namespace MedicineStock.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name", medicine.ManufacturerId);
+            
             ViewData["MedicineTypeId"] = new SelectList(_context.MedicineTypes, "MedicineTypeId", "Type", medicine.MedicineTypeId);
             return View(medicine);
             //return await Index();
@@ -140,7 +141,7 @@ namespace MedicineStock.Controllers
             }
 
             var medicine = await _context.Medicines
-                .Include(m => m.Manufacturer)
+                
                 .FirstOrDefaultAsync(m => m.MedicineId == id);
             if (medicine == null)
             {

@@ -1,0 +1,137 @@
+﻿@model MedicineStock.Models.PrescriptionViewModel
+
+@* @{
+    ViewData["Title"] = "Create";
+} *@
+
+<!-- header -->
+<div class="page-header">
+    <div class="page-title">
+        <h2>Medicines Add</h2>
+        <h6>Manage your medicines</h6>
+    </div>
+</div>
+
+@* <div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DoctorId" class="control-label"></label>
+                <select asp-for="DoctorId" class ="form-control" asp-items="ViewBag.DoctorId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PatientId" class="control-label"></label>
+                <select asp-for="PatientId" class ="form-control" asp-items="ViewBag.PatientId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrescriptionDate" class="control-label"></label>
+                <input asp-for="PrescriptionDate" class="form-control" />
+                <span asp-validation-for="PrescriptionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div> *@
+
+<div class="card">
+    <div class="card-body">
+        <form asp-controller="Prescriptions" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="@Model.Prescription.PatientId" class="control-label"></label>
+                        <select asp-for="@Model.Prescription.PatientId" class="form-control" asp-items="ViewBag.PatientId"></select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="@Model.Prescription.PrescriptionDate" class="control-label"></label>
+                        <input asp-for="@Model.Prescription.PrescriptionDate" class="form-control" type="date" />
+                        <span asp-validation-for="@Model.Prescription.PrescriptionDate" class="text-danger"></span>
+                    </div>
+                </div>          
+                
+            </div>
+
+            <!-- select medicine-->
+            <div class="table-responsive dataview">
+                <table class="table datatable ">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Product Name</th>
+                            <th>Origin</th>
+                            <th>Manufacturer</th>
+                            <th>Expiry Date</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Desccription</th>
+                            <th>Medicine Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int index = 0;
+                            foreach (var item in Model.Medicines)
+                            {
+                                <tr>
+                                    <td><input type="hidden" name="prescriptionDetail[@index].MedicineId" value="@item.MedicineId" /></td>
+                                    <td><input type="checkbox" name="selectedItems" value="@item.MedicineId" /></td>
+                                    <td class="productimgname">@item.Name</td>
+                                    <td>@item.Origin</td>
+                                    <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
+                                    <td>@item.ExpiryDate</td>
+                                    <td>@item.Price</td>
+                                    <td asp-for="@item.Quantiy">@item.Quantiy</td>
+                                    <td>@(item.Description ?? "Not Found")</td>
+                                    <td>@(item.MedicineType?.Type ?? "Not Found")</td>
+                                </tr>
+                                index++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>  
+
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-submit me-2" />
+                    <a asp-controller="Prescriptions" asp-action="Index" class="btn btn-cancel">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function updateInput() {
+        var dropdown = document.getElementById("dropdown");
+        var selectedItem = document.getElementById("selectedItem");
+        selectedItem.value = dropdown.value;
+
+        // Send the selected value to the server using AJAX
+        sendSelectedValueToServer(dropdown.value);
+    }
+
+    function sendSelectedValueToServer(selectedValue) {
+        var fullUrl = window.location.href;
+        fetch('/?handler=UpdateSelectedItem', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ selectedItem: selectedValue })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+</script>

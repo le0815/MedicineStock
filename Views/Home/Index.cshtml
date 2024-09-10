@@ -57,7 +57,7 @@
                 <thead>
                     <tr>
                         <th>SNo</th>
-                        <th>Product Code</th>
+                        <th>Batch Code</th>
                         <th>Product Name</th>
                         <th>Product Type</th>
                         <th>Manufacturer</th>
@@ -69,17 +69,18 @@
                 </thead>
                 <tbody>
                     @{  int count = 1;
-                        foreach (var item in Model.medicines)
+                        // var medicineTypes = ViewBag.MedicineTypes as IEnumerable<MedicineType>;
+                        foreach (var item in Model.manufacturingBatch)
                         {
                             <tr>
                                 <td>@count</td>
-                                <td>@item.MedicineId</td>
-                                <td class="productimgname">@item.Name</td>
-                                <td>@(item.MedicineType?.Type ?? "Not Found")</td>
+                                <td>@item.Name</td>
+                                <td>@item.Medicine.Name</td>
+                                <td>@(item.Medicine.MedicineType?.Type ?? "Not Found")</td>
                                 <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
                                 <td>@item.ExpiryDate</td>
-                                <td>@item.Price</td>
-                                <td>@item.Quantiy</td>
+                                <td>@item.Medicine.Price</td>
+                                <td>@item.Quantity</td>
                                 <td>@item.Description</td>
                             </tr>
                             count++;
@@ -100,7 +101,7 @@
                 <thead>
                     <tr>
                         <th>SNo</th>
-                        <th>Product Code</th>
+                        <th>Batch Code</th>
                         <th>Product Name</th>
                         <th>Product Type</th>
                         <th>Manufacturer</th>
@@ -113,20 +114,21 @@
                 <tbody>
                     @{
                         int count_1 = 1;
-                        foreach (var item in Model.medicines)
+                        
+                        foreach (var item in Model.manufacturingBatch)
                         {
                             if (DateOnly.FromDateTime(DateTime.Now) >= item.ExpiryDate)
                             {
                                 Console.WriteLine(item.ExpiryDate + " " + DateOnly.FromDateTime(DateTime.Now));
                                 <tr>
-                                    <td>@count_1</td>
-                                    <td>@item.MedicineId</td>
-                                    <td class="productimgname">@item.Name</td>
-                                    <td>@(item.MedicineType?.Type ?? "Not Found")</td>
+                                    <td>@count</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Medicine.Name</td>
+                                    <td>@(item.Medicine.MedicineType?.Type ?? "Not Found")</td>
                                     <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
                                     <td>@item.ExpiryDate</td>
-                                    <td>@item.Price</td>
-                                    <td>@item.Quantiy</td>
+                                    <td>@item.Medicine.Price</td>
+                                    <td>@item.Quantity</td>
                                     <td>@item.Description</td>
                                 </tr>
                                 count_1++;

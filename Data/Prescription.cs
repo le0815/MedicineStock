@@ -17,5 +17,5 @@ public partial class Prescription
 
     public virtual Patient? Patient { get; set; }
 
-    public virtual ICollection<PrescriptionDetail> PrescriptionDetails { get; set; } = new List<PrescriptionDetail>();
+    public virtual ICollection<PrescriptionDetail>? PrescriptionDetails { get; set; } = new List<PrescriptionDetail>();
 }

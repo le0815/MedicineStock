@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MedicineStock.Data;
+namespace MedicineStock.Models;
 
 public partial class Patient
 {
@@ -16,6 +16,4 @@ public partial class Patient
     public string? Address { get; set; }
 
     public string? PhoneNumber { get; set; }
-
-    public virtual ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>();
 }

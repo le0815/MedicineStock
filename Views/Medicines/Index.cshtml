@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MedicineStock.Data.Medicine>
+﻿@model IEnumerable<MedicineStock.Models.Medicine>
 
 @{
     ViewData["Title"] = "Index";
@@ -43,21 +43,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Origin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExpiryDate)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantiy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manufacturer)
-            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -73,20 +63,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Origin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpiryDate)
-            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantiy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacturer.Name)
             </td>
             <td>
                     <a asp-action="Edit" asp-route-id="@item.MedicineId" class="btn btn-primary">Edit</a> |
