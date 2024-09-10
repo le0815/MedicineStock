@@ -53,20 +53,23 @@ namespace MedicineStock.Controllers
             //    .FirstOrDefaultAsync(m => m.PrescriptionId == id);
 
             //var Prescription = await _context.Prescriptions.Include(q => q.Patient).Include(q => q.PrescriptionDetails).Where(m => m.PrescriptionId == id).ToListAsync();
-            var Prescription = await _context.Prescriptions.Include(q => q.PrescriptionDetails).Where(m => m.PrescriptionId == id).ToListAsync();
-            //var Prescription = _context.Prescriptions.Include(q => q.Doctor).Include(q => q.Patient).Include(q => q.PrescriptionDetails).Where(m => m.PrescriptionId == id);
+            var prescriptions = await _context.Prescriptions.Include(q => q.PrescriptionDetails).FirstOrDefaultAsync(m => m.PrescriptionId == id);
+			//var Prescription = _context.Prescriptions.Include(q => q.Doctor).Include(q => q.Patient).Include(q => q.PrescriptionDetails).Where(m => m.PrescriptionId == id);
 
-            if (Prescription.IsNullOrEmpty())
-            {
-                return NotFound();
-            }
+			if (prescriptions == null)
+			{
+				return NotFound();
+			}
 
-            var model = new PrescriptionViewModel
-            {
-                prescription = Prescription
-            };            
+			//var model = new PrescriptionViewModel
+			//{
+			//    prescription = Prescription
+			//};            
 
-            return View(model); 
+			// viewdata for display price, quantiy of medicine on view module
+			ViewData["Medicines"] = await _context.Medicines.ToListAsync();
+
+			return View(prescriptions); 
         }
 
         // GET: Prescriptions/Create
