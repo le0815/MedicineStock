@@ -75,18 +75,19 @@ namespace MedicineStock.Controllers
         // GET: Prescriptions/Create
         public async Task<IActionResult> Create()
         {
-            var model = new PrescriptionViewModel
-            {
-                Prescription = new Prescription(),
-                PrescriptionDetail = new PrescriptionDetail(),
-                Medicines = await _context.Medicines.Include(j => j.MedicineType).ToListAsync(),                
-            };
+            //var model = new PrescriptionViewModel
+            //{
+            //    Prescription = new Prescription(),
+            //    PrescriptionDetail = new PrescriptionDetail(),
+            //    Medicines = await _context.Medicines.Include(j => j.MedicineType).ToListAsync(),                
+            //};
 
-            //var model = _context.Prescriptions.ToListAsync();
+            var model = await _context.ManufacturingBatches.Include(q => q.Medicine).Include(q => q.Manufacturer).ToListAsync();
 
-            
+
             //ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Name");
-            //ViewData["MedicineId"] = new SelectList(_context.Medicines, "MedicineId", "Name");
+            ViewData["MedicineTypes"] = await _context.MedicineTypes.ToListAsync();
+
             return View(model);
         }
 
@@ -95,7 +96,7 @@ namespace MedicineStock.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("PrescriptionId,MedicineId,Quantity")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
+        public async Task<IActionResult> Create([Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("ManufacturingBatchId,MedicineId,Quantity")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
         {
             if (TryValidateModel(prescription) && TryValidateModel(prescriptionDetail))
             {
@@ -286,3 +287,5 @@ namespace MedicineStock.Controllers
         }
     }
 }
+
+

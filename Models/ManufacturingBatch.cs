@@ -26,4 +26,6 @@ public partial class ManufacturingBatch
     public virtual Manufacturer? Manufacturer { get; set; }
 
     public virtual Medicine? Medicine { get; set; }
+
+    public virtual ICollection<PrescriptionDetail> PrescriptionDetails { get; set; } = new List<PrescriptionDetail>();
 }

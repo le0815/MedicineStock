@@ -1,5 +1,5 @@
-﻿@model MedicineStock.Models.PrescriptionViewModel
-
+﻿@* @model MedicineStock.Models.Medicine *@
+@model IEnumerable<MedicineStock.Models.ManufacturingBatch>
 @* @{
     ViewData["Title"] = "Create";
 } *@
@@ -36,26 +36,22 @@
     </div>
 </div> *@
 
+
 <div class="card">
     <div class="card-body">
         <form asp-controller="Prescriptions" asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row">
-                <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label asp-for="@Model.Prescription.PatientId" class="control-label"></label>
-                        <select asp-for="@Model.Prescription.PatientId" class="form-control" asp-items="ViewBag.PatientId"></select>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="form-group">
-                        <label asp-for="@Model.Prescription.PrescriptionDate" class="control-label"></label>
-                        <input asp-for="@Model.Prescription.PrescriptionDate" class="form-control" type="date" />
-                        <span asp-validation-for="@Model.Prescription.PrescriptionDate" class="text-danger"></span>
-                    </div>
-                </div>          
-                
-            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>     
+            
+            <!-- automatically add time to prescription  -->
+            <input name="prescription.PrescriptionDate" type="hidden" id="datetime" />
+            <script>
+                // Get current date and time
+                var now = new Date();
+                var datetime = now.toLocaleString();
+
+                // Insert date and time into the input field
+                document.getElementById("datetime").value = datetime;
+            </script>
 
             <!-- select medicine-->
             <div class="table-responsive dataview">
@@ -63,32 +59,44 @@
                     <thead>
                         <tr>
                             <th></th>
+                            <th>Batch Code</th>
                             <th>Product Name</th>
-                            <th>Origin</th>
+                            <th>Product Type</th>
                             <th>Manufacturer</th>
+                            <th>Origin</th>
                             <th>Expiry Date</th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Desccription</th>
-                            <th>Medicine Type</th>
                         </tr>
                     </thead>
                     <tbody>
                         @{
                             int index = 0;
-                            foreach (var item in Model.Medicines)
+                            foreach (var item in Model)
                             {
                                 <tr>
-                                    <td><input type="hidden" name="prescriptionDetail[@index].MedicineId" value="@item.MedicineId" /></td>
+                                    <!-- 
+                                        hidden input use for transfer all medicine data to controller
+                                        checkbox input transfer id of medicine selected to controller
+
+                                        'name' tag use instead 'asp-for' for transfer list of object to controller
+
+                                    -->
+                                    <input type="hidden" name="prescriptionDetail[@index].MedicineId" value="@item.MedicineId" />
+                                    <input type="hidden" name="prescriptionDetail[@index].ManufacturingBatchId" value="@item.ManufacturingBatchId" />
                                     <td><input type="checkbox" name="selectedItems" value="@item.MedicineId" /></td>
                                     <td class="productimgname">@item.Name</td>
-                                    <td>@item.Origin</td>
+                                    <td>@item.Medicine.Name</td>
+                                    <td>@(item.Medicine.MedicineType?.Type ?? "Not Found")</td>
                                     <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
+                                    <td>@item.Origin</td>                                    
                                     <td>@item.ExpiryDate</td>
-                                    <td>@item.Price</td>
-                                    <td asp-for="@item.Quantiy">@item.Quantiy</td>
-                                    <td>@(item.Description ?? "Not Found")</td>
-                                    <td>@(item.MedicineType?.Type ?? "Not Found")</td>
+                                    <td>@item.Medicine.Price</td>
+                                    <td >
+                                        <input name="prescriptionDetail[@index].Quantity" type="number" max="@item.Quantity" min="1"/>
+                                    </td>
+                                    <td>@(item.Medicine.Description ?? "Not Found")</td>                                    
                                 </tr>
                                 index++;
                             }
@@ -105,33 +113,12 @@
             </div>
         </form>
     </div>
-</div>
+        <script>
+  // Get current date and time
+  var now = new Date();
+  var datetime = now.toLocaleString();
 
-<script>
-    function updateInput() {
-        var dropdown = document.getElementById("dropdown");
-        var selectedItem = document.getElementById("selectedItem");
-        selectedItem.value = dropdown.value;
-
-        // Send the selected value to the server using AJAX
-        sendSelectedValueToServer(dropdown.value);
-    }
-
-    function sendSelectedValueToServer(selectedValue) {
-        var fullUrl = window.location.href;
-        fetch('/?handler=UpdateSelectedItem', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ selectedItem: selectedValue })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    }
+  // Insert date and time into HTML
+  document.getElementById("datetime").innerHTML = datetime;
 </script>
+</div>
