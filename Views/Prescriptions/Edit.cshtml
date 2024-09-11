@@ -1,4 +1,4 @@
-﻿@model MedicineStock.Models.PrescriptionViewModel
+﻿@model MedicineStock.Models.Prescription
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,19 +12,20 @@
     <div class="card-body">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="@Model.Prescription.PrescriptionId" />
-            <div class="row">
+            @* <input type="text" asp-for="@Model.PrescriptionId" readonly/> *@
+            <div class="row">      
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="@Model.Prescription.PatientId" class="control-label"></label>
-                        <select asp-for="@Model.Prescription.PatientId" class="form-control" asp-items="ViewBag.PatientId"></select>
+                        <label asp-for="@Model.PrescriptionId" class="control-label"></label>
+                        <input asp-for="@Model.PrescriptionId" class="form-control" type="text" value="@Model.PrescriptionId" readonly />
+                        <span asp-validation-for="@Model.PrescriptionId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="@Model.Prescription.PrescriptionDate" class="control-label"></label>
-                        <input asp-for="@Model.Prescription.PrescriptionDate" class="form-control" type="date" value=""/>
-                        <span asp-validation-for="@Model.Prescription.PrescriptionDate" class="text-danger"></span>
+                        <label asp-for="@Model.PrescriptionDate" class="control-label"></label>
+                        <input asp-for="@Model.PrescriptionDate" class="form-control" type="datetime" value="@Model.PrescriptionDate" readonly/>
+                        <span asp-validation-for="@Model.PrescriptionDate" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -36,44 +37,88 @@
                     <thead>
                         <tr>
                             <th></th>
+                            <th>Batch Code</th>
                             <th>Product Name</th>
-                            <th>Origin</th>
-                            <th>Manufacturer</th>
-                            <th>Expiry Date</th>
-                            <th>Price</th>
                             <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Product Type</th>
+                            <th>Manufacturer</th>
+                            <th>Origin</th>
+                            <th>Expiry Date</th>
                             <th>Desccription</th>
-                            <th>Medicine Type</th>
                         </tr>
                     </thead>
                     <tbody>
                         @{
                             int index = 0;
 
-                            foreach( var item in Model.prescriptionDetail)
+                            foreach (var item in (ViewData["ManufacturingBatches"] as IEnumerable<ManufacturingBatch>))
                             {
-                                <td><input type="hidden" name="prescriptionDetail[@index].PrescriptionDetailId" value="@item.PrescriptionDetailId" /></td>
-                                <td><input type="hidden" name="prescriptionDetail[@index].MedicineId" value="@item.MedicineId" /></td>
-                                index++;
-                            }
-                            index = 0;
-                            foreach (var item in Model.Medicines)
-                            {
-                                Console.WriteLine($"medicine id in edit view presciption controller: {item.MedicineId} - {Model.prescriptionDetail.Any(pd => pd.MedicineId == item.MedicineId)}");
+                                // expired medicine won display in view
+                                if (DateOnly.FromDateTime(DateTime.Now) >= item.ExpiryDate) { break; }
+                                <tr>
+                                    <!--
+                                        hidden input use for transfer all medicine data to controller
+                                        checkbox input transfer id of medicine selected to controller
 
-                                <tr>                                                                      
-                                    <td><input type="checkbox" name="selectedItems" value="@item.MedicineId" @(Model.prescriptionDetail.Any(pd => pd.MedicineId == item.MedicineId) ? "checked=\"\"" : "") /></td>
+                                        'name' tag use instead 'asp-for' for transfer list of object to controller
+
+                                    -->
+                                    <input type="hidden" name="prescriptionDetail[@index].PrescriptionId" value="@Model.PrescriptionId" />
+                                    <input type="hidden" name="prescriptionDetail[@index].MedicineId" value="@item.MedicineId" />
+                                    <input type="hidden" name="prescriptionDetail[@index].ManufacturingBatchId" value="@item.ManufacturingBatchId" />
+                                    <td><input type="checkbox" name="selectedItems" value="@item.ManufacturingBatchId" @(Model.PrescriptionDetails.Any(pd => pd.ManufacturingBatchId == item.ManufacturingBatchId && pd.PrescriptionId == Model.PrescriptionId) ? "checked=\"\"" : "") /></td>
                                     <td class="productimgname">@item.Name</td>
-                                    <td>@item.Origin</td>
+                                    <td>@item.Medicine.Name</td>
+                                    <td>
+                                        <!-- query item quantity from prescriptiondetails -->
+                                        @{
+                                            try
+                                            {
+                                                var itemQuantity = Model.PrescriptionDetails.Where(pd => pd.ManufacturingBatchId == item.ManufacturingBatchId && pd.PrescriptionId == Model.PrescriptionId).FirstOrDefault();
+                                                <input name="prescriptionDetail[@index].Quantity" type="number" max="@item.Quantity" min="1" value="@itemQuantity.Quantity" />
+                                            }
+                                            catch(NullReferenceException)
+                                            {
+                                                <input name="prescriptionDetail[@index].Quantity" type="number" max="@item.Quantity" min="1" value="1" />
+                                            }
+                                        }
+                                        
+                                    </td>
+                                    <td>@item.Medicine.Price</td>
+                                    <td>@(item.Medicine.MedicineType?.Type ?? "Not Found")</td>
                                     <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
+                                    <td>@item.Origin</td>
                                     <td>@item.ExpiryDate</td>
-                                    <td>@item.Price</td>
-                                    <td asp-for="@item.Quantiy">@item.Quantiy</td>
                                     <td>@(item.Description ?? "Not Found")</td>
-                                    <td>@(item.MedicineType?.Type ?? "Not Found")</td>
                                 </tr>
                                 index++;
                             }
+
+                            // foreach( var item in Model.prescriptionDetail)
+                            // {
+                            //     <td><input type="hidden" name="prescriptionDetail[@index].PrescriptionDetailId" value="@item.PrescriptionDetailId" /></td>
+                            //     <td><input type="hidden" name="prescriptionDetail[@index].MedicineId" value="@item.MedicineId" /></td>
+                            //     index++;
+                            // }
+                            // index = 0;
+                            // foreach (var item in Model.Medicines)
+                            // {
+                            //     Console.WriteLine($"medicine id in edit view presciption controller: {item.MedicineId} - {Model.prescriptionDetail.Any(pd => pd.MedicineId == item.MedicineId)}");
+
+                            //     <tr>                                                                      
+                            //         <td><input type="checkbox" name="selectedItems" value="@item.MedicineId" @(Model.prescriptionDetail.Any(pd => pd.MedicineId == item.MedicineId) ? "checked=\"\"" : "") /></td>
+                            //         <td class="productimgname">@item.Name</td>
+                            //         <td>@item.Origin</td>
+                            //         <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
+                            //         <td>@item.ExpiryDate</td>
+                            //         <td>@item.Price</td>
+                            //         <td asp-for="@item.Quantiy">@item.Quantiy</td>
+                            //         <td>@(item.Description ?? "Not Found")</td>
+                            //         <td>@(item.MedicineType?.Type ?? "Not Found")</td>
+                            //     </tr>
+                            //     index++;
+                            // }
                         }
                     </tbody>
                 </table>

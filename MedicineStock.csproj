@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Content Remove="Views\Prescriptions\Delete.cshtml" />
-    <Content Remove="Views\Prescriptions\Edit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

@@ -156,25 +156,31 @@ namespace MedicineStock.Controllers
                 return NotFound();
             }
 
-            var model = new PrescriptionViewModel
-            {
-                Prescription = new Prescription(),
-                PrescriptionDetail = new PrescriptionDetail(),
-                Medicines = await _context.Medicines.Include(j => j.MedicineType).ToListAsync(),
-                prescriptionDetail = await _context.PrescriptionDetails.Where(q => q.PrescriptionId == id).ToListAsync()
-            };
+            //var model = new PrescriptionViewModel
+            //{
+            //    Prescription = new Prescription(),
+            //    PrescriptionDetail = new PrescriptionDetail(),
+            //    Medicines = await _context.Medicines.Include(j => j.MedicineType).ToListAsync(),
+            //    prescriptionDetail = await _context.PrescriptionDetails.Where(q => q.PrescriptionId == id).ToListAsync()
+            //};
 
             // add id to prescription
-            model.Prescription.PrescriptionId = (int)id;
+            //model.Prescription.PrescriptionId = (int)id;
             
-            //var prescription = await _context.Prescriptions.FindAsync(id);
-            //if (prescription == null)
-            //{
-            //    return NotFound();
-            //}
-            
-            //ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "PatientId", model.Prescription.PatientId);
-            return View(model);
+            var prescription = await _context.Prescriptions.FindAsync(id);
+            if (prescription == null)
+            {
+                return NotFound();
+            }
+
+            // viewdata for display price, quantiy of medicine on view module
+            ViewData["Medicines"] = await _context.Medicines.ToListAsync();
+            ViewData["ManufacturingBatches"] = await _context.ManufacturingBatches.ToListAsync();
+            ViewData["Manufacturers"] = await _context.Manufacturers.ToListAsync();
+            ViewData["MedicineTypes"] = await _context.MedicineTypes.ToListAsync();
+            ViewData["PrescriptionDetails"] = await _context.PrescriptionDetails.ToListAsync();
+
+            return View(prescription);
         }
 
         // POST: Prescriptions/Edit/5
@@ -182,7 +188,7 @@ namespace MedicineStock.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PrescriptionId,DoctorId,PatientId,PrescriptionDate")] Prescription prescription, [Bind("PrescriptionDetailId,PrescriptionId,MedicineId,Quantity")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
+        public async Task<IActionResult> Edit(int id, [Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("PrescriptionDetailId,PrescriptionId,ManufacturingBatchId,Quantity")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
         {
             if (id != prescription.PrescriptionId)
             {
@@ -193,56 +199,129 @@ namespace MedicineStock.Controllers
             {
                 try
                 {
-                    _context.Update(prescription);
-                    await _context.SaveChangesAsync();
+                    //_context.Update(prescription);
+                    //await _context.SaveChangesAsync();
 
                     //if medicine was unselected from prescriptionDetail -> remove
                     try
                     {
-                        Console.WriteLine("removing unselected item");
-                        var nonSelectedPrescriptionDetails = prescriptionDetail
+                        var oldPrescriptionDetail = await _context.PrescriptionDetails.Where(p => p.PrescriptionId == id).ToListAsync();                       
+                        var manufacturingBatchesUpdate = await _context.ManufacturingBatches.ToListAsync();
+                        // filter prescriptionDetail based on selectedItems
+                        var selectedPrescriptionDetails = prescriptionDetail
+                            .Where(q => selectedItems.Contains((int)q.ManufacturingBatchId))
+                            .ToList();
+
+
+
+                        //var editSelectedPrescriptionDetails = oldPrescriptionDetail.Where(q => selectedPrescriptionDetails.Any(t => t.ManufacturingBatchId == q.ManufacturingBatchId)).ToList();
+                        var editSelectedPrescriptionDetails = selectedPrescriptionDetails.Where(q => oldPrescriptionDetail.Any(t => t.ManufacturingBatchId == q.ManufacturingBatchId)).ToList();
+                        //if medicine was edited from prescriptionDetail -> update
+                        if (!editSelectedPrescriptionDetails.IsNullOrEmpty())
+                        {
+                            //var oldQuantity = 0;
+                            //foreach (var item in editSelectedPrescriptionDetails)
+                            //{
+                            //    foreach (var item1 in selectedPrescriptionDetails)
+                            //    {
+                            //        if(item.ManufacturingBatchId == item1.ManufacturingBatchId)
+                            //        {
+                            //            item.Quantity = item1.Quantity;
+                            //            break;
+                            //        }
+                            //    }
+                            //}
+                            //_context.UpdateRange(editSelectedPrescriptionDetails);
+                            //await _context.SaveChangesAsync();
+
+                            // update medicine quantiy after update
+                            foreach (var item in manufacturingBatchesUpdate)
+                            {
+                                foreach (var item2 in editSelectedPrescriptionDetails)
+                                {
+                                    if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
+                                    {
+                                        foreach (var item3 in oldPrescriptionDetail)
+                                        {
+                                            if (item3.ManufacturingBatchId == item.ManufacturingBatchId)
+                                            {
+                                                var diffQuantity = item3.Quantity - item2.Quantity;
+                                                item.Quantity += diffQuantity;
+                                                item3.Quantity = item2.Quantity;
+                                                break;
+                                            }
+                                        }                                        
+                                        break;
+                                    }
+                                }
+                            }
+                            // then save updated medicine quantity in manufacturing batch
+                            _context.UpdateRange(manufacturingBatchesUpdate);
+                            _context.UpdateRange(oldPrescriptionDetail);
+                            await _context.SaveChangesAsync();
+                        }
+
+                        var nonSelectedPrescriptionDetails = oldPrescriptionDetail
                         .Where(q => !selectedItems.Contains((int)q.ManufacturingBatchId))
                         .ToList();
 
-                        _context.PrescriptionDetails.RemoveRange(nonSelectedPrescriptionDetails);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch
-                    {
-                        throw;
-                    }
+                        //if medicine was unselected from prescriptionDetail -> remove
+                        if (!nonSelectedPrescriptionDetails.IsNullOrEmpty())
+                        {
+                            _context.RemoveRange(nonSelectedPrescriptionDetails);
+                            await _context.SaveChangesAsync();
 
-                    //if medicine are new -> add to prescriptionDetail
-                    try
-                    {
-                        Console.WriteLine("adding selected item");                        
+                            // update medicine quantiy after remove
+                            
 
-                        //foreach (var item in selectedItems)
-                        //{
-                        //    if (prescriptionDetail.Find(q => q.MedicineId.Equals(item)))
-                        //    {
-
-                        //    }
-                        //}
-                        //var newSelectedPrescriptionDetails = selectedItems.Where(q => !prescriptionDetail.Contains(q));
+                            foreach (var item in manufacturingBatchesUpdate)
+                            {
+                                foreach (var item2 in nonSelectedPrescriptionDetails)
+                                {
+                                    if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
+                                    {
+                                        item.Quantity += item2.Quantity;
+                                        break;
+                                    }
+                                }
+                            }
+                            // then save updated medicine quantity in manufacturing batch
+                            _context.UpdateRange(manufacturingBatchesUpdate);
+                            await _context.SaveChangesAsync();
+                        }
                         
-                        //foreach (var item in selectedPrescriptionDetails)
-                        //{
-                        //    item.PrescriptionId = id;
-                        //}
+
+                        var newSelectedPrescriptionDetails = selectedPrescriptionDetails.Where(q => !oldPrescriptionDetail.Any(t => t.ManufacturingBatchId == q.ManufacturingBatchId)).ToList();
+
+                        //if medicine was new selected from prescriptionDetail -> add
+                        if (!newSelectedPrescriptionDetails.IsNullOrEmpty())
+                        {
+
+                            await _context.AddRangeAsync(newSelectedPrescriptionDetails);
+                            await _context.SaveChangesAsync();
+
+                            // update medicine quantiy after add                            
+                            foreach (var item in manufacturingBatchesUpdate)
+                            {
+                                foreach (var item2 in newSelectedPrescriptionDetails)
+                                {
+                                    if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
+                                    {
+                                        item.Quantity -= item2.Quantity;
+                                        break;
+                                    }
+                                }
+                            }
+                            // then save updated medicine quantity in manufacturing batch
+                            _context.UpdateRange(manufacturingBatchesUpdate);
+                            await _context.SaveChangesAsync();
+                        }
+
                     }
                     catch
                     {
                         throw;
                     }
-
-                    
-
-
-
-                    //// then save prescriptionDetail
-                    //_context.UpdateRange(selectedPrescriptionDetails);
-                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
