@@ -248,19 +248,21 @@
             </tr>
 
             @{
-                decimal totalItemPrice = 0;
+                
                 foreach (var item in Model.PrescriptionDetails)
                 {
+                    decimal totalItemPrice = 0;
+
                     <tr class="item">
 
-                        <td>@item.Medicine.Name</td>
+                        <td>@item.ManufacturingBatch.Medicine.Name</td>
 
                         <td>@item.Quantity</td>
 
                         <!-- display unit price of medicine -->
                         <td>
                             @{
-                                var temp = (Decimal)item.Medicine.Price;
+                                var temp = (Decimal)item.ManufacturingBatch.Medicine.Price;
                             }
                             @temp.ToString("C3", CultureInfo.CreateSpecificCulture("vi-VN"))
                         </td>
@@ -268,7 +270,7 @@
                         <!-- display price of medicine -->
                         <td>
                             @{
-                                totalItemPrice += item.Quantity * item.Medicine.Price ?? 0;
+                                totalItemPrice += item.Quantity * item.ManufacturingBatch.Medicine.Price ?? 0;
                                 totalPrice += totalItemPrice;
                             }
                             <!-- display price -->

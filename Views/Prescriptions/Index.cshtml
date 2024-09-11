@@ -63,8 +63,8 @@
                                         decimal totalPrice = 0;
                                         foreach (var item2 in item.PrescriptionDetails)
                                         {
-                                            Console.WriteLine($"Quantity: {item2.Quantity}\nMedicine price: {item2.Medicine.Price}");
-                                            totalPrice += item2.Quantity * item2.Medicine.Price ?? 0;
+                                            Console.WriteLine($"Quantity: {item2.Quantity}\nMedicine price: {item2.ManufacturingBatch.Medicine?.Price ?? 0}");
+                                            totalPrice += item2.Quantity * item2.ManufacturingBatch.Medicine.Price ?? 0;
                                         }
 
                                         <!-- display total price -->

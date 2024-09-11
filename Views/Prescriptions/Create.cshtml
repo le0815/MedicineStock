@@ -61,12 +61,12 @@
                             <th></th>
                             <th>Batch Code</th>
                             <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
                             <th>Product Type</th>
                             <th>Manufacturer</th>
                             <th>Origin</th>
                             <th>Expiry Date</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
                             <th>Desccription</th>
                         </tr>
                     </thead>
@@ -75,6 +75,8 @@
                             int index = 0;
                             foreach (var item in Model)
                             {
+                                // expired medicine won display in view
+                                if (DateOnly.FromDateTime(DateTime.Now) >= item.ExpiryDate) { break;  }
                                 <tr>
                                     <!-- 
                                         hidden input use for transfer all medicine data to controller
@@ -85,17 +87,17 @@
                                     -->
                                     <input type="hidden" name="prescriptionDetail[@index].MedicineId" value="@item.MedicineId" />
                                     <input type="hidden" name="prescriptionDetail[@index].ManufacturingBatchId" value="@item.ManufacturingBatchId" />
-                                    <td><input type="checkbox" name="selectedItems" value="@item.MedicineId" /></td>
+                                    <td><input type="checkbox" name="selectedItems" value="@item.ManufacturingBatchId" /></td>
                                     <td class="productimgname">@item.Name</td>
                                     <td>@item.Medicine.Name</td>
+                                    <td >
+                                        <input name="prescriptionDetail[@index].Quantity" type="number" max="@item.Quantity" min="1" value="1"/>
+                                    </td>
+                                    <td>@item.Medicine.Price</td>
                                     <td>@(item.Medicine.MedicineType?.Type ?? "Not Found")</td>
                                     <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
                                     <td>@item.Origin</td>                                    
-                                    <td>@item.ExpiryDate</td>
-                                    <td>@item.Medicine.Price</td>
-                                    <td >
-                                        <input name="prescriptionDetail[@index].Quantity" type="number" max="@item.Quantity" min="1"/>
-                                    </td>
+                                    <td>@item.ExpiryDate</td>                                                                        
                                     <td>@(item.Medicine.Description ?? "Not Found")</td>                                    
                                 </tr>
                                 index++;

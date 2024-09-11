@@ -26,6 +26,7 @@ namespace MedicineStock.Controllers
 
             // viewdata for display price, quantiy of medicine on view module
             ViewData["Medicines"] = await _context.Medicines.ToListAsync();
+            ViewData["ManufacturingBatches"] = await _context.ManufacturingBatches.ToListAsync();
 
             var medicineStockContext = _context.Prescriptions.Include(q => q.PrescriptionDetails);
 
@@ -67,9 +68,10 @@ namespace MedicineStock.Controllers
 			//};            
 
 			// viewdata for display price, quantiy of medicine on view module
-			ViewData["Medicines"] = await _context.Medicines.ToListAsync();
+			ViewData["Medicines"] = await _context.Medicines.ToListAsync();            
+            ViewData["ManufacturingBatches"] = await _context.ManufacturingBatches.ToListAsync();
 
-			return View(prescriptions); 
+            return View(prescriptions); 
         }
 
         // GET: Prescriptions/Create
@@ -110,9 +112,9 @@ namespace MedicineStock.Controllers
 
                 // filter prescriptionDetail based on selectedItems
                 var selectedPrescriptionDetails = prescriptionDetail
-                    .Where(q => selectedItems.Contains((int)q.MedicineId))
+                    .Where(q => selectedItems.Contains((int)q.ManufacturingBatchId))
                     .ToList();
-
+                
                 foreach (var item in selectedPrescriptionDetails)
                 {
                     item.PrescriptionId = temp_id;
@@ -120,6 +122,23 @@ namespace MedicineStock.Controllers
 
                 // then save prescriptionDetail
                 await _context.AddRangeAsync(selectedPrescriptionDetails);
+                await _context.SaveChangesAsync();
+
+                //update medicine quantity
+                var manufacturingBatchesUpdate = await _context.ManufacturingBatches.Where(q => selectedItems.Contains((int)q.MedicineId)).ToListAsync();
+
+                foreach (var item in manufacturingBatchesUpdate)
+                {
+                    foreach(var item2 in selectedPrescriptionDetails)
+                    {
+                        if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
+                        {
+                            item.Quantity -= item2.Quantity;
+                        }
+                    }
+                }
+                // then save updated medicine quantity in manufacturing batch
+                _context.UpdateRange(manufacturingBatchesUpdate);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -182,7 +201,7 @@ namespace MedicineStock.Controllers
                     {
                         Console.WriteLine("removing unselected item");
                         var nonSelectedPrescriptionDetails = prescriptionDetail
-                        .Where(q => !selectedItems.Contains((int)q.MedicineId))
+                        .Where(q => !selectedItems.Contains((int)q.ManufacturingBatchId))
                         .ToList();
 
                         _context.PrescriptionDetails.RemoveRange(nonSelectedPrescriptionDetails);

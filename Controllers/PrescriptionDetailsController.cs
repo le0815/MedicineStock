@@ -21,7 +21,7 @@ namespace MedicineStock.Controllers
         // GET: PrescriptionDetails
         public async Task<IActionResult> Index()
         {
-            var medicineStockContext = _context.PrescriptionDetails.Include(p => p.Medicine).Include(p => p.Prescription);
+            var medicineStockContext = _context.PrescriptionDetails.Include(p => p.ManufacturingBatch).Include(p => p.Prescription);
             return View(await medicineStockContext.ToListAsync());
         }
 
@@ -34,7 +34,7 @@ namespace MedicineStock.Controllers
             }
 
             var prescriptionDetail = await _context.PrescriptionDetails
-                .Include(p => p.Medicine)
+                .Include(p => p.ManufacturingBatch)
                 .Include(p => p.Prescription)
                 .FirstOrDefaultAsync(m => m.PrescriptionDetailId == id);
             if (prescriptionDetail == null)
@@ -66,7 +66,7 @@ namespace MedicineStock.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MedicineId"] = new SelectList(_context.Medicines, "MedicineId", "MedicineId", prescriptionDetail.MedicineId);
+            ViewData["ManufacturingBatches"] = new SelectList(_context.ManufacturingBatches, "ManufacturingBatchId", "ManufacturingBatchId", prescriptionDetail.ManufacturingBatch);
             ViewData["PrescriptionId"] = new SelectList(_context.Prescriptions, "PrescriptionId", "PrescriptionId", prescriptionDetail.PrescriptionId);
             return View(prescriptionDetail);
         }
@@ -84,7 +84,7 @@ namespace MedicineStock.Controllers
             {
                 return NotFound();
             }
-            ViewData["MedicineId"] = new SelectList(_context.Medicines, "MedicineId", "MedicineId", prescriptionDetail.MedicineId);
+            ViewData["ManufacturingBatches"] = new SelectList(_context.ManufacturingBatches, "ManufacturingBatchId", "ManufacturingBatchId", prescriptionDetail.ManufacturingBatch);
             ViewData["PrescriptionId"] = new SelectList(_context.Prescriptions, "PrescriptionId", "PrescriptionId", prescriptionDetail.PrescriptionId);
             return View(prescriptionDetail);
         }
@@ -121,7 +121,7 @@ namespace MedicineStock.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MedicineId"] = new SelectList(_context.Medicines, "MedicineId", "MedicineId", prescriptionDetail.MedicineId);
+            ViewData["ManufacturingBatches"] = new SelectList(_context.ManufacturingBatches, "ManufacturingBatchId", "ManufacturingBatchId", prescriptionDetail.ManufacturingBatch);
             ViewData["PrescriptionId"] = new SelectList(_context.Prescriptions, "PrescriptionId", "PrescriptionId", prescriptionDetail.PrescriptionId);
             return View(prescriptionDetail);
         }
@@ -135,7 +135,7 @@ namespace MedicineStock.Controllers
             }
 
             var prescriptionDetail = await _context.PrescriptionDetails
-                .Include(p => p.Medicine)
+                .Include(p => p.ManufacturingBatch)
                 .Include(p => p.Prescription)
                 .FirstOrDefaultAsync(m => m.PrescriptionDetailId == id);
             if (prescriptionDetail == null)

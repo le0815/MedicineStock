@@ -126,16 +126,11 @@ public partial class MedicineStockContext : DbContext
 
             entity.Property(e => e.PrescriptionDetailId).HasColumnName("PrescriptionDetailID");
             entity.Property(e => e.Description).HasMaxLength(100);
-            entity.Property(e => e.MedicineId).HasColumnName("MedicineID");
             entity.Property(e => e.PrescriptionId).HasColumnName("PrescriptionID");
 
             entity.HasOne(d => d.ManufacturingBatch).WithMany(p => p.PrescriptionDetails)
                 .HasForeignKey(d => d.ManufacturingBatchId)
                 .HasConstraintName("FK_ManufacturingBatch");
-
-            entity.HasOne(d => d.Medicine).WithMany(p => p.PrescriptionDetails)
-                .HasForeignKey(d => d.MedicineId)
-                .HasConstraintName("FK__Prescript__Medic__44FF419A");
 
             entity.HasOne(d => d.Prescription).WithMany(p => p.PrescriptionDetails)
                 .HasForeignKey(d => d.PrescriptionId)

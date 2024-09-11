@@ -18,6 +18,4 @@ public partial class Medicine
     public virtual ICollection<ManufacturingBatch> ManufacturingBatches { get; set; } = new List<ManufacturingBatch>();
 
     public virtual MedicineType? MedicineType { get; set; }
-
-    public virtual ICollection<PrescriptionDetail> PrescriptionDetails { get; set; } = new List<PrescriptionDetail>();
 }
