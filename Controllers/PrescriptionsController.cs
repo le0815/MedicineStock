@@ -343,7 +343,8 @@ namespace MedicineStock.Controllers
 
         // GET: Prescriptions/Delete/5
         public async Task<IActionResult> Delete(int? id)
-        {
+        {                    
+            
             if (id == null)
             {
                 return NotFound();
@@ -353,15 +354,18 @@ namespace MedicineStock.Controllers
             //    .Include(p => p.Patient)
             //    .FirstOrDefaultAsync(m => m.PrescriptionId == id);
 
-            var prescription = await _context.Prescriptions                
-                .FirstOrDefaultAsync(m => m.PrescriptionId == id);
+            var prescriptions = await _context.Prescriptions.Include(q => q.PrescriptionDetails).FirstOrDefaultAsync(m => m.PrescriptionId == id);
 
-            if (prescription == null)
+            if (prescriptions == null)
             {
                 return NotFound();
             }
 
-            return View(prescription);
+            // viewdata for display price, quantiy of medicine on view module
+            ViewData["Medicines"] = await _context.Medicines.ToListAsync();
+            ViewData["ManufacturingBatches"] = await _context.ManufacturingBatches.ToListAsync();
+
+            return View(prescriptions);
         }
 
         // POST: Prescriptions/Delete/5
@@ -373,6 +377,25 @@ namespace MedicineStock.Controllers
             if (prescription != null)
             {
                 _context.Prescriptions.Remove(prescription);
+
+                //also delete prescriptionDetails
+                var prescriptionDetail = await _context.PrescriptionDetails.Where(q => q.PrescriptionId.Value == id).ToListAsync();
+                _context.RemoveRange(prescriptionDetail);
+
+                //update quantity after remove
+                var manufacturingBatchesUpdate = await _context.ManufacturingBatches.ToListAsync();
+                foreach (var item in manufacturingBatchesUpdate)
+                {
+                    foreach (var item2 in prescriptionDetail)
+                    {
+                        if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
+                        {
+                            item.Quantity += item2.Quantity;
+                            break;
+                        }
+                    }
+                }
+                _context.UpdateRange(manufacturingBatchesUpdate);
             }
 
             await _context.SaveChangesAsync();

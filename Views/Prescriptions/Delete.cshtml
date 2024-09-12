@@ -1,4 +1,4 @@
-﻿@model MedicineStock.Models.Prescription
+﻿@* @model MedicineStock.Models.Prescription
 
 @{
     ViewData["Title"] = "Delete";
@@ -31,3 +31,14 @@
         <a asp-action="Index">Back to List</a>
     </form>
 </div>
+ *@
+ @model MedicineStock.Models.Prescription
+@{
+    ViewData["Title"] = "Delete";
+}
+ <partial name="_DetailsInvoice" />
+<form asp-action="Delete">
+    <input type="hidden" asp-for="@Model.PrescriptionId" />
+    <input type="submit" value="Delete" class="btn btn-danger" /> |
+    <a asp-action="Index">Back to List</a>
+</form>
