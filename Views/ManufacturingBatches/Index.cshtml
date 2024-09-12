@@ -1,0 +1,150 @@
+﻿@model IEnumerable<MedicineStock.Models.ManufacturingBatch>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@* <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImportDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Origin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Manufacturer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Medicine)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImportDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Origin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpiryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manufacturer.ManufacturerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Medicine.MedicineId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ManufacturingBatchId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ManufacturingBatchId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ManufacturingBatchId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table> *@
+<div class="card mb-0">
+    <div class="card-body">
+        <div class="table-responsive dataview">
+            <table class="table datatable ">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImportDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Origin)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ExpiryDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Manufacturer)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Medicine)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ImportDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Origin)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ExpiryDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Manufacturer.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Medicine.Name)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.ManufacturingBatchId">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.ManufacturingBatchId">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.ManufacturingBatchId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+﻿@model MedicineStock.Models.ManufacturingBatch
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>ManufacturingBatch</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufacturerId" class="control-label">Manufacturer</label>
+                <select asp-for="ManufacturerId" class ="form-control" asp-items="ViewBag.ManufacturerId"></select>
+                <a asp-controller="Manufacturers" asp-action="Create">Is your manufacturer not here? Create new</a>
+            </div>
+            <div class="form-group">
+                <label asp-for="MedicineId" class="control-label">Medicine</label>
+                <select asp-for="MedicineId" class ="form-control" asp-items="ViewBag.MedicineId"></select>
+                <a asp-controller="Medicines" asp-action="Create">Is your medicine not here? Create new</a>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="ImportDate" class="control-label"></label>
+                <input asp-for="ImportDate" class="form-control" id="datetime" />
+                <!-- auto set value to current date -->
+                <script>
+                    // Get current date and time
+                    var now = new Date();
+                    var datetime = now.toLocaleDateString();
+
+                    // Insert date and time into the input field
+                    document.getElementById("datetime").value = datetime;
+                </script>
+                <span asp-validation-for="ImportDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Origin" class="control-label"></label>
+                <input asp-for="Origin" class="form-control" />
+                <span asp-validation-for="Origin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExpiryDate" class="control-label"></label>
+                <input asp-for="ExpiryDate" class="form-control" type="date"/>
+                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" min="1"/>
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

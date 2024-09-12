@@ -75,6 +75,7 @@
                     <div class="form-group">
                         <label asp-for="MedicineTypeId">Medicine Type</label>
                         <select asp-for="MedicineTypeId" class="form-control" asp-items="ViewBag.MedicineTypeId"></select>
+                        <a asp-controller="MedicineTypes" asp-action="Create">Is your medicine type not here? Create new</a>
                         <span asp-validation-for="MedicineTypeId" class="text-danger"></span>
                     </div>
                 </div>

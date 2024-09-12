@@ -77,13 +77,14 @@
                     <div class="form-group">
                         <label asp-for="MedicineTypeId">Medicine Type</label>
                         <select asp-for="MedicineTypeId" class="form-control" asp-items="ViewBag.MedicineTypeId"></select>
+                        <a asp-controller="MedicineTypes" asp-action="Create">Is your medicine type not here? Create new</a>
                         <span asp-validation-for="MedicineTypeId" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label>Price</label>
+                        <label asp-for="Price">Price</label>
                         <input asp-for="Price" type="number">
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
