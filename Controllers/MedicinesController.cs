@@ -19,17 +19,11 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Medicines
-        public async Task<IActionResult> Index(string searchPhrase = null)
-        {   
-            if (string.IsNullOrEmpty(searchPhrase))
-            {
-                //var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer).Include(m => m.MedicineType);
-                var medicineStockContext1 = _context.Medicines.Include(m => m.MedicineType);
-                return View(await medicineStockContext1.ToListAsync());
-            }
-            //var medicineStockContext = _context.Medicines.Include(m => m.Manufacturer).Where(j => j.Name.Contains(searchPhrase));
-            var medicineStockContext = _context.Medicines.Where(j => j.Name.Contains(searchPhrase));
-            return View(await medicineStockContext.ToListAsync());
+        public async Task<IActionResult> Index()
+        {
+            //var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer).Include(m => m.MedicineType);
+            var medicineStockContext1 = _context.Medicines.Include(m => m.MedicineType);
+            return View(await medicineStockContext1.ToListAsync());
         }
 
         // GET: Medicines/Details/5

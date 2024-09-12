@@ -20,18 +20,13 @@
     <div class="search-set">
         <div class="search-input">
             <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
-            <form asp-action="Index">
-                <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." aria-controls="DataTables_Table_0">
-                <div class="form-group">
-                    <input type="submit" value="Find" class="btn btn-primary" />
-                </div>
-            </form>
+            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." id="searchBox">
         </div>
     </div>
 </div>
 
 
-<table class="table">
+<table class="table" id="searchTable">
     <thead>
         <tr>
             <th>

@@ -536,12 +536,14 @@
         <div class="page-wrapper">
             <div class="content">
                 @RenderBody()
+                @RenderSection("Scripts", required: false)
             </div>
         </div>
     </div>
 
 
     <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="~/assets/js/feather.min.js"></script>
 
@@ -556,6 +558,29 @@
     <script src="~/assets/plugins/apexchart/chart-data.js"></script>
 
     <script src="~/assets/js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchBox = document.getElementById('searchBox');
+            const table = document.getElementById('searchTable');
+            const rows = table.getElementsByTagName('tr');
+
+            searchBox.addEventListener('input', function () {
+                const filter = searchBox.value.toLowerCase();
+                for (let i = 1; i < rows.length; i++) {
+                    const cells = rows[i].getElementsByTagName('td');
+                    let found = false;
+                    for (let j = 0; j < cells.length - 1; j++) {
+                        if (cells[j].innerText.toLowerCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    rows[i].style.display = found ? '' : 'none';
+                }
+            });
+        });
+    </script>
+    
 </body>
 
 </html>

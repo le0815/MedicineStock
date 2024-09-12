@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MedicineStock.Models.Medicine>
+
+<table id="DataTables_Table_0" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MedicineType)
+            </th>
+            <th>                
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicineType.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MedicineId" class="btn btn-primary">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.MedicineId" class="btn btn-primary">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MedicineId" class="btn btn-primary">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

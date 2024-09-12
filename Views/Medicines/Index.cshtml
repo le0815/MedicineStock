@@ -20,18 +20,13 @@
     <div class="search-set">
         <div class="search-input">
             <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
-            <form asp-action="Index">
-                <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." aria-controls="DataTables_Table_0">
-                <div class="form-group">
-                    <input type="submit" value="Find" class="btn btn-primary" />
-                </div>
-                </form>
+            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." id="searchBox">
         </div>
     </div>
 </div>
 
 <!-- display data -->
-<table class="table">
+<table class="table" id="searchTable">
     <thead>
         <tr>
             <th>
@@ -52,27 +47,85 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MedicineType.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicineType.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
                     <a asp-action="Edit" asp-route-id="@item.MedicineId" class="btn btn-primary">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.MedicineId" class="btn btn-primary">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.MedicineId" class="btn btn-primary">Delete</a>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+
+@*  @model IEnumerable<MedicineStock.Models.Medicine>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- header -->
+<div class="page-header">
+    <div class="page-title">
+        <h2>Medicines List</h2>
+        <h6>Manage your products</h6>
+    </div>
+    <div class="page-btn">
+        <a class="btn btn-added" asp-action="Create"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add New</a>
+    </div>
+</div>
+
+<!-- search bar -->
+<div class="table-top">
+    <div class="search-set">
+        @* <div class="search-input">
+            <input id="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." aria-controls="DataTables_Table_0">
+        </div>
+        <form asp-action="Search">
+            <input id="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." aria-controls="DataTables_Table_0">
+            <div class="form-group">
+                <input type="submit" value="Find" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- display data -->
+<div id="medicineTable">
+    @Html.Partial("_MedicineTablePartial", Model)
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchPhrase').keyup(function () {
+                var searchPhrase = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("Search", "Medicine")',
+                    type: 'GET',
+                    data: { searchPhrase: searchPhrase },
+                    success: function (result) {
+                        $('#medicineTable').html(result);
+                    }
+                });
+            });
+        });
+    </script>
+} *@

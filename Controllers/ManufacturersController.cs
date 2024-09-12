@@ -19,15 +19,11 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Manufacturers
-        public async Task<IActionResult> Index(string searchPhrase = null)
+        public async Task<IActionResult> Index()
         {
-            if (string.IsNullOrEmpty(searchPhrase))
-            {
-                var manufacturerStockContext1 = _context.Manufacturers;
-                return View(await manufacturerStockContext1.ToListAsync());
-            }
-            var manufacturerStockContext = _context.Manufacturers.Where(j => j.Name.Contains(searchPhrase));
-            return View(await manufacturerStockContext.ToListAsync());
+
+            var manufacturerStockContext1 = _context.Manufacturers;
+            return View(await manufacturerStockContext1.ToListAsync());
         }
 
         // GET: Manufacturers/Details/5

@@ -35,7 +35,15 @@
         </form>
     </div>
 </div> *@
-
+<!-- search bar -->
+<div class="table-top">
+    <div class="search-set">
+        <div class="search-input">
+            <a class="btn btn-searchset"><img src="~/assets/img/icons/search-white.svg" alt="img"></a>
+            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." id="searchBox">
+        </div>
+    </div>
+</div>
 
 <div class="card">
     <div class="card-body">
@@ -55,7 +63,7 @@
 
             <!-- select medicine-->
             <div class="table-responsive dataview">
-                <table class="table datatable ">
+                <table class="table datatable " id="searchTable">
                     <thead>
                         <tr>
                             <th></th>
@@ -115,12 +123,4 @@
             </div>
         </form>
     </div>
-        <script>
-  // Get current date and time
-  var now = new Date();
-  var datetime = now.toLocaleString();
-
-  // Insert date and time into HTML
-  document.getElementById("datetime").innerHTML = datetime;
-</script>
 </div>

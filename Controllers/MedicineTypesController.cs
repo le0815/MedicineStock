@@ -19,15 +19,10 @@ namespace MedicineStock.Controllers
         }
 
         // GET: MedicineTypes
-        public async Task<IActionResult> Index(string searchPhrase = null)
+        public async Task<IActionResult> Index()
         {
-            if (string.IsNullOrEmpty(searchPhrase))
-            {
-                var medicineStockContext1 = _context.MedicineTypes;
-                return View(await medicineStockContext1.ToListAsync());
-            }
-            var medicineStockContext = _context.MedicineTypes.Where(j => j.Type.Contains(searchPhrase));
-            return View(await medicineStockContext.ToListAsync());
+            var medicineStockContext1 = _context.MedicineTypes;
+            return View(await medicineStockContext1.ToListAsync());
         }
 
         // GET: MedicineTypes/Details/5

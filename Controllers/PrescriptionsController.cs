@@ -20,7 +20,7 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Prescriptions
-        public async Task<IActionResult> Index(string searchPhrase = null)
+        public async Task<IActionResult> Index()
         {
             //var medicineStockContext = _context.Prescriptions.Include(p => p.Patient);
 
@@ -30,14 +30,7 @@ namespace MedicineStock.Controllers
 
             var medicineStockContext = _context.Prescriptions.Include(q => q.PrescriptionDetails);
 
-            if (string.IsNullOrEmpty(searchPhrase))
-            {
-                return View(await medicineStockContext.ToListAsync());
-            }
-
-            //var temp = medicineStockContext.Where(q => q.Patient.Name.Contains(searchPhrase));
-            var temp = medicineStockContext;
-            return View(await temp.ToListAsync());
+            return View(await medicineStockContext.ToListAsync());
         }
 
         // GET: Prescriptions/Details/5
@@ -77,17 +70,8 @@ namespace MedicineStock.Controllers
         // GET: Prescriptions/Create
         public async Task<IActionResult> Create()
         {
-            //var model = new PrescriptionViewModel
-            //{
-            //    Prescription = new Prescription(),
-            //    PrescriptionDetail = new PrescriptionDetail(),
-            //    Medicines = await _context.Medicines.Include(j => j.MedicineType).ToListAsync(),                
-            //};
 
             var model = await _context.ManufacturingBatches.Include(q => q.Medicine).Include(q => q.Manufacturer).ToListAsync();
-
-
-            //ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Name");
             ViewData["MedicineTypes"] = await _context.MedicineTypes.ToListAsync();
 
             return View(model);
