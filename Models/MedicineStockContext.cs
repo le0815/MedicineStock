@@ -27,6 +27,8 @@ public partial class MedicineStockContext : DbContext
 
     public virtual DbSet<Patient> Patients { get; set; }
 
+    public virtual DbSet<Permission> Permissions { get; set; }
+
     public virtual DbSet<Prescription> Prescriptions { get; set; }
 
     public virtual DbSet<PrescriptionDetail> PrescriptionDetails { get; set; }
@@ -44,8 +46,12 @@ public partial class MedicineStockContext : DbContext
             entity.ToTable("Admin");
 
             entity.Property(e => e.Password).HasMaxLength(100);
-            entity.Property(e => e.Permission).HasDefaultValue(1);
+            entity.Property(e => e.PermissionId).HasDefaultValue(1);
             entity.Property(e => e.UserName).HasMaxLength(100);
+
+            entity.HasOne(d => d.Permission).WithMany(p => p.Admins)
+                .HasForeignKey(d => d.PermissionId)
+                .HasConstraintName("FK_Permission");
         });
 
         modelBuilder.Entity<Manufacturer>(entity =>
@@ -110,6 +116,15 @@ public partial class MedicineStockContext : DbContext
             entity.Property(e => e.Gender).HasMaxLength(10);
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.PhoneNumber).HasMaxLength(15);
+        });
+
+        modelBuilder.Entity<Permission>(entity =>
+        {
+            entity.HasKey(e => e.PermissionId).HasName("PK__Permissi__EFA6FB2F0AD323D0");
+
+            entity.ToTable("Permission");
+
+            entity.Property(e => e.Name).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Prescription>(entity =>

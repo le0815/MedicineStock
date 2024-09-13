@@ -11,5 +11,7 @@ public partial class Admin
 
     public string? Password { get; set; }
 
-    public int? Permission { get; set; }
+    public int? PermissionId { get; set; }
+
+    public virtual Permission? Permission { get; set; }
 }
