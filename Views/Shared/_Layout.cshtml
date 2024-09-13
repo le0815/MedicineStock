@@ -262,7 +262,7 @@
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
                         <!-- Dashboard -->
-                        <li class="active">
+                        <li class="@(ViewBag.Menu=="Dashboard" ? "active" : "")">
                             <a asp-controller="Home" asp-action="Index">
                                 <img src="~/assets/img/icons/dashboard.svg" alt="img"><span>
                                     Dashboard
@@ -272,7 +272,7 @@
 
                         <!-- Medicine -->
                         <li class="submenu">
-                            <a href="javascript:void(0);">
+                            <a href="javascript:void(0);" class="@(ViewBag.Menu=="Medicine" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/product.svg" alt="img"><span>
                                     Medicines Manager
                                 </span> <span class="menu-arrow"></span>
@@ -285,7 +285,7 @@
 
                         <!-- Manufacturer -->
                         <li class="submenu">
-                            <a href="javascript:void(0);">
+                            <a href="javascript:void(0);" class="@(ViewBag.Menu=="Manufacturer" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/purchase1.svg" alt="img"><span>
                                     Manufacturer Manager
                                 </span> <span class="menu-arrow"></span>
@@ -298,7 +298,7 @@
 
                         <!-- Medicine Type Manager -->
                         <li class="submenu">
-                            <a href="javascript:void(0);">
+                            <a href="javascript:void(0);" class="@(ViewBag.Menu=="MedicineType" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/expense1.svg" alt="img"><span>
                                     Medicine Type Manager
                                 </span> <span class="menu-arrow"></span>
@@ -312,7 +312,7 @@
 
                         <!-- Prescripton -->
                         <li class="submenu">
-                            <a href="javascript:void(0);">
+                            <a href="javascript:void(0);" class="@(ViewBag.Menu=="Prescripton" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/transfer1.svg" alt="img"><span>
                                     Prescripton Manager
                                 </span> <span class="menu-arrow"></span>
@@ -325,7 +325,7 @@
 
                         <!-- Manufacturing Batch -->
                         <li class="submenu">
-                            <a href="javascript:void(0);">
+                            <a href="javascript:void(0);" class="@(ViewBag.Menu=="ManufacturingBatch" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/return1.svg" alt="img"><span>
                                    Manufacturing Batch
                                 </span> <span class="menu-arrow"></span>
