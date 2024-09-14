@@ -15,7 +15,7 @@ public partial class MedicineStockContext : DbContext
     {
     }
 
-    public virtual DbSet<Admin> Admins { get; set; }
+    public virtual DbSet<Account> Accounts { get; set; }
 
     public virtual DbSet<Manufacturer> Manufacturers { get; set; }
 
@@ -39,19 +39,19 @@ public partial class MedicineStockContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Admin>(entity =>
+        modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.AdminId).HasName("PK__Admin__719FE488AE453A15");
+            entity.HasKey(e => e.AccountId).HasName("PK__Account__349DA5A6EFA5267A");
 
-            entity.ToTable("Admin");
+            entity.ToTable("Account");
 
+            entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.Password).HasMaxLength(100);
-            entity.Property(e => e.PermissionId).HasDefaultValue(1);
             entity.Property(e => e.UserName).HasMaxLength(100);
 
-            entity.HasOne(d => d.Permission).WithMany(p => p.Admins)
+            entity.HasOne(d => d.Permission).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.PermissionId)
-                .HasConstraintName("FK_Permission");
+                .HasConstraintName("FK__Account__Permiss__06CD04F7");
         });
 
         modelBuilder.Entity<Manufacturer>(entity =>
