@@ -1,7 +1,13 @@
 ﻿ @* @using Microsoft.AspNetCore.Mvc; *@
  @using Newtonsoft.Json;
+@*  @model MedicineStock.Views.Shared._LayoutModel *@
 @{
     var sessionAccount = Context.Session.GetString("Account"); 
+
+    // if (sessionAccount == null)
+    // {
+    //     return HttpsRedirectionServicesExtensions
+    // }
     // convert to json 
     var loggedAccount = JsonConvert.DeserializeObject<Dictionary<string, object>>(sessionAccount);
 }
@@ -342,8 +348,10 @@
                                 <li><a asp-controller="ManufacturingBatches" asp-action="Create">Manufacturing Batch Create</a></li>
                             </ul>
                         </li>
+
+                        <!-- Account -->
                         <li class="submenu">
-                            <a href="javascript:void(0);">
+                            <a href="javascript:void(0);" class="@(ViewBag.Menu=="Account" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/users1.svg" alt="img"><span>
                                     Account
                                 </span> <span class="menu-arrow"></span>

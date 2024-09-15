@@ -49,5 +49,13 @@ namespace MedicineStock.Controllers
 
             return View("Login");
         }
+
+        public async Task<IActionResult> Index()
+        {
+            //var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer).Include(m => m.MedicineType);
+            var medicineStockContext1 = _context.Accounts.Include(m => m.Permission);
+            return View(await medicineStockContext1.ToListAsync());
+        }
+
     }
 }
