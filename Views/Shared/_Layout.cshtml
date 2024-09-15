@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿ @* @using Microsoft.AspNetCore.Mvc; *@
+ @using Newtonsoft.Json;
+@{
+    var sessionAccount = Context.Session.GetString("Account"); 
+    // convert to json 
+    var loggedAccount = JsonConvert.DeserializeObject<Dictionary<string, object>>(sessionAccount);
+}
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -221,8 +228,8 @@
                                     <span class="status online"></span>
                                 </span>
                                 <div class="profilesets">
-                                    <h6>John Doe</h6>
-                                    <h5>Admin</h5>
+                                    <h6>@loggedAccount["UserName"]</h6>
+                                    <h5>@((int)(long)loggedAccount["PermissionId"] == 1 ? "Admin" : "Sales")</h5>
                                 </div>
                             </div>
                             <hr class="m-0">
@@ -235,7 +242,7 @@
                                    data-feather="settings"></i>Settings
                             </a>
                             <hr class="m-0">
-                            <a class="dropdown-item logout pb-0" href="signin.html">
+                            <a asp-controller="Account" asp-action="Logout" class="dropdown-item logout pb-0">
                                 <img src="~/assets/img/icons/log-out.svg" class="me-2" alt="img">Logout
                             </a>
                         </div>
@@ -335,35 +342,15 @@
                                 <li><a asp-controller="ManufacturingBatches" asp-action="Create">Manufacturing Batch Create</a></li>
                             </ul>
                         </li>
-
-                        <li class="submenu">
-                            <a href="javascript:void(0);">
-                                <img src="~/assets/img/icons/return1.svg" alt="img"><span>
-                                    Return
-                                </span> <span class="menu-arrow"></span>
-                            </a>
-                            <ul>
-                                <li><a href="salesreturnlist.html">Sales Return List</a></li>
-                                <li><a href="createsalesreturn.html">Add Sales Return </a></li>
-                                <li><a href="purchasereturnlist.html">Purchase Return List</a></li>
-                                <li><a href="createpurchasereturn.html">Add Purchase Return </a></li>
-                            </ul>
-                        </li>
                         <li class="submenu">
                             <a href="javascript:void(0);">
                                 <img src="~/assets/img/icons/users1.svg" alt="img"><span>
-                                    People
+                                    Account
                                 </span> <span class="menu-arrow"></span>
                             </a>
                             <ul>
-                                <li><a href="customerlist.html">Customer List</a></li>
-                                <li><a href="addcustomer.html">Add Customer </a></li>
-                                <li><a href="supplierlist.html">Supplier List</a></li>
-                                <li><a href="addsupplier.html">Add Supplier </a></li>
-                                <li><a href="userlist.html">User List</a></li>
-                                <li><a href="adduser.html">Add User</a></li>
-                                <li><a href="storelist.html">Store List</a></li>
-                                <li><a href="addstore.html">Add Store</a></li>
+                                <li><a asp-controller="Account" asp-action="Index">Account List</a></li>
+                                <li><a asp-controller="Account" asp-action="Create">Account Create</a></li>
                             </ul>
                         </li>
                         <li class="submenu">

@@ -2,6 +2,7 @@ using MedicineStock.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 
 namespace MedicineStock.Controllers
@@ -21,8 +22,9 @@ namespace MedicineStock.Controllers
         //    return View();
         //}
 
+        [Authentication]
         public async Task<IActionResult> Index()
-        {
+        {            
             //var medicines = await _context.Medicines.Include(m => m.Manufacturer).Include(j => j.MedicineType).ToListAsync();
             var medicines = await _context.Medicines.ToListAsync();
             var manufacturingBatch = await _context.ManufacturingBatches.Include(q => q.Medicine).Include(q => q.Manufacturer).ToListAsync();
