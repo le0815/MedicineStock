@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
@@ -57,5 +58,27 @@ namespace MedicineStock.Controllers
             return View(await medicineStockContext1.ToListAsync());
         }
 
+        public IActionResult Create()
+        {
+            //var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer).Include(m => m.MedicineType);
+            //var medicineStockContext1 = _context.Accounts.Include(m => m.Permission);
+            ViewData["PermissionId"] = new SelectList(_context.Permissions, "PermissionId", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("UserName,Password,PermissionId")] Account account)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(account);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewData["MedicineTypeId"] = new SelectList(_context.Permissions, "PermissionId", "Name", account.PermissionId);
+            return View(account);
+        }
     }
 }
