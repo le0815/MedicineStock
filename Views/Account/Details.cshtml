@@ -1,0 +1,41 @@
+﻿@model MedicineStock.Models.Account
+
+@{
+    ViewData["Title"] = "Details";
+    ViewBag.Menu = "Account";
+}
+
+<h1>Details</h1>
+
+<div class="card">
+    <div class="card-body">
+        <div class="productdetails">
+            <ul class="product-bar">
+                <li>
+                    <h4>@Html.DisplayNameFor(model => model.AccountId)</h4>
+                    <h6>@Html.DisplayFor(model => model.AccountId)</h6>
+                </li>
+                <li>
+                    <h4>@Html.DisplayNameFor(model => model.UserName)</h4>
+                    <h6>@Html.DisplayFor(model => model.UserName)</h6>
+                </li>
+                <li>
+                    <h4>@Html.DisplayNameFor(model => model.Password)</h4>
+                    <h6>@Html.DisplayFor(model => model.Password)</h6>
+                </li>
+                <li>
+                    <h4>@Html.DisplayNameFor(model => model.Email)</h4>
+                    <h6>@Html.DisplayFor(model => model.Email)</h6>
+                </li>
+                <li>
+                    <h4>@Html.DisplayNameFor(model => model.Permission)</h4>
+                    <h6>@Html.DisplayFor(model => model.Permission.Name)</h6>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.AccountId" class="btn btn-cancel">Edit</a>
+    <a asp-action="Index" class="btn btn-submit me-2">Back to List</a>
+</div>

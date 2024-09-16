@@ -1,0 +1,89 @@
+﻿@model MedicineStock.Models.Account
+@* @model IEnumerable<MedicineStock.Models.Account> *@
+@{
+    ViewData["Title"] = "Edit";
+    ViewBag.Menu = "Account";
+}
+
+<!-- header -->
+<div class="page-header">
+    <div class="page-title">
+        <h2>Account Edit</h2>
+        <h6>Manage your account</h6>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AccountId" />
+            <div class="row">
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="UserName">User Name</label>
+                        <input type="text" asp-for="UserName" >
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="Password">Password</label>
+                        <div class="pass-group">
+                            <input asp-for="Password" type="password" value="@Model.Password" id="Password" class="pass-input" placeholder="Enter your password">
+                            <span class="fas toggle-password fa-eye-slash"></span>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>Confirm password</label>
+                        <div class="pass-group">
+                            <input name="confirmPwd" type="password" id="confirmPwd" class="pass-input" placeholder="Confirm password">
+                            <span class="fas toggle-password fa-eye-slash"></span>
+                        </div>
+                        <span id="confirmPwdError" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label asp-for="PermissionId">Permission</label>
+                        <select asp-for="PermissionId" class="form-control" asp-items="ViewBag.PermissionId"></select>
+                        <a asp-controller="Permission" asp-action="Create">Is your permission type not here? Create new</a>
+                        <span asp-validation-for="PermissionId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <input type="submit" value="Confirm" class="btn btn-submit me-2" id="submit-btn" />
+                        <a asp-action="Index" class="btn btn-cancel">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- js script for ensure pwd and confirm pwd fields are match-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const passwordInput = document.getElementById('Password');
+            const confirmPwdInput = document.getElementById('confirmPwd');
+            const confirmPwdError = document.getElementById('confirmPwdError');
+            const submitBtn = document.getElementById('submit-btn');
+
+            function validatePasswords() {
+                if (passwordInput.value != confirmPwdInput.value) {
+                    confirmPwdError.textContent = 'Passwords do not match.';
+                    submitBtn.style.visibility = 'hidden';
+                } else {
+                    confirmPwdError.textContent = '';
+                    submitBtn.style.visibility = 'visible';
+                }
+            }
+
+            passwordInput.addEventListener('input', validatePasswords);
+            confirmPwdInput.addEventListener('input', validatePasswords);
+        });
+    </script>
+</div>
+
