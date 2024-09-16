@@ -58,11 +58,12 @@ namespace MedicineStock.Controllers
             return View(await medicineStockContext1.ToListAsync());
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             //var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer).Include(m => m.MedicineType);
             //var medicineStockContext1 = _context.Accounts.Include(m => m.Permission);
             ViewData["PermissionId"] = new SelectList(_context.Permissions, "PermissionId", "Name");
+            //ViewData["Accounts"] = await _context.Accounts.ToListAsync();
             return View();
         }
 
@@ -72,6 +73,13 @@ namespace MedicineStock.Controllers
         {
             if (ModelState.IsValid)
             {
+                // check userName if exist in database
+                var usrName = _context.Accounts.Where(q => q.UserName == account.UserName).FirstOrDefault();
+                if (usrName != null)
+                {
+                    ViewData["MedicineTypeId"] = new SelectList(_context.Permissions, "PermissionId", "Name", account.PermissionId);
+                    return View(account);
+                }
                 _context.Add(account);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

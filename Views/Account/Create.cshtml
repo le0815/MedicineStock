@@ -1,5 +1,5 @@
 ﻿@model MedicineStock.Models.Account
-
+@* @model IEnumerable<MedicineStock.Models.Account> *@
 @{
     ViewData["Title"] = "Create";
     ViewBag.Menu = "Account";
@@ -27,11 +27,11 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="Password">Password</label>                        
-                        <div class="pass-group">                            
+                        <label asp-for="Password">Password</label>
+                        <div class="pass-group">
                             <input asp-for="Password" type="password" id="Password" class="pass-input" placeholder="Enter your password">
                             <span class="fas toggle-password fa-eye-slash"></span>
-                        </div>                     
+                        </div>
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>
@@ -48,14 +48,14 @@
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
                         <label asp-for="PermissionId">Permission</label>
-                        <select asp-for="PermissionId" class="form-control" asp-items="ViewBag.PermissionId"></select>                        
+                        <select asp-for="PermissionId" class="form-control" asp-items="ViewBag.PermissionId"></select>
                         <a asp-controller="Permission" asp-action="Create">Is your permission type not here? Create new</a>
                         <span asp-validation-for="PermissionId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-submit me-2" id="submit-btn"/>
+                        <input type="submit" value="Create" class="btn btn-submit me-2" id="submit-btn" />
                         <a asp-action="Index" class="btn btn-cancel">Cancel</a>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
 
             function validatePasswords() {
                 if (passwordInput.value != confirmPwdInput.value) {
-                    confirmPwdError.textContent = 'Passwords do not match.';                    
+                    confirmPwdError.textContent = 'Passwords do not match.';
                     submitBtn.style.visibility = 'hidden';
                 } else {
                     confirmPwdError.textContent = '';
