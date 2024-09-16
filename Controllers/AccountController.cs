@@ -35,7 +35,7 @@ namespace MedicineStock.Controllers
                 {
                     // set account info to session
                     HttpContext.Session.SetString("Account", System.Text.Json.JsonSerializer.Serialize(result));
-                    
+
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -130,7 +130,7 @@ namespace MedicineStock.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AccountId","UserName,Password,PermissionId")] Account account)
+        public async Task<IActionResult> Edit(int id, [Bind("AccountId", "UserName,Password,PermissionId")] Account account)
         {
             if (id != account.AccountId)
             {
@@ -163,6 +163,41 @@ namespace MedicineStock.Controllers
             //return await Index();
         }
 
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var account = await _context.Accounts
+                .FirstOrDefaultAsync(m => m.AccountId == id);
+            ViewData["Permissions"] = await _context.Permissions.ToListAsync();
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            return View(account);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirm(int id)
+        {
+
+            var account = await _context.Accounts.FindAsync(id);
+            if (account != null)
+            {
+                _context.Accounts.Remove(account);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            
+
+            ViewData["PermissionId"] = new SelectList(_context.Permissions, "PermissionId", "Name");
+            return View();
+        }
         private bool AccountExists(int id)
         {
             return _context.Medicines.Any(e => e.MedicineId == id);
