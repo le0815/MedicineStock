@@ -1,0 +1,67 @@
+﻿@model IEnumerable<MedicineStock.Models.Permission>
+@* @model MedicineStock.Models.Prescription *@
+@{
+    ViewData["Title"] = "Index";
+    ViewBag.Menu = "Permission";
+}
+
+<!-- header -->
+<div class="page-header">
+    <div class="page-title">
+        <h2>Permission List</h2>
+    </div>
+    <div class="page-btn">
+        <a class="btn btn-added" asp-action="Create"><img src="/assets/img/icons/plus.svg" alt="img" class="me-1">Add New</a>
+    </div>
+</div>
+
+<!-- search bar -->
+<div class="table-top">
+    <div class="search-set">
+        <div class="search-input">
+            <a class="btn btn-searchset"><img src="/assets/img/icons/search-white.svg" alt="img"></a>
+            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." id="searchBox">
+        </div>
+    </div>
+</div>
+
+
+<div class="card mb-0">
+    <div class="card-body">
+        <div class="table-responsive dataview">
+            <table class="table datatable " id="searchTable">
+                <thead>
+                    <tr>
+                        <th>SNo</th>
+                        <th>@Html.DisplayNameFor(model => model.PermissionId)</th>
+                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int count = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@count</td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PermissionId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.PermissionId">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.PermissionId">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.PermissionId">Delete</a>
+                                </td>
+                            </tr>
+                            count++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

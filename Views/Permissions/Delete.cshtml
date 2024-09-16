@@ -1,0 +1,16 @@
+﻿@model MedicineStock.Models.Permission
+
+@{
+    ViewData["Title"] = "Delete";
+    ViewBag.Menu = "Permission";
+}
+
+<h1>Delete</h1>
+<h6>Permission</h6>
+
+@await Html.PartialAsync("_DetailsPermission", Model)
+<form asp-action="Delete">
+    <input type="hidden" asp-for="PermissionId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <button asp-action="Index" class="btn btn-primary">Back to index</button>
+</form>
