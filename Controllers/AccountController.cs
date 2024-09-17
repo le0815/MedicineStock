@@ -38,8 +38,9 @@ namespace MedicineStock.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-            }
+                TempData["Message"] = "Invalid Username or Password";
 
+            }            
             return View();
         }
 
