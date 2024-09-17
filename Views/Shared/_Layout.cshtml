@@ -2,12 +2,20 @@
  @using Newtonsoft.Json;
 @*  @model MedicineStock.Views.Shared._LayoutModel *@
 @{
-    var sessionAccount = Context.Session.GetString("Account"); 
+    // if (Context.Session.GetString("Account") == null)
+    // {
+    //     @model MedicineStock.Models.Account
+    //     ViewData.Clear();
+    //     ViewBag.Clear();
+    //     await Html.PartialAsync("/Views/Account/Login.cshtml", Model);
+    //     return;
+    // }
 
     // if (sessionAccount == null)
     // {
     //     return HttpsRedirectionServicesExtensions
     // }
+    var sessionAccount = Context.Session.GetString("Account");
     // convert to json 
     var loggedAccount = JsonConvert.DeserializeObject<Dictionary<string, object>>(sessionAccount);
 }
