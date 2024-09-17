@@ -33,14 +33,14 @@ namespace MedicineStock.Controllers
             {
                 return NotFound();
             }
-
+            
             var medicine = await _context.Medicines
                 .FirstOrDefaultAsync(m => m.MedicineId == id);
             if (medicine == null)
             {
                 return NotFound();
             }
-            
+            ViewData["MedicineTypes"] = await _context.MedicineTypes.ToListAsync();
             return View(medicine);
         }
 
@@ -133,9 +133,8 @@ namespace MedicineStock.Controllers
             {
                 return NotFound();
             }
-
-            var medicine = await _context.Medicines
-                
+            ViewData["MedicineTypeId"] = await _context.MedicineTypes.ToListAsync();
+            var medicine = await _context.Medicines                
                 .FirstOrDefaultAsync(m => m.MedicineId == id);
             if (medicine == null)
             {
@@ -150,6 +149,7 @@ namespace MedicineStock.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            ViewData["MedicineTypeId"] = await _context.MedicineTypes.ToListAsync();
             var medicine = await _context.Medicines.FindAsync(id);
             if (medicine != null)
             {

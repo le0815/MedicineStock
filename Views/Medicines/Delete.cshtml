@@ -8,35 +8,12 @@
 <h1>Delete</h1>
 
 <h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Medicine</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+<hr />
 
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="MedicineId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" class="btn btn-submit">Back to List</a>
-    </form>
-</div>
+@await Html.PartialAsync("_DetailsMedicine", Model)
+<form asp-action="Delete">
+    <input type="hidden" asp-for="MedicineId" />
+    <button type="submit" class="btn btn-danger">Remove</button>
+    <button asp-action="Index" class="btn btn-primary">Back to List</button>
+</form>
+

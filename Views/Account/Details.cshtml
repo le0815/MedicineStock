@@ -6,9 +6,11 @@
 }
 
 <h1>Details</h1>
+<h6>Account</h6>
+<hr />
 
 @await Html.PartialAsync("_DetailsAccount", Model)
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.AccountId" class="btn btn-cancel">Edit</a>
-    <a asp-action="Index" class="btn btn-submit me-2">Back to List</a>
+    <button asp-action="Edit" asp-route-id="@Model?.AccountId" class="btn btn-secondary">Edit</button>
+    <button asp-action="Index" class="btn btn-primary">Back to List</button>
 </div>
