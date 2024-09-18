@@ -19,12 +19,16 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Permissions
+        [Authentication]
+        [CheckPermisson]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Permissions.ToListAsync());
         }
 
         // GET: Permissions/Details/5
+        [Authentication]
+        [CheckPermisson]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,6 +47,8 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Permissions/Create
+        [Authentication]
+        [CheckPermisson]
         public IActionResult Create()
         {
             return View();
@@ -51,6 +57,8 @@ namespace MedicineStock.Controllers
         // POST: Permissions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authentication]
+        [CheckPermisson]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PermissionId,Name")] Permission permission)
@@ -65,6 +73,8 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Permissions/Edit/5
+        [Authentication]
+        [CheckPermisson]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,6 +93,8 @@ namespace MedicineStock.Controllers
         // POST: Permissions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authentication]
+        [CheckPermisson]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PermissionId,Name")] Permission permission)
@@ -116,6 +128,8 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Permissions/Delete/5
+        [Authentication]
+        [CheckPermisson]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,6 +148,8 @@ namespace MedicineStock.Controllers
         }
 
         // POST: Permissions/Delete/5
+        [Authentication]
+        [CheckPermisson]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

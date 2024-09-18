@@ -20,6 +20,7 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Prescriptions
+        [Authentication]
         public async Task<IActionResult> Index()
         {
             //var medicineStockContext = _context.Prescriptions.Include(p => p.Patient);
@@ -34,6 +35,7 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Prescriptions/Details/5
+        [Authentication]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -68,6 +70,7 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Prescriptions/Create
+        [Authentication]
         public async Task<IActionResult> Create()
         {
 
@@ -80,6 +83,7 @@ namespace MedicineStock.Controllers
         // POST: Prescriptions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authentication]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("ManufacturingBatchId,MedicineId,Quantity")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
@@ -133,6 +137,7 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Prescriptions/Edit/5
+        [Authentication]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -170,6 +175,7 @@ namespace MedicineStock.Controllers
         // POST: Prescriptions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authentication]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("PrescriptionDetailId,PrescriptionId,ManufacturingBatchId,Quantity")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
@@ -326,6 +332,7 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Prescriptions/Delete/5
+        [Authentication]        
         public async Task<IActionResult> Delete(int? id)
         {                    
             
@@ -353,6 +360,7 @@ namespace MedicineStock.Controllers
         }
 
         // POST: Prescriptions/Delete/5
+        [Authentication]        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

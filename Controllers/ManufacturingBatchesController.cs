@@ -7,18 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MedicineStock.Models;
 
+
 namespace MedicineStock.Controllers
 {
     public class ManufacturingBatchesController : Controller
     {
         private readonly MedicineStockContext _context;
 
+        
         public ManufacturingBatchesController(MedicineStockContext context)
         {
             _context = context;
         }
 
         // GET: ManufacturingBatches
+        [Authentication]
         public async Task<IActionResult> Index()
         {
             var medicineStockContext = _context.ManufacturingBatches.Include(m => m.Manufacturer).Include(m => m.Medicine);
@@ -26,6 +29,7 @@ namespace MedicineStock.Controllers
         }
 
         // GET: ManufacturingBatches/Details/5
+        [Authentication]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,6 +50,8 @@ namespace MedicineStock.Controllers
         }
 
         // GET: ManufacturingBatches/Create
+        [Authentication]
+        [CheckPermisson]
         public IActionResult Create()
         {
             ViewData["ManufacturerId"] = new SelectList(_context.Manufacturers, "ManufacturerId", "Name");
@@ -56,6 +62,9 @@ namespace MedicineStock.Controllers
         // POST: ManufacturingBatches/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        [Authentication]
+        [CheckPermisson]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ManufacturingBatchId,Name,ManufacturerId,MedicineId,ImportDate,Origin,ExpiryDate,Quantity,Description")] ManufacturingBatch manufacturingBatch)
@@ -72,6 +81,8 @@ namespace MedicineStock.Controllers
         }
 
         // GET: ManufacturingBatches/Edit/5
+        [Authentication]
+        [CheckPermisson]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,6 +103,8 @@ namespace MedicineStock.Controllers
         // POST: ManufacturingBatches/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authentication]
+        [CheckPermisson]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ManufacturingBatchId,Name,ManufacturerId,MedicineId,ImportDate,Origin,ExpiryDate,Quantity,Description")] ManufacturingBatch manufacturingBatch)
@@ -127,6 +140,8 @@ namespace MedicineStock.Controllers
         }
 
         // GET: ManufacturingBatches/Delete/5
+        [Authentication]
+        [CheckPermisson]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -147,6 +162,8 @@ namespace MedicineStock.Controllers
         }
 
         // POST: ManufacturingBatches/Delete/5
+        [Authentication]
+        [CheckPermisson]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

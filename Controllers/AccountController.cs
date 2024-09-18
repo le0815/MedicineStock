@@ -52,6 +52,8 @@ namespace MedicineStock.Controllers
             return View("Login");
         }
 
+        [Authentication]
+        [CheckPermisson]
         public async Task<IActionResult> Index()
         {
             //var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer).Include(m => m.MedicineType);
@@ -59,6 +61,8 @@ namespace MedicineStock.Controllers
             return View(await medicineStockContext1.ToListAsync());
         }
 
+        [Authentication]
+        [CheckPermisson]
         public async Task<IActionResult> Create()
         {
             //var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer).Include(m => m.MedicineType);
@@ -68,6 +72,8 @@ namespace MedicineStock.Controllers
             return View();
         }
 
+        [Authentication]
+        [CheckPermisson]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserName,Password,PermissionId")] Account account)
@@ -90,6 +96,8 @@ namespace MedicineStock.Controllers
             return View(account);
         }
 
+        [Authentication]
+        [CheckPermisson]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -109,6 +117,8 @@ namespace MedicineStock.Controllers
         }
 
         // GET: Medicines/Edit/5
+        [Authentication]
+        [CheckPermisson]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -129,6 +139,8 @@ namespace MedicineStock.Controllers
         // POST: Medicines/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authentication]
+        [CheckPermisson]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AccountId", "UserName,Password,PermissionId")] Account account)
@@ -164,6 +176,9 @@ namespace MedicineStock.Controllers
             //return await Index();
         }
 
+
+        [Authentication]
+        [CheckPermisson]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -181,6 +196,9 @@ namespace MedicineStock.Controllers
 
             return View(account);
         }
+
+        [Authentication]
+        [CheckPermisson]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirm(int id)
