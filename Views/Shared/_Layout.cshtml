@@ -212,22 +212,22 @@
                             </ul>
                         </li>
 
+                        <!-- Account -->
+                        <li class="submenu">
+                            <a href="javascript:void(0);" class="@(ViewBag.Menu=="Account" ? "active subdrop" : "")">
+                                <img src="~/assets/img/icons/users1.svg" alt="img"><span>
+                                    Account
+                                </span> <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li><a asp-controller="Account" asp-action="Index">Account List</a></li>
+                                <li><a asp-controller="Account" asp-action="Create">Account Create</a></li>
+                            </ul>
+                        </li>
                         
                         <!-- Function for admin only -->
                         @if ((int)(long)loggedAccount["PermissionId"] == 1)
-                        {
-                            <!-- Account -->
-                            <li class="submenu">
-                                <a href="javascript:void(0);" class="@(ViewBag.Menu=="Account" ? "active subdrop" : "")">
-                                    <img src="~/assets/img/icons/users1.svg" alt="img"><span>
-                                        Account
-                                    </span> <span class="menu-arrow"></span>
-                                </a>
-                                <ul>
-                                    <li><a asp-controller="Account" asp-action="Index">Account List</a></li>
-                                    <li><a asp-controller="Account" asp-action="Create">Account Create</a></li>
-                                </ul>
-                            </li>
+                        {                            
 
                             <!-- Permission -->
                             <li class="submenu">

@@ -1,0 +1,65 @@
+﻿@using Newtonsoft.Json;
+@model MedicineStock.Models.Account
+@* @model IEnumerable<MedicineStock.Models.Account> *@
+@{
+    ViewData["Title"] = "Edit";
+    ViewBag.Menu = "Profile";
+}
+
+<!-- header -->
+<div class="page-header">
+    <div class="page-title">
+        <h2>Profile</h2>
+        <h6>Manage your profile</h6>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div class="row">               
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>First, input your password</label>
+                        <div class="pass-group">
+                            <input name="confirmPwd" type="password" id="passwordInput" class="pass-input" placeholder="Confirm password">
+                        </div>
+                        <span id="confirmPwdError" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <input type="submit" value="Confirm" class="btn btn-submit me-2" id="submit-btn" />
+                        <a asp-action="Index" class="btn btn-cancel">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- js script for ensure pwd and confirm pwd fields are match-->
+    @{
+        var sessionAccount = Context.Session.GetString("Account");
+        var loggedAccount = JsonConvert.DeserializeObject<Dictionary<string, object>>(sessionAccount);
+    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const pwdInput = document.getElementById('passwordInput');
+            const confirmPwdError = document.getElementById('confirmPwdError');
+            const submitBtn = document.getElementById('submit-btn');
+
+            function validatePasswords() {
+                if (pwdInput.value != @loggedAccount["Password"]) {
+                    confirmPwdError.textContent = 'Passwords do not match.';
+                    submitBtn.style.visibility = 'hidden';
+                } else {
+                    confirmPwdError.textContent = '';
+                    submitBtn.style.visibility = 'visible';
+                }
+            }
+
+            passwordInput.addEventListener('input', validatePasswords);
+            confirmPwdInput.addEventListener('input', validatePasswords);
+        });
+    </script>
+</div>
+

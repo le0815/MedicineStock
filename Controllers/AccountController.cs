@@ -52,10 +52,20 @@ namespace MedicineStock.Controllers
             return View("Login");
         }
 
-        [Authentication]
-        [CheckPermisson]
+        [Authentication]        
         public async Task<IActionResult> Index()
         {
+            //if user is not admin -> only manage current account
+            var sessionAccount = HttpContext.Session.GetString("Account");            
+            // convert to json 
+            var loggedAccount = JsonConvert.DeserializeObject<Dictionary<string, object>>(sessionAccount);
+
+            if ((int)(long)loggedAccount["PermissionId"] != 1)
+            {
+                ViewData["AccountId"] = loggedAccount["AccountId"];
+                return RedirectToAction("Details", new { id = loggedAccount["AccountId"] });
+            }
+
             //var medicineStockContext1 = _context.Medicines.Include(m => m.Manufacturer).Include(m => m.MedicineType);
             var medicineStockContext1 = _context.Accounts.Include(m => m.Permission);
             return View(await medicineStockContext1.ToListAsync());
@@ -97,7 +107,6 @@ namespace MedicineStock.Controllers
         }
 
         [Authentication]
-        [CheckPermisson]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -118,7 +127,6 @@ namespace MedicineStock.Controllers
 
         // GET: Medicines/Edit/5
         [Authentication]
-        [CheckPermisson]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -140,7 +148,6 @@ namespace MedicineStock.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authentication]
-        [CheckPermisson]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AccountId", "UserName,Password,PermissionId")] Account account)
