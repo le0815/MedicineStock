@@ -16,8 +16,11 @@
     //     return HttpsRedirectionServicesExtensions
     // }
     var sessionAccount = Context.Session.GetString("Account");
+    Dictionary<string, object> tempAccount = new Dictionary<string, object>();
+    tempAccount["UserName"] = "";
+    tempAccount["PermissionId"] = (long)-1;
     // convert to json 
-    var loggedAccount = JsonConvert.DeserializeObject<Dictionary<string, object>>(sessionAccount);
+    var loggedAccount = sessionAccount == null ? tempAccount : JsonConvert.DeserializeObject<Dictionary<string, object>>(sessionAccount);
 }
 <!DOCTYPE html>
 <html lang="en">
