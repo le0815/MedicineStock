@@ -1,15 +1,20 @@
 ﻿@model IEnumerable<MedicineStock.Models.ManufacturingBatch>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách";
     ViewBag.Menu = "ManufacturingBatch";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<!-- header -->
+<div class="page-header">
+    <div class="page-title">
+        <h2>Danh sách lô</h2>
+        <h6>Quản lý lô</h6>
+    </div>
+    <div class="page-btn">
+        <a class="btn btn-added" asp-action="Create"><img src="/assets/img/icons/plus.svg" alt="img" class="me-1">Thêm mới</a>
+    </div>
+</div>
 @* <table class="table">
     <thead>
         <tr>
@@ -81,8 +86,8 @@
 <div class="table-top">
     <div class="search-set">
         <div class="search-input">
-            <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
-            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." id="searchBox">
+            <a class="btn btn-searchset"><img src="/assets/img/icons/search-white.svg" alt="img"></a>
+            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Tìm kiếm..." id="searchBox">
         </div>
     </div>
 </div>
@@ -94,28 +99,36 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Name)
+                            @* @Html.DisplayNameFor(model => model.Name) *@
+                            Mã lô
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ImportDate)
+                            @* @Html.DisplayNameFor(model => model.ImportDate) *@
+                            Ngày nhập
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Origin)
+                            @* @Html.DisplayNameFor(model => model.Origin) *@
+                            Xuất xứ
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ExpiryDate)
+                            @* @Html.DisplayNameFor(model => model.ExpiryDate) *@
+                            Ngày hết hạn
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Quantity)
+                            @* @Html.DisplayNameFor(model => model.Quantity) *@
+                            Số lượng
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Description)
+                            @* @Html.DisplayNameFor(model => model.Description) *@
+                            Chú thích
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Manufacturer)
+                            @* @Html.DisplayNameFor(model => model.Manufacturer) *@
+                            Nhà sản xuất
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Medicine)
+                            @* @Html.DisplayNameFor(model => model.Medicine) *@
+                            Tên thuốc
                         </th>
                         <th></th>
                     </tr>
@@ -149,9 +162,9 @@
                                 @Html.DisplayFor(modelItem => item.Medicine.Name)
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.ManufacturingBatchId">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.ManufacturingBatchId">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.ManufacturingBatchId">Delete</a>
+                                <a asp-action="Edit" asp-route-id="@item.ManufacturingBatchId">Chỉnh sửa</a> |
+                                <a asp-action="Details" asp-route-id="@item.ManufacturingBatchId">Chi tiết</a> |
+                                <a asp-action="Delete" asp-route-id="@item.ManufacturingBatchId">Xoá</a>
                             </td>
                         </tr>
                     }

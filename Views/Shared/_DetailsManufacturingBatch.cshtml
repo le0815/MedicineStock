@@ -1,0 +1,45 @@
+﻿@model MedicineStock.Models.ManufacturingBatch
+
+<div class="card">
+    <div class="card-body">
+        <div class="productdetails">
+            <ul class="product-bar">
+                <li>
+                    @* <h4>@Html.DisplayNameFor(model => model.AccountId)</h4> *@
+                    <h4>Mã lô</h4>
+                    <h6>@Html.DisplayFor(model => model.Name)</h6>
+                </li>
+                <li>
+                    @* <h4>@Html.DisplayNameFor(model => model.UserName)</h4> *@
+                    <h4>Ngày nhập</h4>
+                    <h6>@Html.DisplayFor(model => model.ImportDate)</h6>
+                </li>
+                <li>
+                    @* <h4>@Html.DisplayNameFor(model => model.Password)</h4> *@
+                    <h4>Xuất xứ</h4>
+                    <h6>@Html.DisplayFor(model => model.Origin)</h6>
+                </li>
+                <li>
+                    <h4>Ngày hết hạn</h4>
+                    <h6>@Html.DisplayFor(model => model.ExpiryDate)</h6>
+                </li>
+                <li>
+                    <h4>Số lượng</h4>
+                    <h6>@Html.DisplayFor(model => model.Quantity)</h6>
+                </li>
+                <li>
+                    <h4>Nhà sản xuất</h4>
+                    <h6>@Html.DisplayFor(model => model.Manufacturer.Name)</h6>
+                </li>
+                <li>
+                    <h4>Thuốc</h4>
+                    <h6>@Html.DisplayFor(model => model.Medicine.Name)</h6>
+                </li>
+                <li>
+                    <h4>Ghi chú</h4>
+                    <h6>@Html.DisplayFor(model => model.Description)</h6>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

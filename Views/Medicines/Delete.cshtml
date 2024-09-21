@@ -13,7 +13,7 @@
 @await Html.PartialAsync("_DetailsMedicine", Model)
 <form asp-action="Delete">
     <input type="hidden" asp-for="MedicineId" />
-    <button type="submit" class="btn btn-danger">Remove</button>
-    <button asp-action="Index" class="btn btn-primary">Back to List</button>
+    <button type="submit" class="btn btn-danger">Xoá</button>
+    <button asp-action="Index" class="btn btn-primary">Quay về danh sách</button>
 </form>
 
