@@ -5,12 +5,11 @@
     ViewBag.Menu = "Permission";
 }
 
-<h1>Delete</h1>
-<h6>Permission</h6>
+<h1>Bạn có chắc chắn muốn xoá quyền này?</h1>
 
 @await Html.PartialAsync("_DetailsPermission", Model)
 <form asp-action="Delete">
     <input type="hidden" asp-for="PermissionId" />
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <button asp-action="Index" class="btn btn-primary">Back to index</button>
+    <button type="submit" class="btn btn-danger">Xoá</button>
+    <button asp-action="Index" class="btn btn-primary">Trở về</button>
 </form>

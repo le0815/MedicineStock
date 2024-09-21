@@ -8,10 +8,10 @@
 <!-- header -->
 <div class="page-header">
     <div class="page-title">
-        <h2>Permission List</h2>
+        <h2>Danh sách quyền</h2>
     </div>
     <div class="page-btn">
-        <a class="btn btn-added" asp-action="Create"><img src="/assets/img/icons/plus.svg" alt="img" class="me-1">Add New</a>
+        <a class="btn btn-added" asp-action="Create"><img src="/assets/img/icons/plus.svg" alt="img" class="me-1">Thêm mới</a>
     </div>
 </div>
 
@@ -20,7 +20,7 @@
     <div class="search-set">
         <div class="search-input">
             <a class="btn btn-searchset"><img src="/assets/img/icons/search-white.svg" alt="img"></a>
-            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." id="searchBox">
+            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Tìm kiếm..." id="searchBox">
         </div>
     </div>
 </div>
@@ -32,9 +32,9 @@
             <table class="table datatable " id="searchTable">
                 <thead>
                     <tr>
-                        <th>SNo</th>
-                        <th>@Html.DisplayNameFor(model => model.PermissionId)</th>
-                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        <th>STT</th>
+                        <th>Mã quyền</th>
+                        <th>Quyền</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -52,9 +52,9 @@
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.PermissionId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.PermissionId">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.PermissionId">Delete</a>
+                                    <a asp-action="Edit" asp-route-id="@item.PermissionId">Sửa</a> |
+                                    <a asp-action="Details" asp-route-id="@item.PermissionId">Chi tiết</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.PermissionId">Xoá</a>
                                 </td>
                             </tr>
                             count++;
