@@ -1,7 +1,7 @@
 ﻿@* @model IEnumerable<MedicineStock.Models.DashboardViewModel> *@
 @model MedicineStock.Models.DashboardViewModel
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Tổng quan";
     ViewBag.Menu = "Dashboard";
     
 }
@@ -15,7 +15,7 @@
         <div class="dash-count">
             <div class="dash-counts">
                 <h4>@Model.quantity_medicines</h4>
-                <h5>Medicines</h5>
+                <h5>Thuốc</h5>
             </div>
             <div class="dash-imgs">
                 <i data-feather="user"></i>
@@ -28,7 +28,7 @@
         <div class="dash-count das1">
             <div class="dash-counts">
                 <h4>@Model.quantity_prescriptions</h4>
-                <h5>Prescriptions</h5>
+                <h5>Hoá đơn</h5>
             </div>
             <div class="dash-imgs">
                 <i data-feather="user-check"></i>
@@ -41,7 +41,7 @@
         <div class="dash-count das2">
             <div class="dash-counts">
                 <h4>@Model.quantity_manufacturer</h4>
-                <h5>Manufacturer</h5>
+                <h5>Nhà sản xuất</h5>
             </div>
             <div class="dash-imgs">
                 <i data-feather="file-text"></i>
@@ -53,20 +53,20 @@
 <!-- diplay the recent added product. -->
 <div class="card mb-0">
     <div class="card-body">
-        <h4 class="card-title">Recently Added Products</h4>
+        <h4 class="card-title">Thuốc trong kho</h4>
         <div class="table-responsive dataview">
             <table class="table datatable ">
                 <thead>
                     <tr>
-                        <th>SNo</th>
-                        <th>Batch Code</th>
-                        <th>Product Name</th>
-                        <th>Product Type</th>
-                        <th>Manufacturer</th>
-                        <th>Expiry Date</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Desccription</th>
+                        <th>STT</th>
+                        <th>Mã lô</th>
+                        <th>Tên thuốc</th>
+                        <th>Chủng loại</th>
+                        <th>Nhà sản xuất</th>
+                        <th>Ngày hết hạn</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Mô tả</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,8 +78,8 @@
                                 <td>@count</td>
                                 <td>@item.Name</td>
                                 <td>@item.Medicine.Name</td>
-                                <td>@(item.Medicine.MedicineType?.Type ?? "Not Found")</td>
-                                <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
+                                <td>@(item.Medicine.MedicineType?.Type ?? "Không tìm thấy")</td>
+                                <td>@(item.Manufacturer?.Name ?? "Không tìm thấy")</td>
                                 <td>@item.ExpiryDate</td>
                                 <td>@item.Medicine.Price</td>
                                 <td>@item.Quantity</td>
@@ -97,20 +97,20 @@
 <!-- diplay the Expired product. -->
 <div class="card mb-0">
     <div class="card-body">
-        <h4 class="card-title">Expired Products</h4>
+        <h4 class="card-title">Thuốc đã hết hạn</h4>
         <div class="table-responsive dataview">
             <table class="table datatable ">
                 <thead>
                     <tr>
-                        <th>SNo</th>
-                        <th>Batch Code</th>
-                        <th>Product Name</th>
-                        <th>Product Type</th>
-                        <th>Manufacturer</th>
-                        <th>Expiry Date</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Desccription</th>
+                        <th>STT</th>
+                        <th>Mã lô</th>
+                        <th>Tên thuốc</th>
+                        <th>Chủng loại</th>
+                        <th>Nhà sản xuất</th>
+                        <th>Ngày hết hạn</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Mô tả</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -126,8 +126,8 @@
                                     <td>@count</td>
                                     <td>@item.Name</td>
                                     <td>@item.Medicine.Name</td>
-                                    <td>@(item.Medicine.MedicineType?.Type ?? "Not Found")</td>
-                                    <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
+                                    <td>@(item.Medicine.MedicineType?.Type ?? "Không tìm thấy")</td>
+                                    <td>@(item.Manufacturer?.Name ?? "Không tìm thấy")</td>
                                     <td>@item.ExpiryDate</td>
                                     <td>@item.Medicine.Price</td>
                                     <td>@item.Quantity</td>
