@@ -8,8 +8,7 @@
 <!-- header -->
 <div class="page-header">
     <div class="page-title">
-        <h2>Medicines Add</h2>
-        <h6>Manage your medicines</h6>
+        <h2>Thêm hoá đơn</h2>
     </div>
 </div>
 
@@ -41,7 +40,7 @@
     <div class="search-set">
         <div class="search-input">
             <a class="btn btn-searchset"><img src="~/assets/img/icons/search-white.svg" alt="img"></a>
-            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." id="searchBox">
+            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Tìm kiếm..." id="searchBox">
         </div>
     </div>
 </div>
@@ -68,15 +67,15 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Batch Code</th>
-                            <th>Product Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Product Type</th>
-                            <th>Manufacturer</th>
-                            <th>Origin</th>
-                            <th>Expiry Date</th>
-                            <th>Desccription</th>
+                            <th>Mã lô</th>
+                            <th>Tên thuốc</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Chủng loại</th>
+                            <th>Nhà sản xuất</th>
+                            <th>Xuất xứ</th>
+                            <th>Ngày hết hạn</th>
+                            <th>Chú thích</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -118,8 +117,8 @@
 
             <div class="col-lg-12">
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-submit me-2" />
-                    <a asp-controller="Prescriptions" asp-action="Index" class="btn btn-cancel">Cancel</a>
+                    <input type="submit" value="Thêm" class="btn btn-submit me-2" />
+                    <a asp-controller="Prescriptions" asp-action="Index" class="btn btn-cancel">Huỷ</a>
                 </div>
             </div>
         </form>

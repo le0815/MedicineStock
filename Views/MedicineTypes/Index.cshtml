@@ -8,11 +8,10 @@
 <!-- header -->
 <div class="page-header">
     <div class="page-title">
-        <h2>Medicines Types List</h2>
-        <h6>Manage your Medicines Types</h6>
+        <h2>Danh sách chủng loại thuốc</h2>
     </div>
     <div class="page-btn">
-        <a class="btn btn-added" asp-action="Create"><img src="/assets/img/icons/plus.svg" alt="img" class="me-1">Add New</a>
+        <a class="btn btn-added" asp-action="Create"><img src="/assets/img/icons/plus.svg" alt="img" class="me-1">Thêm mới</a>
     </div>
 </div>
 
@@ -21,7 +20,7 @@
     <div class="search-set">
         <div class="search-input">
             <a class="btn btn-searchset"><img src="/assets/img/icons/search-white.svg" alt="img"></a>
-            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." id="searchBox">
+            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Tìm kiếm..." id="searchBox">
         </div>
     </div>
 </div>
@@ -31,7 +30,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                Tên
             </th>
             <th></th>
         </tr>
@@ -43,9 +42,9 @@
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.MedicineTypeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MedicineTypeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MedicineTypeId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.MedicineTypeId">Sửa</a> |
+                <a asp-action="Details" asp-route-id="@item.MedicineTypeId">Chi tiết</a> |
+                <a asp-action="Delete" asp-route-id="@item.MedicineTypeId">Xoá</a>
             </td>
         </tr>
 }

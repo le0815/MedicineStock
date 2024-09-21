@@ -5,12 +5,11 @@
     ViewBag.Menu = "MedicineType";
 }
 
-<h1>Delete</h1>
-<h6>Medicine Type</h6>
+<h1>Bạn chắc chắn muốn xoá chủng loại thuốc này chứ?</h1>
 <hr />
 @await Html.PartialAsync("_DetailsMedicineType", Model)
 <form asp-action="Delete">
     <input type="hidden" asp-for="MedicineTypeId" />
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <button asp-action="Index" class="btn btn-primary">Back to index</button>
+    <button type="submit" class="btn btn-danger">Xoá</button>
+    <button asp-action="Index" class="btn btn-primary">Trở về</button>
 </form>
