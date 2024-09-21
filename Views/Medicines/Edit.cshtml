@@ -8,8 +8,8 @@
 <!-- header -->
 <div class="page-header">
     <div class="page-title">
-        <h2>Medicines Edit</h2>
-        <h6>Edit your products</h6>
+        <h2>Chỉnh sửa</h2>
+        <h6>Chỉnh sửa thuốc</h6>
     </div>
 </div>
 
@@ -69,23 +69,23 @@
                 <input type="hidden" asp-for="MedicineId" />
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="Name">Name</label>
+                        <label asp-for="Name">Tên</label>
                         <input type="text" asp-for="Name">
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="MedicineTypeId">Medicine Type</label>
+                        <label asp-for="MedicineTypeId">Chủng loại</label>
                         <select asp-for="MedicineTypeId" class="form-control" asp-items="ViewBag.MedicineTypeId"></select>
-                        <a asp-controller="MedicineTypes" asp-action="Create">Is your medicine type not here? Create new</a>
+                        <a asp-controller="MedicineTypes" asp-action="Create">Không thấy chủng loại bạn cần? Thêm mới</a>
                         <span asp-validation-for="MedicineTypeId" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="Price">Price</label>
+                        <label asp-for="Price">Đơn giá</label>
                         <input asp-for="Price" type="number">
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
@@ -93,15 +93,15 @@
 
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label>Description</label>
+                        <label>Mô tả</label>
                         <textarea asp-for="Description" class="form-control"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <button asp-action="Index" class="btn btn-secondary">Back to List</button>
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button asp-action="Index" class="btn btn-secondary">Quay về danh sách</button>
                     </div>
                 </div>
             </div>
