@@ -112,21 +112,16 @@
                                 </span>
                                 <div class="profilesets">
                                     <h6>@loggedAccount["UserName"]</h6>
-                                    <h5>@((int)(long)loggedAccount["PermissionId"] == 1 ? "Admin" : "Sales")</h5>
+                                    <h5>@((int)(long)loggedAccount["PermissionId"] == 1 ? "Quản trị viên" : "Người bán hàng")</h5>
                                 </div>
                             </div>
                             <hr class="m-0">
                             <a class="dropdown-item" href="profile.html">
-                                <i class="me-2" data-feather="user"></i> My
-                                Profile
-                            </a>
-                            <a class="dropdown-item" href="generalsettings.html">
-                                <i class="me-2"
-                                   data-feather="settings"></i>Settings
+                                <i class="me-2" data-feather="user"></i> Thông tin tài khoản
                             </a>
                             <hr class="m-0">
                             <a asp-controller="Account" asp-action="Logout" class="dropdown-item logout pb-0">
-                                <img src="~/assets/img/icons/log-out.svg" class="me-2" alt="img">Logout
+                                <img src="~/assets/img/icons/log-out.svg" class="me-2" alt="img">Đăng xuất
                             </a>
                         </div>
                     </div>
@@ -138,9 +133,8 @@
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
                    aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="profile.html">My Profile</a>
-                    <a class="dropdown-item" href="generalsettings.html">Settings</a>
-                    <a class="dropdown-item" href="signin.html">Logout</a>
+                    <a class="dropdown-item" href="profile.html">Thông tin tài khoản</a>                    
+                    <a class="dropdown-item" href="signin.html">Đăng xuất</a>
                 </div>
             </div>
 
@@ -155,7 +149,7 @@
                         <li class="@(ViewBag.Menu=="Dashboard" ? "active" : "")">
                             <a asp-controller="Home" asp-action="Index">
                                 <img src="~/assets/img/icons/dashboard.svg" alt="img"><span>
-                                    Dashboard
+                                    Tổng quan
                                 </span>
                             </a>
                         </li>
@@ -164,12 +158,12 @@
                         <li class="submenu">
                             <a href="javascript:void(0);" class="@(ViewBag.Menu=="Medicine" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/product.svg" alt="img"><span>
-                                    Medicines Manager
+                                    Quản lí thuốc
                                 </span> <span class="menu-arrow"></span>
                             </a>
                             <ul>
-                                <li><a asp-controller="Medicines" asp-action="Index">Medicines List</a></li>
-                                <li><a asp-controller="Medicines" asp-action="Create">Add Medicines</a></li>
+                                <li><a asp-controller="Medicines" asp-action="Index">Danh sách thuốc</a></li>
+                                <li><a asp-controller="Medicines" asp-action="Create">Thêm thuốc</a></li>
                             </ul>
                         </li>
 
@@ -177,12 +171,12 @@
                         <li class="submenu">
                             <a href="javascript:void(0);" class="@(ViewBag.Menu=="Manufacturer" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/purchase1.svg" alt="img"><span>
-                                    Manufacturer Manager
+                                    Quản lí nhà sản xuất
                                 </span> <span class="menu-arrow"></span>
                             </a>
                             <ul>
-                                <li><a asp-controller="Manufacturers" asp-action="Index">Manufacturer List</a></li>
-                                <li><a asp-controller="Manufacturers" asp-action="Create">Add Manufacturer</a></li>
+                                <li><a asp-controller="Manufacturers" asp-action="Index">Danh sách nhà sản xuất</a></li>
+                                <li><a asp-controller="Manufacturers" asp-action="Create">Thêm nhà sản xuất</a></li>
                             </ul>
                         </li>                       
 
@@ -190,12 +184,12 @@
                         <li class="submenu">
                             <a href="javascript:void(0);" class="@(ViewBag.Menu=="Prescripton" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/transfer1.svg" alt="img"><span>
-                                    Prescripton Manager
+                                    Quản lí hoá đơn
                                 </span> <span class="menu-arrow"></span>
                             </a>
                             <ul>
-                                <li><a asp-controller="Prescriptions" asp-action="Index">Prescriptions List</a></li>
-                                <li><a asp-controller="Prescriptions" asp-action="Create">Prescriptions Create</a></li>
+                                <li><a asp-controller="Prescriptions" asp-action="Index">Danh sách hoá đơn</a></li>
+                                <li><a asp-controller="Prescriptions" asp-action="Create">Tạo hoá đơn</a></li>
                             </ul>
                         </li>
 
@@ -203,12 +197,12 @@
                         <li class="submenu">
                             <a href="javascript:void(0);" class="@(ViewBag.Menu=="ManufacturingBatch" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/return1.svg" alt="img"><span>
-                                   Manufacturing Batch
+                                   Lô thuốc
                                 </span> <span class="menu-arrow"></span>
                             </a>
                             <ul>
-                                <li><a asp-controller="ManufacturingBatches" asp-action="Index">Manufacturing Batch List</a></li>
-                                <li><a asp-controller="ManufacturingBatches" asp-action="Create">Manufacturing Batch Create</a></li>
+                                <li><a asp-controller="ManufacturingBatches" asp-action="Index">Danh sách lô</a></li>
+                                <li><a asp-controller="ManufacturingBatches" asp-action="Create">Tạo lô mới</a></li>
                             </ul>
                         </li>
 
@@ -216,12 +210,12 @@
                         <li class="submenu">
                             <a href="javascript:void(0);" class="@(ViewBag.Menu=="Account" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/users1.svg" alt="img"><span>
-                                    Account
+                                    Tài khoản
                                 </span> <span class="menu-arrow"></span>
                             </a>
                             <ul>
-                                <li><a asp-controller="Account" asp-action="Index">Account List</a></li>
-                                <li><a asp-controller="Account" asp-action="Create">Account Create</a></li>
+                                <li><a asp-controller="Account" asp-action="Index">Danh sách tài khoản</a></li>
+                                <li><a asp-controller="Account" asp-action="Create">Tạo tài khoản</a></li>
                             </ul>
                         </li>
                         
@@ -233,12 +227,12 @@
                             <li class="submenu">
                                 <a href="javascript:void(0);" class="@(ViewBag.Menu=="Permission" ? "active subdrop" : "")">
                                     <img src="~/assets/img/icons/places.svg" alt="img"><span>
-                                        Permission
+                                        Phân quyền
                                     </span> <span class="menu-arrow"></span>
                                 </a>
                                 <ul>
-                                    <li><a asp-controller="Permissions" asp-action="Index">Permission List</a></li>
-                                    <li><a asp-controller="Permissions" asp-action="Create">Permission Create</a></li>
+                                    <li><a asp-controller="Permissions" asp-action="Index">Danh sách quyền</a></li>
+                                    <li><a asp-controller="Permissions" asp-action="Create">Thêm quyền mới</a></li>
                                 </ul>
                             </li>
 
@@ -246,12 +240,12 @@
                             <li class="submenu">
                                 <a href="javascript:void(0);" class="@(ViewBag.Menu=="MedicineType" ? "active subdrop" : "")">
                                     <img src="~/assets/img/icons/expense1.svg" alt="img"><span>
-                                        Medicine Type Manager
+                                        Quản lý phân loại thuốc
                                     </span> <span class="menu-arrow"></span>
                                 </a>
                                 <ul>
-                                    <li><a asp-controller="MedicineTypes" asp-action="Index">Medicine Type List</a></li>
-                                    <li><a asp-controller="MedicineTypes" asp-action="Create">Medicine Type Create</a></li>
+                                    <li><a asp-controller="MedicineTypes" asp-action="Index">Danh sách phân loại</a></li>
+                                    <li><a asp-controller="MedicineTypes" asp-action="Create">Tạo phân loại mới</a></li>
                                 </ul>
                             </li>
                         }
