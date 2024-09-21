@@ -5,9 +5,9 @@
     ViewBag.Menu = "Prescripton";
 }
 
-<h1>Edit</h1>
+<h1>Chỉnh sửa</h1>
 
-<h4>Prescription</h4>
+<h4>Hoá đơn</h4>
 <hr />
 <div class="card">
     <div class="card-body">
@@ -17,14 +17,14 @@
             <div class="row">      
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="@Model.PrescriptionId" class="control-label"></label>
+                        <label asp-for="@Model.PrescriptionId" class="control-label">Mã hoá đơn</label>
                         <input asp-for="@Model.PrescriptionId" class="form-control" type="text" value="@Model.PrescriptionId" readonly />
                         <span asp-validation-for="@Model.PrescriptionId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="@Model.PrescriptionDate" class="control-label"></label>
+                        <label asp-for="@Model.PrescriptionDate" class="control-label">Thời gian lập</label>
                         <input asp-for="@Model.PrescriptionDate" class="form-control" type="datetime" value="@Model.PrescriptionDate" readonly/>
                         <span asp-validation-for="@Model.PrescriptionDate" class="text-danger"></span>
                     </div>
@@ -38,15 +38,15 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Batch Code</th>
-                            <th>Product Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Product Type</th>
-                            <th>Manufacturer</th>
-                            <th>Origin</th>
-                            <th>Expiry Date</th>
-                            <th>Desccription</th>
+                            <th>Số lô</th>
+                            <th>Tên thuốc</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Chủng loại</th>
+                            <th>Nhà sản xuất</th>
+                            <th>Xuất xứ</th>
+                            <th>Ngày hết hạn</th>
+                            <th>Chú thích</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,11 +87,11 @@
                                         
                                     </td>
                                     <td>@item.Medicine.Price</td>
-                                    <td>@(item.Medicine.MedicineType?.Type ?? "Not Found")</td>
-                                    <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
+                                    <td>@(item.Medicine.MedicineType?.Type ?? "Không tìm thấy")</td>
+                                    <td>@(item.Manufacturer?.Name ?? "Không tìm thấy")</td>
                                     <td>@item.Origin</td>
                                     <td>@item.ExpiryDate</td>
-                                    <td>@(item.Description ?? "Not Found")</td>
+                                    <td>@(item.Description ?? "Không tìm thấy")</td>
                                 </tr>
                                 index++;
                             }
@@ -126,14 +126,12 @@
             </div>
             <div class="col-lg-12">
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-submit me-2" />
-                    <a asp-controller="Prescriptions" asp-action="Index" class="btn btn-cancel">Cancel</a>
+                    <input type="submit" value="Lưu" class="btn btn-submit me-2" />
+                    <a asp-controller="Prescriptions" asp-action="Index" class="btn btn-cancel">Quay về danh sách</a>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+

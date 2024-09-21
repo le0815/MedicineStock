@@ -8,12 +8,7 @@
     // use for calculate total price of invoice
     decimal totalPrice = 0;
 }
-<!-- header -->
-<div class="page-header">
-    <div class="page-title">
-        <h2>Prescription Details</h2>
-    </div>
-</div>
+
 
 <!-- invoice using bootstrap 5 -->
 <!DOCTYPE html>
@@ -141,8 +136,8 @@
                             </td>
 
                             <td>
-                                Invoice #: @Html.DisplayFor(model => model.PrescriptionId)<br />
-                                Created: @Html.DisplayFor(model => model.PrescriptionDate)<br />
+                                Hoá đơn #: @Html.DisplayFor(model => model.PrescriptionId)<br />
+                                Thời gian: @Html.DisplayFor(model => model.PrescriptionDate)<br />
                             </td>
                         </tr>
                     </table>
@@ -170,10 +165,10 @@
             </tr>
 
             <tr class="heading">
-                <td>Item</td>
-                <td>Quantity</td>
-                <td>Price</td>
-                <td>Total</td>
+                <td>Sản phẩm</td>
+                <td>Số lượng</td>
+                <td>Đơn giá</td>
+                <td>Thành tiền</td>
             </tr>
 
             @{
@@ -212,7 +207,7 @@
                     <tr>
                         <td>
                             <p class="Description">
-                                <small>&emsp; Description: @item.Description</small>
+                                <small>&emsp; Ghi chú: @item.Description</small>
                             </p>
                         </td>
                     </tr>
@@ -224,7 +219,7 @@
                 <td></td>
 
                 <td style="font-weight: bold; font-size:large">
-                    Total: @totalPrice.ToString("C3", CultureInfo.CreateSpecificCulture("vi-VN"))
+                    Tổng tiền: @totalPrice.ToString("C3", CultureInfo.CreateSpecificCulture("vi-VN"))
                 </td>
             </tr>
         </table>

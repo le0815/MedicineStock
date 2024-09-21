@@ -8,11 +8,11 @@
 <!-- header -->
 <div class="page-header">
     <div class="page-title">
-        <h2>Prescriptions List</h2>
-        <h6>Manage your Prescriptions</h6>
+        <h2>Danh sách hoá đơn</h2>
+        <h6>Quản lý hoá đơn</h6>
     </div>
     <div class="page-btn">
-        <a class="btn btn-added" asp-action="Create"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add New</a>
+        <a class="btn btn-added" asp-action="Create"><img src="/assets/img/icons/plus.svg" alt="img" class="me-1">Thêm mới</a>
     </div>
 </div>
 
@@ -20,8 +20,8 @@
 <div class="table-top">
     <div class="search-set">
         <div class="search-input">
-            <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
-            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." id="searchBox">
+            <a class="btn btn-searchset"><img src="/assets/img/icons/search-white.svg" alt="img"></a>
+            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Tìm kiếm..." id="searchBox">
         </div>
     </div>
 </div>
@@ -33,10 +33,12 @@
             <table class="table datatable " id="searchTable">
                 <thead>
                     <tr>
-                        <th>SNo</th>
-                        <th>@Html.DisplayNameFor(model => model.PrescriptionId)</th>
-                        <th>@Html.DisplayNameFor(model => model.PrescriptionDate)</th>
-                        <th>Total</th>
+                        <th>STT</th>
+                        @* <th>@Html.DisplayNameFor(model => model.PrescriptionId)</th> *@
+                        @* <th>@Html.DisplayNameFor(model => model.PrescriptionDate)</th> *@
+                        <th>Mã hoá đơn</th>
+                        <th>Thời gian lập</th>
+                        <th>Tổng tiền</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -68,9 +70,9 @@
                                     }
                                 </td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.PrescriptionId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.PrescriptionId">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.PrescriptionId">Delete</a>
+                                    <a asp-action="Edit" asp-route-id="@item.PrescriptionId">Chỉnh sửa</a> |
+                                    <a asp-action="Details" asp-route-id="@item.PrescriptionId">Thông tin</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.PrescriptionId">Xoá</a>
                                 </td>
                             </tr>
                             count++;
