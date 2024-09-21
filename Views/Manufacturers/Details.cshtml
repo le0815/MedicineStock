@@ -5,12 +5,12 @@
     ViewBag.Menu = "Manufacturer";
 }
 
-<h1>Details</h1>
-<h6>Manufacturer</h6>
+<h1>Chi tiết</h1>
+<h6>Nhà sản xuất</h6>
 <hr />
 
 @await Html.PartialAsync("_DetailsManufacturer", Model)
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ManufacturerId" class="btn btn-secondary">Edit</a>
-    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.ManufacturerId" class="btn btn-secondary">Chỉnh sửa</a>
+    <a asp-action="Index" class="btn btn-primary">Quay về danh sách</a>
 </div>

@@ -5,14 +5,14 @@
     ViewBag.Menu = "Manufacturer";
 }
 
-<h1>Delete</h1>
-<h6>Are you sure you want to delete this?</h6>
+<h1>Xoá</h1>
+<h6>Bạn chắc chắn muốn xoá nhà sản xuất này chứ?</h6>
 <hr />
 
 @await Html.PartialAsync("_DetailsManufacturer", Model)
 <form asp-action="Delete">
     <input type="hidden" asp-for="ManufacturerId" />
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <button asp-action="Index" class="btn btn-primary">Back to index</button>
+    <button type="submit" class="btn btn-danger">Xoá</button>
+    <button asp-action="Index" class="btn btn-primary">Quay về danh sách</button>
 </form>
 

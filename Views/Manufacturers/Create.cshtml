@@ -8,7 +8,7 @@
 <!-- header -->
 <div class="page-header">
     <div class="page-title">
-        <h2>Manufacturer Add</h2>
+        <h2>Thêm nhà sản xuất</h2>
     </div>
 </div>
 <hr />
@@ -17,18 +17,18 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">Tên nhà sản xuất</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label">Mô tả</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-submit me-2" id="submit-btn" />
-                <a asp-action="Index" class="btn btn-cancel">Back to List</a>
+                <input type="submit" value="Thêm" class="btn btn-submit me-2" id="submit-btn" />
+                <a asp-action="Index" class="btn btn-cancel">Quay về danh sách</a>
             </div>
         </form>
     </div>

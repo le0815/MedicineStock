@@ -8,8 +8,8 @@
 <!-- header -->
 <div class="page-header">
     <div class="page-title">
-        <h2>Medicines Edit</h2>
-        <h6>Edit your products</h6>
+        <h2>Chỉnh sửa</h2>
+        <h6>Chỉnh sửa nhà sản xuất</h6>
     </div>
 </div>
 
@@ -21,22 +21,22 @@
             <div class="row">
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="Name" class="control-label"></label>
+                        <label asp-for="Name" class="control-label">Tên nhà sản xuất</label>
                         <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label>Description</label>
+                        <label>Mô tả</label>
                         <textarea asp-for="Description" class="form-control"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <input type="submit" value="Edit" class="btn btn-submit me-2" />
-                        <a asp-action="Index" class="btn btn-cancel">Cancel</a>
+                        <input type="submit" value="Chỉnh sửa" class="btn btn-submit me-2" />
+                        <a asp-action="Index" class="btn btn-cancel">Quay về danh sách</a>
                     </div>
                 </div>
             </div>
