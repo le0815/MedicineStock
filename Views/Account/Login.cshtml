@@ -40,21 +40,21 @@
                                 <img src="~/assets/img/logo.png" alt="img">
                             </div>
                             <div class="login-userheading">
-                                <h3>Sign In</h3>
-                                <h4>Please login to your account</h4>
+                                <h3>Đăng nhập</h3>
+                                <h4>Hãy nhập tên đăng nhập và mật khẩu</h4>
                             </div>
                             <div class="form-login">
-                                <label>Email</label>
+                                <label>Tên đăng nhập</label>
                                 <div class="form-addons">
-                                    <input asp-for="@Model.UserName" type="text" placeholder="Enter your User Name">
+                                    <input asp-for="@Model.UserName" type="text" placeholder="Tên đăng nhập">
                                     <img src="~/assets/img/icons/mail.svg" alt="img">
                                     <span asp-validation-for="@Model.UserName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-login">
-                                <label>Password</label>
+                                <label>Mật khẩu</label>
                                 <div class="pass-group">
-                                    <input asp-for="@Model.Password" type="password" class="pass-input" placeholder="Enter your password">
+                                    <input asp-for="@Model.Password" type="password" class="pass-input" placeholder="Mật khẩu">
                                     <span class="fas toggle-password fa-eye-slash"></span>
                                     <span asp-validation-for="@Model.Password" class="text-danger"></span>
                                     <br />
@@ -73,11 +73,11 @@
                             </div>
                             <div class="form-login">
                                 <div class="alreadyuser">
-                                    <h4><a href="forgetpassword.html" class="hover-a">Forgot Password?</a></h4>
+                                    <h4><a href="forgetpassword.html" class="hover-a">Quên mật khẩu?</a></h4>
                                 </div>
                             </div>
                             <div class="form-login">                                
-                                <input type="submit" value="Sign In" class="btn btn-login" />
+                                <input type="submit" value="Đăng nhập" class="btn btn-login" />
                             </div>
                         </div>
                     </div>

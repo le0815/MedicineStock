@@ -8,11 +8,11 @@
 <!-- header -->
 <div class="page-header">
     <div class="page-title">
-        <h2>Account List</h2>
-        <h6>Manage your Account</h6>
+        <h2>Danh sách tài khoản</h2>
+        <h6>Quản lí tài khoản của bạn</h6>
     </div>
     <div class="page-btn">
-        <a class="btn btn-added" asp-action="Create"><img src="/assets/img/icons/plus.svg" alt="img" class="me-1">Add New</a>
+        <a class="btn btn-added" asp-action="Create"><img src="/assets/img/icons/plus.svg" alt="img" class="me-1">Thêm mới</a>
     </div>
 </div>
 
@@ -21,7 +21,7 @@
     <div class="search-set">
         <div class="search-input">
             <a class="btn btn-searchset"><img src="/assets/img/icons/search-white.svg" alt="img"></a>
-            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Search..." id="searchBox">
+            <input name="searchPhrase" type="search" class="form-control form-control-sm" placeholder="Tìm kiếm..." id="searchBox">
         </div>
     </div>
 </div>
@@ -33,12 +33,12 @@
             <table class="table datatable " id="searchTable">
                 <thead>
                     <tr>
-                        <th>SNo</th>
-                        <th>@Html.DisplayNameFor(model => model.AccountId)</th>
-                        <th>@Html.DisplayNameFor(model => model.UserName)</th>
-                        <th>@Html.DisplayNameFor(model => model.Password)</th>
+                        <th>STT</th>
+                        <th>Mã tài khoản</th>
+                        <th>Tên đăng nhập</th>
+                        <th>Mật khẩu</th>
                         <th>@Html.DisplayNameFor(model => model.Email)</th>
-                        <th>@Html.DisplayNameFor(model => model.Permission)</th>
+                        <th>Quyền</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -65,9 +65,9 @@
                                     @Html.DisplayFor(modelItem => item.Permission.Name)
                                 </td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.AccountId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.AccountId">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.AccountId">Delete</a>
+                                    <a asp-action="Edit" asp-route-id="@item.AccountId">Chỉnh sửa</a> |
+                                    <a asp-action="Details" asp-route-id="@item.AccountId">Chi tiết</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.AccountId">Xoá</a>
                                 </td>
                             </tr>
                             count++;

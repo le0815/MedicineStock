@@ -35,10 +35,11 @@
         </div>
     </div>
 </div> *@
-<h1>Delete</h1>
+<h1>Xoá</h1>
+<h4>Bạn có chắc chắn muốn xoá tài khoản này?</h4>
 @await Html.PartialAsync("_DetailsAccount", Model)
 <form asp-action="Delete">
     <input type="hidden" asp-for="AccountId" />    
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <button asp-action="Index" class="btn btn-primary">Back to index</button>
+    <button type="submit" class="btn btn-danger">Xoá</button>
+    <button asp-action="Index" class="btn btn-primary">Quay về danh sách</button>
 </form>

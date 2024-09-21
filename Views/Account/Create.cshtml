@@ -8,8 +8,8 @@
 <!-- header -->
 <div class="page-header">
     <div class="page-title">
-        <h2>Account Add</h2>
-        <h6>Manage your account</h6>
+        <h2>Thêm</h2>
+        <h6>Thêm mới tài khoản</h6>
     </div>
 </div>
 
@@ -20,16 +20,16 @@
             <div class="row">
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="UserName">User Name</label>
+                        <label asp-for="UserName">Tên đăng nhập</label>
                         <input type="text" asp-for="UserName">
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="Password">Password</label>
+                        <label asp-for="Password">Mật khẩu</label>
                         <div class="pass-group">
-                            <input asp-for="Password" type="password" id="Password" class="pass-input" placeholder="Enter your password">
+                            <input asp-for="Password" type="password" id="Password" class="pass-input" placeholder="Nhập mật khẩu">
                             <span class="fas toggle-password fa-eye-slash"></span>
                         </div>
                         <span asp-validation-for="Password" class="text-danger"></span>
@@ -37,9 +37,9 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label>Confirm password</label>
+                        <label>Xác nhận mật khẩu</label>
                         <div class="pass-group">
-                            <input name="confirmPwd" type="password" id="confirmPwd" class="pass-input" placeholder="Confirm password">
+                            <input name="confirmPwd" type="password" id="confirmPwd" class="pass-input" placeholder="Xác nhận mật khẩu">
                             <span class="fas toggle-password fa-eye-slash"></span>
                         </div>
                         <span id="confirmPwdError" class="text-danger"></span>
@@ -47,16 +47,16 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                     <div class="form-group">
-                        <label asp-for="PermissionId">Permission</label>
+                        <label asp-for="PermissionId">Quyền</label>
                         <select asp-for="PermissionId" class="form-control" asp-items="ViewBag.PermissionId"></select>
-                        <a asp-controller="Permission" asp-action="Create">Is your permission type not here? Create new</a>
+                        <a asp-controller="Permission" asp-action="Create">Quyền bạn muốn không có ở đây? Thêm mới</a>
                         <span asp-validation-for="PermissionId" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-submit me-2" id="submit-btn" />
-                        <a asp-action="Index" class="btn btn-cancel">Cancel</a>
+                        <input type="submit" value="Thêm" class="btn btn-submit me-2" id="submit-btn" />
+                        <a asp-action="Index" class="btn btn-cancel">Huỷ</a>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
 
             function validatePasswords() {
                 if (passwordInput.value != confirmPwdInput.value) {
-                    confirmPwdError.textContent = 'Passwords do not match.';
+                    confirmPwdError.textContent = 'Mật khẩu không khớp.';
                     submitBtn.style.visibility = 'hidden';
                 } else {
                     confirmPwdError.textContent = '';

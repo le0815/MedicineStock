@@ -38,7 +38,7 @@ namespace MedicineStock.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-                TempData["Message"] = "Invalid Username or Password";
+                TempData["Message"] = "Tên đăng nhập hoặc mật khẩu không hợp lệ";
 
             }            
             return View();
