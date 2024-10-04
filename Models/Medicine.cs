@@ -15,6 +15,8 @@ public partial class Medicine
 
     public int? MedicineTypeId { get; set; }
 
+    public double? Discount { get; set; }
+
     public virtual ICollection<ManufacturingBatch> ManufacturingBatches { get; set; } = new List<ManufacturingBatch>();
 
     public virtual MedicineType? MedicineType { get; set; }

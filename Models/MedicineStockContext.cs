@@ -71,6 +71,7 @@ public partial class MedicineStockContext : DbContext
 
             entity.ToTable("ManufacturingBatch");
 
+            entity.Property(e => e.CostPrice).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Description).HasMaxLength(100);
             entity.Property(e => e.ManufacturerId).HasColumnName("ManufacturerID");
             entity.Property(e => e.MedicineId).HasColumnName("MedicineID");

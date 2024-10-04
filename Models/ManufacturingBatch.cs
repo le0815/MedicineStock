@@ -23,6 +23,8 @@ public partial class ManufacturingBatch
 
     public string? Description { get; set; }
 
+    public decimal? CostPrice { get; set; }
+
     public virtual Manufacturer? Manufacturer { get; set; }
 
     public virtual Medicine? Medicine { get; set; }
