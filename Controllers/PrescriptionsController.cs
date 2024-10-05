@@ -122,6 +122,9 @@ namespace MedicineStock.Controllers
                     {
                         if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
                         {
+                            // if item selected with 0 quantity -> continue
+                            if(item2.Quantity == null) { continue; }
+
                             item.Quantity -= item2.Quantity;
                         }
                     }
