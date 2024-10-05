@@ -48,8 +48,8 @@
 <div class="card">
     <div class="card-body">
         <form asp-controller="Prescriptions" asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>     
-            
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <!-- automatically add time to prescription  -->
             <input name="prescription.PrescriptionDate" type="hidden" id="datetime" />
             <script>
@@ -75,7 +75,8 @@
                             <th>Nhà sản xuất</th>
                             <th>Xuất xứ</th>
                             <th>Ngày hết hạn</th>
-                            <th>Chú thích</th>
+                            <th>Chú thích (thuốc)</th>
+                            <th>Chú thích (hoá đơn)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,9 +85,9 @@
                             foreach (var item in Model)
                             {
                                 // expired medicine won display in view
-                                if (DateOnly.FromDateTime(DateTime.Now) >= item.ExpiryDate) { break;  }
+                                if (DateOnly.FromDateTime(DateTime.Now) >= item.ExpiryDate) { break; }
                                 <tr>
-                                    <!-- 
+                                    <!--
                                         hidden input use for transfer all medicine data to controller
                                         checkbox input transfer id of medicine selected to controller
 
@@ -98,29 +99,55 @@
                                     <td><input type="checkbox" name="selectedItems" value="@item.ManufacturingBatchId" /></td>
                                     <td class="productimgname">@item.Name</td>
                                     <td>@item.Medicine.Name</td>
-                                    <td >
-                                        <input name="prescriptionDetail[@index].Quantity" type="number" max="@item.Quantity" min="1" value="1"/>
+                                    <td>
+                                        <input name="prescriptionDetail[@index].Quantity" type="number" placeholder="@item.Quantity" max="@item.Quantity" min="1" />
                                     </td>
                                     <td>@item.Medicine.Price</td>
                                     <td>@(item.Medicine.MedicineType?.Type ?? "Not Found")</td>
                                     <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
-                                    <td>@item.Origin</td>                                    
-                                    <td>@item.ExpiryDate</td>                                                                        
-                                    <td>@(item.Medicine.Description ?? "Not Found")</td>                                    
+                                    <td>@item.Origin</td>
+                                    <td>@item.ExpiryDate</td>
+                                    <td>@(item.Medicine.Description ?? "Not Found")</td>
+                                    <td>
+                                        <input name="prescriptionDetail[@index].Description" type="text" placeholder="Nhập chú thích cho hoá đơn" />
+                                    </td>
                                 </tr>
                                 index++;
                             }
                         }
                     </tbody>
                 </table>
-            </div>  
+            </div>
 
             <div class="col-lg-12">
                 <div class="form-group">
                     <input type="submit" value="Thêm" class="btn btn-submit me-2" />
                     <a asp-controller="Prescriptions" asp-action="Index" class="btn btn-cancel">Huỷ</a>
+                    <button id="loadViewsBtn" type="submit" formaction="@Url.Action("ShowPreView", "Prescriptions")" class="btn btn-cancel">Xem trước</button>
+                    <button id="loadViewsBtn" class="btn btn-cancel">test</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+<div id="partialViewsContainer">
+    <!-- Partial views will be loaded here -->
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#loadViewsBtn').click(function () {
+                // Load the first partial view
+                $.ajax({
+                    url: '@Url.Action("ShowPreView", "Prescriptions")',
+                    type: 'POST',
+                    success: function (result) {
+                        $('#partialViewsContainer').html(result);
+                    }
+                });
+            });
+        });
+    </script>
+}

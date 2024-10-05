@@ -91,7 +91,9 @@
                                     <td>@(item.Manufacturer?.Name ?? "Không tìm thấy")</td>
                                     <td>@item.Origin</td>
                                     <td>@item.ExpiryDate</td>
-                                    <td>@(item.Description ?? "Không tìm thấy")</td>
+                                    <td>
+                                        <input name="prescriptionDetail[@index].Description" type="text" placeholder="Nhập chú thích cho hoá đơn" />
+                                    </td>
                                 </tr>
                                 index++;
                             }

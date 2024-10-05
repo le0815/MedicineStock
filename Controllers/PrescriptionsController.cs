@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MedicineStock.Models;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace MedicineStock.Controllers
 {
@@ -86,7 +87,7 @@ namespace MedicineStock.Controllers
         [Authentication]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("ManufacturingBatchId,MedicineId,Quantity")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
+        public async Task<IActionResult> Create([Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("ManufacturingBatchId,MedicineId,Quantity,Description")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
         {
             if (TryValidateModel(prescription) && TryValidateModel(prescriptionDetail))
             {
@@ -136,6 +137,34 @@ namespace MedicineStock.Controllers
             return View(prescription);
         }
 
+        [Authentication]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ShowPreView([Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("ManufacturingBatchId,MedicineId,Quantity,Description")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
+        {
+            if (TryValidateModel(prescription) && TryValidateModel(prescriptionDetail))
+            {
+                                
+
+                // filter prescriptionDetail based on selectedItems
+                var selectedPrescriptionDetails = prescriptionDetail
+                    .Where(q => selectedItems.Contains((int)q.ManufacturingBatchId))
+                    .ToList();
+
+                var model = await _context.ManufacturingBatches.Where(q => selectedItems.Contains((int)q.ManufacturingBatchId)).ToListAsync();
+               
+                
+                // viewdata for display price, quantiy of medicine on view module                
+                ViewData["Medicines"] = await _context.Medicines.ToListAsync();
+                ViewData["selectedPrescriptionDetails"] = selectedPrescriptionDetails;
+
+                return PartialView("_DetailsInvoicePreView", model);
+            }
+
+            //ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Name", prescription.PatientId);
+            return View("Index");
+        }
+
         // GET: Prescriptions/Edit/5
         [Authentication]
         public async Task<IActionResult> Edit(int? id)
@@ -178,7 +207,7 @@ namespace MedicineStock.Controllers
         [Authentication]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("PrescriptionDetailId,PrescriptionId,ManufacturingBatchId,Quantity")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
+        public async Task<IActionResult> Edit(int id, [Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("PrescriptionDetailId,PrescriptionId,ManufacturingBatchId,Quantity,Description")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
         {
             if (id != prescription.PrescriptionId)
             {
