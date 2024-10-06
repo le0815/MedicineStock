@@ -165,7 +165,7 @@ namespace MedicineStock.Controllers
             }
 
             //ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Name", prescription.PatientId);
-            return View("Index");
+            return View("Create");
         }
 
         // GET: Prescriptions/Edit/5

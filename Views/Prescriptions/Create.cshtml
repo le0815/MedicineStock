@@ -123,12 +123,13 @@
                 <div class="form-group">
                     <input type="submit" value="Thêm" class="btn btn-submit me-2" />
                     <a asp-controller="Prescriptions" asp-action="Index" class="btn btn-cancel">Huỷ</a>
-                    <button type="submit" formaction="@Url.Action("ShowPreView", "Prescriptions")" class="btn btn-cancel">Xem trước</button>
-                    <button id="loadViewsBtn" class="btn btn-cancel">test</button>
+                    <button hidden type="submit" formaction="@Url.Action("ShowPreView", "Prescriptions")" class="btn btn-cancel">Xem trước</button>
+                    <button id="loadViewsBtn" type="button" class="btn btn-cancel">Xem trước</button>
+
                 </div>
             </div>
         </form>
-    </div>
+    </div>    
 </div>
 
 <div id="partialViewsContainer">
@@ -139,15 +140,27 @@
     <script>
         $(document).ready(function () {
             $('#loadViewsBtn').click(function () {
-                // Load the first partial view
+                // Prevent the default form submission
+                event.preventDefault();
+
+                // Serialize the form data
+                var formData = $('form').serialize();
+
+                // Load partial view for invoice preview
                 $.ajax({
                     url: '@Url.Action("ShowPreView", "Prescriptions")',
                     type: 'POST',
+                    data: formData,
                     success: function (result) {
                         $('#partialViewsContainer').html(result);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
                     }
                 });
             });
         });
     </script>
 }
+
+<script src="~/assets/js/jquery-3.6.0.min.js"></script>
