@@ -30,6 +30,9 @@ namespace MedicineStock.Controllers
         {
             if (ModelState.IsValid)
             {
+                //convert pwd to md5
+                model.Password = CreateMD5(model.Password);
+
                 var result = _context.Accounts.Where(q => q.Password == model.Password && q.UserName == model.UserName).FirstOrDefault();
                 if (result != null)
                 {
@@ -93,10 +96,14 @@ namespace MedicineStock.Controllers
                 // check userName if exist in database
                 var usrName = _context.Accounts.Where(q => q.UserName == account.UserName).FirstOrDefault();
                 if (usrName != null)
-                {
+                {                    
                     ViewData["PermissionId"] = new SelectList(_context.Permissions, "PermissionId", "Name", account.PermissionId);
                     return View(account);
                 }
+
+                //encryp pwd to md5
+                account.Password = CreateMD5(account.Password);
+
                 _context.Add(account);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -227,6 +234,26 @@ namespace MedicineStock.Controllers
         private bool AccountExists(int id)
         {
             return _context.Medicines.Any(e => e.MedicineId == id);
+        }
+
+        private string CreateMD5(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                return Convert.ToHexString(hashBytes); // .NET 5 +
+
+                // Convert the byte array to hexadecimal string prior to .NET 5
+                // StringBuilder sb = new System.Text.StringBuilder();
+                // for (int i = 0; i < hashBytes.Length; i++)
+                // {
+                //     sb.Append(hashBytes[i].ToString("X2"));
+                // }
+                // return sb.ToString();
+            }
         }
     }
 }
