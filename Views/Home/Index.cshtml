@@ -65,7 +65,8 @@
                         <th>Nhà sản xuất</th>
                         <th>Ngày hết hạn</th>
                         <th>Đơn giá</th>
-                        <th>Số lượng</th>
+                        <th>Số lượng (Nhập)</th>
+                        <th>Số lượng (Còn lại)</th>
                         <th>Mô tả</th>
                     </tr>
                 </thead>
@@ -83,6 +84,7 @@
                                 <td>@item.ExpiryDate</td>
                                 <td>@item.Medicine.Price</td>
                                 <td>@item.Quantity</td>
+                                <td>@item.QuantityRemaining</td>
                                 <td>@item.Description</td>
                             </tr>
                             count++;
@@ -109,7 +111,8 @@
                         <th>Nhà sản xuất</th>
                         <th>Ngày hết hạn</th>
                         <th>Đơn giá</th>
-                        <th>Số lượng</th>
+                        <th>Số lượng (Nhập)</th>
+                        <th>Số lượng (Còn lại)</th>
                         <th>Mô tả</th>
                     </tr>
                 </thead>
@@ -131,6 +134,7 @@
                                     <td>@item.ExpiryDate</td>
                                     <td>@item.Medicine.Price</td>
                                     <td>@item.Quantity</td>
+                                    <td>@item.QuantityRemaining</td>
                                     <td>@item.Description</td>
                                 </tr>
                                 count_1++;

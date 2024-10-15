@@ -71,6 +71,9 @@ namespace MedicineStock.Controllers
         {
             if (ModelState.IsValid)
             {
+                // set init quantiyremaining = quantity
+                manufacturingBatch.QuantityRemaining = manufacturingBatch.Quantity;
+
                 _context.Add(manufacturingBatch);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

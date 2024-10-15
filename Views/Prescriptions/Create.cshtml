@@ -69,7 +69,7 @@
                             <th></th>
                             <th>Mã lô</th>
                             <th>Tên thuốc</th>
-                            <th>Số lượng</th>
+                            <th>Số lượng (Còn lại)</th>
                             <th>Đơn giá</th>
                             <th>Chủng loại</th>
                             <th>Nhà sản xuất</th>
@@ -100,7 +100,7 @@
                                     <td class="productimgname">@item.Name</td>
                                     <td>@item.Medicine.Name</td>
                                     <td>
-                                        <input name="prescriptionDetail[@index].Quantity" type="number" placeholder="@item.Quantity" max="@item.Quantity" min="1" />
+                                                <input name="prescriptionDetail[@index].Quantity" type="number" placeholder="@item.QuantityRemaining" max="@item.QuantityRemaining" min="1" />
                                     </td>
                                     <td>@item.Medicine.Price</td>
                                     <td>@(item.Medicine.MedicineType?.Type ?? "Not Found")</td>

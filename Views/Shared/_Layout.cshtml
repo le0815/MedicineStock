@@ -1,4 +1,4 @@
-﻿ @* @using Microsoft.AspNetCore.Mvc; *@
+﻿@* @using Microsoft.AspNetCore.Mvc; *@
  @using Newtonsoft.Json;
 @*  @model MedicineStock.Views.Shared._LayoutModel *@
 @{
@@ -19,7 +19,7 @@
     Dictionary<string, object> tempAccount = new Dictionary<string, object>();
     tempAccount["UserName"] = "";
     tempAccount["PermissionId"] = (long)-1;
-    // convert to json 
+    // convert to json
     var loggedAccount = sessionAccount == null ? tempAccount : JsonConvert.DeserializeObject<Dictionary<string, object>>(sessionAccount);
 }
 <!DOCTYPE html>
@@ -133,7 +133,7 @@
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
                    aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="profile.html">Thông tin tài khoản</a>                    
+                    <a class="dropdown-item" href="profile.html">Thông tin tài khoản</a>
                     <a class="dropdown-item" href="signin.html">Đăng xuất</a>
                 </div>
             </div>
@@ -178,7 +178,7 @@
                                 <li><a asp-controller="Manufacturers" asp-action="Index">Danh sách nhà sản xuất</a></li>
                                 <li><a asp-controller="Manufacturers" asp-action="Create">Thêm nhà sản xuất</a></li>
                             </ul>
-                        </li>                       
+                        </li>
 
                         <!-- Prescripton -->
                         <li class="submenu">
@@ -197,7 +197,7 @@
                         <li class="submenu">
                             <a href="javascript:void(0);" class="@(ViewBag.Menu=="ManufacturingBatch" ? "active subdrop" : "")">
                                 <img src="~/assets/img/icons/return1.svg" alt="img"><span>
-                                   Lô thuốc
+                                    Lô thuốc
                                 </span> <span class="menu-arrow"></span>
                             </a>
                             <ul>
@@ -218,10 +218,10 @@
                                 <li><a asp-controller="Account" asp-action="Create">Tạo tài khoản</a></li>
                             </ul>
                         </li>
-                        
+
                         <!-- Function for admin only -->
                         @if ((int)(long)loggedAccount["PermissionId"] == 1)
-                        {                            
+                        {
 
                             <!-- Permission -->
                             <li class="submenu">
@@ -248,6 +248,19 @@
                                     <li><a asp-controller="MedicineTypes" asp-action="Create">Tạo phân loại mới</a></li>
                                 </ul>
                             </li>
+
+                            <!-- Statistics -->
+                            <li class="submenu">
+                                <a href="javascript:void(0);" class="@(ViewBag.Menu=="MedicineType" ? "active subdrop" : "")">
+                                    <img src="~/assets/img/icons/expense1.svg" alt="img"><span>
+                                        Thống kê 
+                                    </span> <span class="menu-arrow"></span>
+                                </a>
+                                <ul>
+                                    <li><a asp-controller="Statistics" asp-action="Index">Index</a></li>
+                                    <li><a asp-controller="Statistics" asp-action="Create">Tạo phân loại mới</a></li>
+                                </ul>
+                            </li>
                         }
 
                     </ul>
@@ -266,7 +279,8 @@
 
     <script src="~/assets/js/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <link rel="stylesheet" href="~/assets/css/bootstrap-datetimepicker.min.css">
+    <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="~/assets/js/feather.min.js"></script>
 
     <script src="~/assets/js/jquery.slimscroll.min.js"></script>
@@ -302,7 +316,7 @@
             });
         });
     </script>
-    
+
 </body>
 
 </html>

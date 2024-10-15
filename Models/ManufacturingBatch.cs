@@ -25,6 +25,8 @@ public partial class ManufacturingBatch
 
     public decimal? CostPrice { get; set; }
 
+    public int? QuantityRemaining { get; set; }
+
     public virtual Manufacturer? Manufacturer { get; set; }
 
     public virtual Medicine? Medicine { get; set; }

@@ -125,7 +125,7 @@ namespace MedicineStock.Controllers
                             // if item selected with 0 quantity -> continue
                             if(item2.Quantity == null) { continue; }
 
-                            item.Quantity -= item2.Quantity;
+                            item.QuantityRemaining -= item2.Quantity;
                         }
                     }
                 }
@@ -256,7 +256,7 @@ namespace MedicineStock.Controllers
                             //_context.UpdateRange(editSelectedPrescriptionDetails);
                             //await _context.SaveChangesAsync();
 
-                            // update medicine quantiy after update
+                            // update medicine quantity remaining after update
                             foreach (var item in manufacturingBatchesUpdate)
                             {
                                 foreach (var item2 in editSelectedPrescriptionDetails)
@@ -268,7 +268,7 @@ namespace MedicineStock.Controllers
                                             if (item3.ManufacturingBatchId == item.ManufacturingBatchId)
                                             {
                                                 var diffQuantity = item3.Quantity - item2.Quantity;
-                                                item.Quantity += diffQuantity;
+                                                item.QuantityRemaining += diffQuantity;
                                                 item3.Quantity = item2.Quantity;
                                                 break;
                                             }
@@ -302,7 +302,7 @@ namespace MedicineStock.Controllers
                                 {
                                     if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
                                     {
-                                        item.Quantity += item2.Quantity;
+                                        item.QuantityRemaining += item2.Quantity;
                                         break;
                                     }
                                 }
@@ -329,7 +329,7 @@ namespace MedicineStock.Controllers
                                 {
                                     if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
                                     {
-                                        item.Quantity -= item2.Quantity;
+                                        item.QuantityRemaining -= item2.Quantity;
                                         break;
                                     }
                                 }
@@ -417,7 +417,7 @@ namespace MedicineStock.Controllers
                             // if item selected with 0 quantity -> continue
                             if (item2.Quantity == null) { continue; }
 
-                            item.Quantity += item2.Quantity;
+                            item.QuantityRemaining += item2.Quantity;
                             break;
                         }
                     }
