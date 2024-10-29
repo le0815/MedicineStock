@@ -1,4 +1,4 @@
-## After downloading the project, ensure you have installed these `NuGet Package`
+## After downloading the project, make sure you have installed these `NuGet Package`
 You can download them in `Visual Studio` by: `Tools` -> `NuGet Package Manager` -> `Manage NuGet Packages for Solution`
 >Microsoft.EntityFrameworkCore
 
