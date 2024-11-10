@@ -9,5 +9,7 @@ public partial class Prescription
 
     public DateTime? PrescriptionDate { get; set; }
 
+    public decimal? TotalPrice { get; set; }
+
     public virtual ICollection<PrescriptionDetail> PrescriptionDetails { get; set; } = new List<PrescriptionDetail>();
 }

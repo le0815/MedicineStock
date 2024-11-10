@@ -3,11 +3,12 @@
 @* @model IEnumerable<MedicineStock.Models.Prescription> *@
 @model IEnumerable<MedicineStock.Models.ManufacturingBatch>
 
-@{    
+@{
     // use for calculate total price of invoice
     decimal totalPrice = 0;
+    WriteLog.DisplayToConsole("display live preview for invoice");
     // get selected prescription detail from ShowPreView action
-    var selectedPrescriptionDetails = ViewData["selectedPrescriptionDetails"] as IEnumerable<PrescriptionDetail>;
+    var selectedPrescriptionDetails = ViewData["selectedPrescriptionDetails"] as IEnumerable<PrescriptionDetail>;    
 }
 
 <!-- invoice using bootstrap 5 -->
@@ -162,6 +163,7 @@
                 <td>Sản phẩm</td>
                 <td>Số lượng</td>
                 <td>Đơn giá</td>
+                <td>Giảm giá</td>
                 <td>Thành tiền</td>
             </tr>
 
@@ -177,7 +179,7 @@
 
                         <!-- get selected item from manufacturbacth -->
                         @{
-                            var temp2 = selectedPrescriptionDetails.Where(q => q.ManufacturingBatchId == item.ManufacturingBatchId).FirstOrDefault();
+                            var temp2 = selectedPrescriptionDetails.Where(q => q.MedicineId == item.MedicineId).FirstOrDefault();
                         }
 
                         <td>@temp2.Quantity</td>
@@ -190,10 +192,15 @@
                             @temp.ToString("C3", CultureInfo.CreateSpecificCulture("vi-VN"))
                         </td>
 
+                        <!-- display discount -->
+                        <td>@item.Medicine.Discount %</td>
+
                         <!-- display price of medicine -->
                         <td>
                             @{
-                                totalItemPrice += item.Quantity * item.Medicine.Price ?? 0;
+                                // calc total item price after discount
+                                Console.WriteLine($"{item.Quantity} {item.Medicine.Price} {(decimal)item.Medicine.Discount / 100} {1 - (decimal)item.Medicine.Discount / 100}");
+                                totalItemPrice += temp2.Quantity * item.Medicine.Price * (1 - (decimal)item.Medicine.Discount / 100) ?? 0;
                                 totalPrice += totalItemPrice;
                             }
                             <!-- display price -->
@@ -219,6 +226,7 @@
 
                 <td style="font-weight: bold; font-size:large">
                     <!-- display total here -->
+                    @totalPrice.ToString("C3", CultureInfo.CreateSpecificCulture("vi-VN"))
                 </td>
             </tr>
         </table>
