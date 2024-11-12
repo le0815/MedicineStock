@@ -133,7 +133,7 @@
                     url: '@Url.Action("ShowPreView", "Prescriptions")',
                     type: 'POST',
                     data: formData,
-                    success: function (result) {
+                    success: function (result) {                        
                         $('#partialViewsContainer').html(result);
                     },
                     error: function (xhr, status, error) {
