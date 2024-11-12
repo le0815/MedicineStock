@@ -6,7 +6,6 @@
 @{
     ViewData["Title"] = "Details";
     // use for calculate total price of invoice
-    decimal totalPrice = 0;
 }
 
 
@@ -168,6 +167,7 @@
                 <td>Sản phẩm</td>
                 <td>Số lượng</td>
                 <td>Đơn giá</td>
+                <td>Khuyến mãi</td>
                 <td>Thành tiền</td>
             </tr>
 
@@ -179,27 +179,31 @@
 
                     <tr class="item">
 
-                        <td>@item.ManufacturingBatch.Medicine.Name</td>
+                        <td>@item.Medicine.Name</td>
 
                         <td>@item.Quantity</td>
 
                         <!-- display unit price of medicine -->
                         <td>
                             @{
-                                var temp = (Decimal)item.ManufacturingBatch.Medicine.Price;
+                                var temp = (Decimal)item.Medicine.Price;
                             }
                             @temp.ToString("C3", CultureInfo.CreateSpecificCulture("vi-VN"))
                         </td>
 
-                        <!-- display price of medicine -->
+                        <!-- display discount -->
+                        <td>@item.Medicine.Discount %</td>
+
+                        <!-- display item total price of medicine -->
                         <td>
                             @{
-                                totalItemPrice += item.Quantity * item.ManufacturingBatch.Medicine.Price ?? 0;
-                                totalPrice += totalItemPrice;
+                                // calc total item price after discount
+                                totalItemPrice += item.Quantity * item.Medicine.Price * (1 - (decimal)item.Medicine.Discount/100) ?? 0;                                
                             }
                             <!-- display price -->
                             @totalItemPrice.ToString("C3", CultureInfo.CreateSpecificCulture("vi-VN"))
-                        </td>
+                            
+                        </td>                        
 
                     </tr>
 
@@ -219,7 +223,8 @@
                 <td></td>
 
                 <td style="font-weight: bold; font-size:large">
-                    Tổng tiền: @totalPrice.ToString("C3", CultureInfo.CreateSpecificCulture("vi-VN"))
+                    <!-- display total price of invoice -->
+                    Tổng tiền: @Model.TotalPrice.Value.ToString("C3", CultureInfo.CreateSpecificCulture("vi-VN"))
                 </td>
             </tr>
         </table>

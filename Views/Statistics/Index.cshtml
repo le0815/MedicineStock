@@ -3,25 +3,132 @@
 *@
 @{
 }
-<div class="row">
-    <div class="col-12 col-md-6 col-lg-4 d-flex">
-        <div class="card flex-fill bg-white">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Ngày bắt đầu</h5>
-            </div>
-            <div class="card-body">
-                <input class="form-control" type="date" />
+<!-- input time field -->
+<form>
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-4 d-flex">
+            <div class="card flex-fill bg-white">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Ngày bắt đầu</h5>
+                </div>
+                <div class="card-body">
+                    <input name="startTime" class="form-control" type="date" />
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-12 col-md-6 col-lg-4 d-flex">
-        <div class="card flex-fill bg-white">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Ngày kết thúc</h5>
+        <div class="col-12 col-md-6 col-lg-4 d-flex">
+            <div class="card flex-fill bg-white">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Ngày kết thúc</h5>
+                </div>
+                <div class="card-body">
+                    <input name="endTime" class="form-control" type="date" />
+                </div>
             </div>
-            <div class="card-body">
-                <input class="form-control" type="date" />
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 ">            
+            <button class="btn btn-primary" id="StatisticBtn"> Thống kê </button>
+        </div>
+    </div>
+</form>
+
+<div id="partialViewStatistic">
+    <!-- the statistics chart will be loading here -->
+    <!-- column chart -->
+    <div class="row">
+        <div class="col-lg-7 col-sm-12 col-12 d-flex">
+            <div class="card flex-fill">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-5 col-sm-12 col-12 d-flex">
+            <div class="card flex-fill">
+                <canvas id="pieChart"></canvas>
             </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/assets/js/jquery-3.6.0.min.js"></script>
+
+<!-- display statistic chart when statistic button clicked -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#StatisticBtn').click(function () {
+            console.log("clicked");
+            // Prevent the default form submission
+            event.preventDefault();
+
+            // Serialize the form data
+            var formData = $('form').serialize();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetData", "Statistics")',
+                data: formData,
+                // contentType: "application/json; charset=utf8;",
+                // dataType: "json",
+                success: OnSuccess,
+            });
+        });
+
+        function OnSuccess(data) {
+            // Destroy existing charts if they exist
+            if (window.columnChart && typeof window.columnChart.destroy === 'function') {
+                console.log("Destroying columnChart");
+                window.columnChart.destroy();
+            }
+            if (window.pieChart && typeof window.pieChart.destroy === 'function') {
+                console.log("Destroying pieChart");
+                window.pieChart.destroy();
+            }
+
+            var ctxCss = document.getElementById('myChart').getContext('2d');
+            var pieChartCss = document.getElementById('pieChart').getContext('2d');
+            var _data = data;
+            var _pieChartData = [10000, 5000];
+            console.log(_data);
+
+            // Column chart
+            window.columnChart = new Chart(ctxCss, {
+                type: 'bar',
+                data: {
+                    labels: _data[0],
+                    datasets: [{
+                        label: 'Sản phầm bán chạy',
+                        data: _data[1],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Pie chart
+            window.pieChart = new Chart(pieChartCss, {
+                type: 'pie',
+                data: {
+                    labels: ['cost', 'sale'],
+                    datasets: [{
+                        label: "$",
+                        data: [_data[2], _data[3]],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>

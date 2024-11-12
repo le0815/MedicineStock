@@ -68,7 +68,7 @@
                                     <input type="hidden" name="prescriptionDetail[@index].PrescriptionId" value="@Model.PrescriptionId" />
                                     <input type="hidden" name="prescriptionDetail[@index].MedicineId" value="@item.MedicineId" />
                                     <input type="hidden" name="prescriptionDetail[@index].ManufacturingBatchId" value="@item.ManufacturingBatchId" />
-                                    <td><input type="checkbox" name="selectedItems" value="@item.ManufacturingBatchId" @(Model.PrescriptionDetails.Any(pd => pd.ManufacturingBatchId == item.ManufacturingBatchId && pd.PrescriptionId == Model.PrescriptionId) ? "checked=\"\"" : "") /></td>
+                                    <td><input type="checkbox" name="selectedItems" value="@item.ManufacturingBatchId" @(Model.PrescriptionDetails.Any(pd => pd.MedicineId == item.MedicineId && pd.PrescriptionId == Model.PrescriptionId) ? "checked=\"\"" : "") /></td>
                                     <td class="productimgname">@item.Name</td>
                                     <td>@item.Medicine.Name</td>
                                     <td>
@@ -76,7 +76,7 @@
                                         @{
                                             try
                                             {
-                                                var itemQuantity = Model.PrescriptionDetails.Where(pd => pd.ManufacturingBatchId == item.ManufacturingBatchId && pd.PrescriptionId == Model.PrescriptionId).FirstOrDefault();
+                                                var itemQuantity = Model.PrescriptionDetails.Where(pd => pd.MedicineId == item.ManufacturingBatchId && pd.PrescriptionId == Model.PrescriptionId).FirstOrDefault();
                                                 <input name="prescriptionDetail[@index].Quantity" type="number" max="@item.QuantityRemaining" min="1" value="@itemQuantity.Quantity" />
                                             }
                                             catch(NullReferenceException)

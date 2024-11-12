@@ -12,29 +12,6 @@
     </div>
 </div>
 
-@* <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DoctorId" class="control-label"></label>
-                <select asp-for="DoctorId" class ="form-control" asp-items="ViewBag.DoctorId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="PatientId" class="control-label"></label>
-                <select asp-for="PatientId" class ="form-control" asp-items="ViewBag.PatientId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrescriptionDate" class="control-label"></label>
-                <input asp-for="PrescriptionDate" class="form-control" />
-                <span asp-validation-for="PrescriptionDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div> *@
 <!-- search bar -->
 <div class="table-top">
     <div class="search-set">
@@ -71,6 +48,7 @@
                             <th>Tên thuốc</th>
                             <th>Số lượng (Còn lại)</th>
                             <th>Đơn giá</th>
+                            <th>Giảm giá</th>
                             <th>Chủng loại</th>
                             <th>Nhà sản xuất</th>
                             <th>Xuất xứ</th>
@@ -94,15 +72,19 @@
                                         'name' tag use instead 'asp-for' for transfer list of object to controller
 
                                     -->
+                                    
                                     <input type="hidden" name="prescriptionDetail[@index].MedicineId" value="@item.MedicineId" />
-                                    <input type="hidden" name="prescriptionDetail[@index].ManufacturingBatchId" value="@item.ManufacturingBatchId" />
-                                    <td><input type="checkbox" name="selectedItems" value="@item.ManufacturingBatchId" /></td>
+                                    <!-- -->
+
+                                    <input type="hidden" name="prescriptionDetail[@index].ManufacturingBatchId" value="@item.ManufacturingBatchId" />                                    
+                                    <td><input type="checkbox" name="selectedItems" value="@item.MedicineId" /></td>
                                     <td class="productimgname">@item.Name</td>
                                     <td>@item.Medicine.Name</td>
                                     <td>
                                                 <input name="prescriptionDetail[@index].Quantity" type="number" placeholder="@item.QuantityRemaining" max="@item.QuantityRemaining" min="1" />
                                     </td>
                                     <td>@item.Medicine.Price</td>
+                                    <td>@item.Medicine.Discount</td>
                                     <td>@(item.Medicine.MedicineType?.Type ?? "Not Found")</td>
                                     <td>@(item.Manufacturer?.Name ?? "Not Found")</td>
                                     <td>@item.Origin</td>
@@ -110,7 +92,7 @@
                                     <td>@(item.Medicine.Description ?? "Not Found")</td>
                                     <td>
                                         <input name="prescriptionDetail[@index].Description" type="text" placeholder="Nhập chú thích cho hoá đơn" />
-                                    </td>
+                                    </td>                                    
                                 </tr>
                                 index++;
                             }
@@ -151,7 +133,7 @@
                     url: '@Url.Action("ShowPreView", "Prescriptions")',
                     type: 'POST',
                     data: formData,
-                    success: function (result) {
+                    success: function (result) {                        
                         $('#partialViewsContainer').html(result);
                     },
                     error: function (xhr, status, error) {

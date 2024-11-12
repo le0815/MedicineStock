@@ -56,18 +56,7 @@
                                     @Html.DisplayFor(modelItem => item.PrescriptionDate)
                                 </td>
                                 <td>
-                                    <!-- calculate total price of prescriptions -->
-                                    @{
-                                        decimal totalPrice = 0;
-                                        foreach (var item2 in item.PrescriptionDetails)
-                                        {
-                                            Console.WriteLine($"Quantity: {item2.Quantity}\nMedicine price: {item2.ManufacturingBatch.Medicine?.Price ?? 0}");
-                                            totalPrice += item2.Quantity * item2.ManufacturingBatch.Medicine.Price ?? 0;
-                                        }
-
-                                        <!-- display total price -->
-                                        @totalPrice
-                                    }
+                                    @Html.DisplayFor(modelItem => item.TotalPrice)
                                 </td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.PrescriptionId">Chỉnh sửa</a> |

@@ -77,7 +77,7 @@ namespace MedicineStock.Controllers
 
             var model = await _context.ManufacturingBatches.Include(q => q.Medicine).Include(q => q.Manufacturer).ToListAsync();
             ViewData["MedicineTypes"] = await _context.MedicineTypes.ToListAsync();
-
+            Console.WriteLine(model.ToArray());
             return View(model);
         }
 
@@ -91,23 +91,39 @@ namespace MedicineStock.Controllers
         {
             if (TryValidateModel(prescription) && TryValidateModel(prescriptionDetail))
             {
+                // use for total price of invoice
+                decimal totalPrices = 0;
+
                 // save prescription to database first
                 _context.Add(prescription);
                 await _context.SaveChangesAsync();
 
+                // get list medicine
+                var medicines = _context.Medicines.ToList();
 
                 // get latest id of prescription
                 var temp_id = _context.Prescriptions.OrderByDescending(t => t.PrescriptionId).FirstOrDefault().PrescriptionId;
 
                 // filter prescriptionDetail based on selectedItems
+                //var selectedPrescriptionDetails = prescriptionDetail
+                //    .Where(q => selectedItems.Contains((int)q.MedicineId))
+                //    .ToList();
                 var selectedPrescriptionDetails = prescriptionDetail
-                    .Where(q => selectedItems.Contains((int)q.ManufacturingBatchId))
+                    .Where(q => selectedItems.Contains((int)q.MedicineId))
                     .ToList();
-                
+
                 foreach (var item in selectedPrescriptionDetails)
                 {
                     item.PrescriptionId = temp_id;
+
+                    var tempMedicine = medicines.Find(q => selectedItems.Contains(q.MedicineId));
+                    // calc total price of invoice after discount
+                    totalPrices += (item.Quantity * tempMedicine.Price * (1 - (decimal)tempMedicine.Discount / 100)) ?? 0;
                 }
+
+                // save updated prescription to database
+                prescription.TotalPrice = totalPrices;
+                _context.Update(prescription);
 
                 // then save prescriptionDetail
                 await _context.AddRangeAsync(selectedPrescriptionDetails);
@@ -115,12 +131,12 @@ namespace MedicineStock.Controllers
 
                 //update medicine quantity
                 var manufacturingBatchesUpdate = await _context.ManufacturingBatches.Where(q => selectedItems.Contains((int)q.MedicineId)).ToListAsync();
-
+                //var manufacturingBatchesUpdate = await _context.ManufacturingBatches.Where(q => selectedItems.Exists(t => t.MedicineId == q.MedicineId)).ToListAsync();
                 foreach (var item in manufacturingBatchesUpdate)
                 {
                     foreach(var item2 in selectedPrescriptionDetails)
                     {
-                        if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
+                        if (item.MedicineId == item2.MedicineId)
                         {
                             // if item selected with 0 quantity -> continue
                             if(item2.Quantity == null) { continue; }
@@ -143,18 +159,18 @@ namespace MedicineStock.Controllers
         [Authentication]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ShowPreView([Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("ManufacturingBatchId,MedicineId,Quantity,Description")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
+        public async Task<IActionResult> ShowPreView([Bind("PrescriptionId,PrescriptionDate")] Prescription prescription, [Bind("MedicineId,Quantity,Description")] List<PrescriptionDetail> prescriptionDetail, List<int> selectedItems)
         {
             if (TryValidateModel(prescription) && TryValidateModel(prescriptionDetail))
             {
-                                
 
+                
                 // filter prescriptionDetail based on selectedItems
                 var selectedPrescriptionDetails = prescriptionDetail
-                    .Where(q => selectedItems.Contains((int)q.ManufacturingBatchId))
+                    .Where(q => selectedItems.Contains((int)q.MedicineId))
                     .ToList();
 
-                var model = await _context.ManufacturingBatches.Where(q => selectedItems.Contains((int)q.ManufacturingBatchId)).ToListAsync();
+                var model = await _context.ManufacturingBatches.Where(q => selectedItems.Contains((int)q.MedicineId)).ToListAsync();
                
                 
                 // viewdata for display price, quantiy of medicine on view module                
@@ -163,7 +179,7 @@ namespace MedicineStock.Controllers
 
                 return PartialView("_DetailsInvoicePreView", model);
             }
-
+            WriteLog.DisplayToConsole("failed to display live preview");
             //ViewData["PatientId"] = new SelectList(_context.Patients, "PatientId", "Name", prescription.PatientId);
             return View("Create");
         }
@@ -231,13 +247,13 @@ namespace MedicineStock.Controllers
                         var manufacturingBatchesUpdate = await _context.ManufacturingBatches.ToListAsync();
                         // filter prescriptionDetail based on selectedItems
                         var selectedPrescriptionDetails = prescriptionDetail
-                            .Where(q => selectedItems.Contains((int)q.ManufacturingBatchId))
+                            .Where(q => selectedItems.Contains((int)q.MedicineId))
                             .ToList();
 
 
 
                         //var editSelectedPrescriptionDetails = oldPrescriptionDetail.Where(q => selectedPrescriptionDetails.Any(t => t.ManufacturingBatchId == q.ManufacturingBatchId)).ToList();
-                        var editSelectedPrescriptionDetails = selectedPrescriptionDetails.Where(q => oldPrescriptionDetail.Any(t => t.ManufacturingBatchId == q.ManufacturingBatchId)).ToList();
+                        var editSelectedPrescriptionDetails = selectedPrescriptionDetails.Where(q => oldPrescriptionDetail.Any(t => t.MedicineId == q.MedicineId)).ToList();
                         //if medicine was edited from prescriptionDetail -> update
                         if (!editSelectedPrescriptionDetails.IsNullOrEmpty())
                         {
@@ -261,11 +277,11 @@ namespace MedicineStock.Controllers
                             {
                                 foreach (var item2 in editSelectedPrescriptionDetails)
                                 {
-                                    if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
+                                    if (item.MedicineId == item2.MedicineId)
                                     {
                                         foreach (var item3 in oldPrescriptionDetail)
                                         {
-                                            if (item3.ManufacturingBatchId == item.ManufacturingBatchId)
+                                            if (item3.MedicineId == item.MedicineId)
                                             {
                                                 var diffQuantity = item3.Quantity - item2.Quantity;
                                                 item.QuantityRemaining += diffQuantity;
@@ -284,7 +300,7 @@ namespace MedicineStock.Controllers
                         }
 
                         var nonSelectedPrescriptionDetails = oldPrescriptionDetail
-                        .Where(q => !selectedItems.Contains((int)q.ManufacturingBatchId))
+                        .Where(q => !selectedItems.Contains((int)q.MedicineId))
                         .ToList();
 
                         //if medicine was unselected from prescriptionDetail -> remove
@@ -300,7 +316,7 @@ namespace MedicineStock.Controllers
                             {
                                 foreach (var item2 in nonSelectedPrescriptionDetails)
                                 {
-                                    if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
+                                    if (item.MedicineId == item2.MedicineId)
                                     {
                                         item.QuantityRemaining += item2.Quantity;
                                         break;
@@ -313,7 +329,7 @@ namespace MedicineStock.Controllers
                         }
                         
 
-                        var newSelectedPrescriptionDetails = selectedPrescriptionDetails.Where(q => !oldPrescriptionDetail.Any(t => t.ManufacturingBatchId == q.ManufacturingBatchId)).ToList();
+                        var newSelectedPrescriptionDetails = selectedPrescriptionDetails.Where(q => !oldPrescriptionDetail.Any(t => t.MedicineId == q.MedicineId)).ToList();
 
                         //if medicine was new selected from prescriptionDetail -> add
                         if (!newSelectedPrescriptionDetails.IsNullOrEmpty())
@@ -327,7 +343,7 @@ namespace MedicineStock.Controllers
                             {
                                 foreach (var item2 in newSelectedPrescriptionDetails)
                                 {
-                                    if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
+                                    if (item.MedicineId == item2.MedicineId)
                                     {
                                         item.QuantityRemaining -= item2.Quantity;
                                         break;
@@ -338,6 +354,21 @@ namespace MedicineStock.Controllers
                             _context.UpdateRange(manufacturingBatchesUpdate);
                             await _context.SaveChangesAsync();
                         }
+
+                        //update totals price after change
+                        // get items of invoice after change
+                        var changedItems = _context.PrescriptionDetails.Where(q => q.PrescriptionId == prescription.PrescriptionId).ToList();
+                        decimal totalPrice = 0;
+                        var medicines = _context.Medicines.ToList();
+                        foreach (var item in changedItems)
+                        {
+                            var tempMedicine = medicines.First(q => q.MedicineId.Equals(item.MedicineId));                                                        
+                            // calc total price of invoice after discount
+                            totalPrice += (item.Quantity * tempMedicine.Price * (1 - (decimal)tempMedicine.Discount / 100)) ?? 0;
+                        }
+                        prescription.TotalPrice = totalPrice;
+                        _context.UpdateRange(prescription);
+                        await _context.SaveChangesAsync();
 
                     }
                     catch
@@ -412,7 +443,7 @@ namespace MedicineStock.Controllers
                 {
                     foreach (var item2 in prescriptionDetail)
                     {
-                        if (item.ManufacturingBatchId == item2.ManufacturingBatchId)
+                        if (item.MedicineId == item2.MedicineId)
                         {
                             // if item selected with 0 quantity -> continue
                             if (item2.Quantity == null) { continue; }
